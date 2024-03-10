@@ -22,3 +22,39 @@ VALUES ('1988-07-11','Fathi','Jack','Almi',33,'Newcastle Streert','ST5 2ES','Sto
                                 ('1992-11-22','Steaven','Salah','Nois',11,'First Street','ST5 6KL','Stoke-on-Trent','Staffordshire ','United Kingdom'),
                                 ('2009-11-20','Brayan','Ceasar','James',43,'Bus Stop Street','ST5 8BB','Stoke-on-Trent','Staffordshire ','United Kingdom');
 
+INSERT INTO pharmazeal.hanley(date_of_birth, surname, middle_name, firstname, house_number, street_name, postcode, city, county, country)
+VALUES ('1995-01-13','John ','Jack','Smith',202,'New Street','ST6 1AB','Stoke-on-Trent','Staffordshire ','United Kingdom'),
+                                ('1989-01-14','Jullien ','Drew','Julliet',22,'Old Street','ST6 9HG','Stoke-on-Trent','Staffordshire ','United Kingdom'),
+                                ('2001-01-15','Smesh','Mikel','Arun',9,'Best Street','ST6 5HG','Stoke-on-Trent','Staffordshire ','United Kingdom'),
+                                ('2002-01-16','Nazir','Don','Ahmad',13,'Old Town Street','ST6 2LE','Stoke-on-Trent','Staffordshire ','United Kingdom'),
+                                ('2000-01-17','Rahul','Jong','Naind',21,'Union Street','ST6 3EB','Stoke-on-Trent','Staffordshire ','United Kingdom'),
+                                ('2001-01-18','Steaven','Mendes','John',42,'Paul Street','ST6 5LN','Stoke-on-Trent','Staffordshire ','United Kingdom'),
+                                ('2003-01-19','Paul','Barry','King',5,'King Street','ST6 1NH','Stoke-on-Trent','Staffordshire ','United Kingdom'),
+                                ('2001-01-20','Farah','Veronica','Yusuf',61,'Julien Street','ST6 8JK','Stoke-on-Trent','Staffordshire ','United Kingdom'),
+                                ('1995-01-21','Hummy','Salah','John',33,'Queen Street','ST6  4DD','Stoke-on-Trent','Staffordshire ','United Kingdom'),
+                                ('2010-09-11','Jass','Ceasar','Huston',991,'Jalien Street','ST6 8KL','Stoke-on-Trent','Staffordshire ','United Kingdom');
+
+INSERT INTO pharmazeal.longton(date_of_birth, surname, middle_name, firstname, house_number, street_name, postcode, city, county, country)
+VALUES ('1995-01-13','James','Jack','John',12,'Old Street','ST7 9AB','Stoke-on-Trent','Staffordshire ','United Kingdom'),
+                                 ('1989-01-14','Tom','Drew','Charles',44,'New Street','ST7 9HG','Stoke-on-Trent','Staffordshire ','United Kingdom'),
+                                 ('2001-01-15','Thomas','Mikel','Haiski',43,'Union Street','ST7 2HG','Stoke-on-Trent','Staffordshire ','United Kingdom'),
+                                 ('2002-01-16','Burie','Don','York',1122,'James Street','ST7 9LE','Stoke-on-Trent','Staffordshire ','United Kingdom'),
+                                 ('2000-01-17','Lious','Jong','Yang',431,'First Bus','ST7 1EB','Stoke-on-Trent','Staffordshire ','United Kingdom'),
+                                 ('2001-01-18','Charles','Mendes','Datuk',5,'Hanley','ST7 6LN','Stoke-on-Trent','Staffordshire ','United Kingdom'),
+                                 ('2003-01-19','Navis','Barry','Faron',4,'New Road','ST7 5NH','Stoke-on-Trent','Staffordshire ','United Kingdom'),
+                                 ('2001-01-20','Himki','Veronica','Waisf',9,'Bridge Street','ST7 2JK','Stoke-on-Trent','Staffordshire ','United Kingdom'),
+                                 ('1995-01-21','Brayan','Salah','King',912,'Upper Street','ST7 5JH','Stoke-on-Trent','Staffordshire ','United Kingdom'),
+                                 ('2015-09-11','Maryam','Ceasar','Houg',121,'Fenton Street','ST7 3NU','Stoke-on-Trent','Staffordshire ','United Kingdom');
+
+INSERT INTO pharmazeal.stoke(date_of_birth, surname, middle_name, firstname, house_number, street_name, postcode, city, county, country)
+VALUES ('2000-01-13','King','Jack','Choo',12,'York Street','ST8 3AB','Stoke-on-Trent','Staffordshire ','United Kingdom'),
+                               ('1999-01-04','Yang ','Drew','Yasmee',3,'Bind Street','ST8 2NB','Stoke-on-Trent','Staffordshire ','United Kingdom'),
+                               ('1998-09-15','Luo','Mikel','Om',45,'Kings Street','ST8 4GH','Stoke-on-Trent','Staffordshire ','United Kingdom'),
+                               ('2002-01-12','Nassim','Don','Ane',54,'New Oldham','ST8 8NH','Stoke-on-Trent','Staffordshire ','United Kingdom'),
+                               ('2000-12-20','Andrew','Jong','Silk',55,'Fram Street','ST8 9BB','Stoke-on-Trent','Staffordshire ','United Kingdom'),
+                               ('1995-12-12','Jam','Mendes','Jasmin',65,'High Road Street','ST8 1LB','Stoke-on-Trent','Staffordshire ','United Kingdom'),
+                               ('2001-09-23','Naz','Barry','Poul',12,'Best Noon Street','ST8 5DB','Stoke-on-Trent','Staffordshire ','United Kingdom'),
+                               ('2000-05-20','Ramesh','Veronica','King',13,'Old Road Street','ST8 3GH','Stoke-on-Trent','Staffordshire ','United Kingdom'),
+                               ('1995-09-04','Noiem','Salah','Lique',155,'Paulen Street','ST8 1JL','Stoke-on-Trent','Staffordshire ','United Kingdom'),
+                               ('2013-11-01','Yung ','Ceasar','Soien',98,'Adee Street','ST8 2OE','Stoke-on-Trent','Staffordshire ','United Kingdom');
+
