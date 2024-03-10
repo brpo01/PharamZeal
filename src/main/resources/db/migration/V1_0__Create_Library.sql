@@ -131,7 +131,7 @@ CREATE TABLE drug_stock
     drug_name VARCHAR(50) NOT NULL,
     total_stock INTEGER NOT NULL,
     expiry_date VARCHAR(50) NOT NULL,
-    sales_per_week VARCHAR(50) NOT NULL
+    sales_per_week INTEGER NOT NULL
 );
 
 INSERT INTO roles(name)

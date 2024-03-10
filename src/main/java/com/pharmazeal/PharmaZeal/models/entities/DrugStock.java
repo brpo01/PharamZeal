@@ -25,6 +25,6 @@ public class DrugStock {
 
     private String expiry_date;
 
-    private String sales_per_week;
+    private int sales_per_week;
 
 }
