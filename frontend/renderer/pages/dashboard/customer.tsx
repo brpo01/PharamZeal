@@ -1,9 +1,12 @@
 import React from "react";
 import Head from "next/head";
 import Link from "next/link";
-import Image from "next/image";
+import type { ReactElement } from "react";
 
-export default function CustomerPage() {
+import type { NextPageWithLayout } from "../_app";
+import Layout from "../../components/layout";
+
+const CustomerPage: NextPageWithLayout = () => {
   return (
     <React.Fragment>
       <Head>
@@ -12,11 +15,12 @@ export default function CustomerPage() {
       <div className='grid grid-col-1 text-2xl w-full text-center pt-8'>
         <h1>Customer Page</h1>
       </div>
-      <div className='mt-1 w-full flex-wrap flex justify-center gap-6'>
-        <Link href='/dashboard/home'>
-          <a className='btn-blue'>Go to home page</a>
-        </Link>
-      </div>
     </React.Fragment>
   );
-}
+};
+
+CustomerPage.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default CustomerPage;

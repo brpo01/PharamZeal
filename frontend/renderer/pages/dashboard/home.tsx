@@ -1,9 +1,12 @@
 import React from "react";
 import Head from "next/head";
 import Link from "next/link";
-import Image from "next/image";
+import type { ReactElement } from "react";
 
-export default function HomePage() {
+import type { NextPageWithLayout } from "../_app";
+import Layout from "../../components/layout";
+
+const HomePage: NextPageWithLayout = () => {
   return (
     <React.Fragment>
       <Head>
@@ -28,4 +31,10 @@ export default function HomePage() {
       </div>
     </React.Fragment>
   );
-}
+};
+
+HomePage.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default HomePage;
