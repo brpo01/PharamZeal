@@ -22,7 +22,7 @@ export default function NextPage() {
         <span>Login</span>
       </div>
       <div className='mt-1 w-full flex-wrap flex justify-center'>
-        <Link href='/home'>
+        <Link href='/dashboard/home'>
           <a className='btn-blue'>Go to home page</a>
         </Link>
       </div>

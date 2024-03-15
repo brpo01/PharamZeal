@@ -1,4 +1,6 @@
-export default function RootLayout({
+import React from "react";
+
+export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -6,10 +8,7 @@ export default function RootLayout({
   return (
     <html lang='en' suppressHydrationWarning>
       <body className='bg-white dark:bg-[#313338]'>
-        <div className='flex'>
-          <div>hello sidebar </div>
-          {children}
-        </div>
+        <div className='flex'>{children}</div>
       </body>
     </html>
   );

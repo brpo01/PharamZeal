@@ -16,8 +16,14 @@ export default function HomePage() {
         <Link href='/next'>
           <a className='btn-blue'>Go to next page</a>
         </Link>
-        <Link href='/login'>
-          <a className='btn-blue'>Go to login page</a>
+        <Link href='/auth/login'>
+          <a className='btn-blue'>login</a>
+        </Link>
+        <Link href='/dashboard/inventory'>
+          <a className='btn-blue'>Inventory</a>
+        </Link>
+        <Link href='/dashboard/customer'>
+          <a className='btn-blue'>Customer</a>
         </Link>
       </div>
     </React.Fragment>
