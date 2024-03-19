@@ -17,6 +17,7 @@ if (isProd) {
   const mainWindow = createWindow("main", {
     width: 1200,
     height: 600,
+    titleBarStyle: "hiddenInset",
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
