@@ -23,11 +23,6 @@ export default function DashboardLayout({
                       <a className='text-white hover:text-gray-300'>Home</a>
                     </Link>
                   </li>
-                  <li>
-                    <Link href='/auth/login'>
-                      <a className='text-white hover:text-gray-300'>Login</a>
-                    </Link>
-                  </li>
                 </ul>
               </div>
             </nav>

@@ -16,17 +16,14 @@ const HomePage: NextPageWithLayout = () => {
         <h1>Welcome to Pharma Zeal</h1>
       </div>
       <div className='mt-1 w-full flex-wrap flex justify-center gap-6'>
-        <Link href='/next'>
-          <a className='btn-blue'>Go to next page</a>
-        </Link>
         <Link href='/auth/login'>
           <a className='btn-blue'>login</a>
         </Link>
         <Link href='/dashboard/inventory'>
           <a className='btn-blue'>Inventory</a>
         </Link>
-        <Link href='/dashboard/customer'>
-          <a className='btn-blue'>Customer</a>
+        <Link href='/dashboard/customers'>
+          <a className='btn-blue'>Customers</a>
         </Link>
       </div>
     </React.Fragment>
