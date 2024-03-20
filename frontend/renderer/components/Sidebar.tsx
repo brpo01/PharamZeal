@@ -14,10 +14,10 @@ const Sidebar: React.FC = () => {
   const router = useRouter();
 
   return (
-    <div className='min-h-screen bg-[#FFFFFF] w-48 flex flex-col justify-between fixed p-4 border-r'>
+    <div className='min-h-screen bg-white w-48 flex flex-col justify-between fixed  border-r z-50'>
       <div>
         {/* BRAND NAME */}
-        <div className='flex gap-2 mx-auto text-center text-black items-center border-b pb-3 mb-6'>
+        <div className='flex gap-2 mx-auto text-center text-black items-center border-b p-4 mb-6'>
           <Image
             src='/images/logo.png'
             alt='pharma zeal'
@@ -119,9 +119,9 @@ const Sidebar: React.FC = () => {
         </ul>
       </div>
 
-      <div className='px-4 py-2 hover:bg-gray-700 hover:rounded-md'>
+      <div className='p-4'>
         <Link href='/auth/login'>
-          <a className='text-white hover:text-gray-300'>Login</a>
+          <a className='text-black font-semibold hover:text-[#396CF0]'>Login</a>
         </Link>
       </div>
     </div>

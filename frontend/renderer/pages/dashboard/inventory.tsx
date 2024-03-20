@@ -11,8 +11,8 @@ const InventoryPage: NextPageWithLayout = () => {
       <Head>
         <title>Pharm Zeal - Inventory</title>
       </Head>
-      <div className='grid grid-col-1 text-2xl w-full text-center pt-8'>
-        <h1>Inventory Page</h1>
+      <div className='container'>
+        <h1 className='text-2xl'>Inventory</h1>
       </div>
     </React.Fragment>
   );

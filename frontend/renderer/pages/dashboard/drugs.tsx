@@ -11,8 +11,9 @@ const DrugsPage: NextPageWithLayout = () => {
       <Head>
         <title>Pharm Zeal - Drugs</title>
       </Head>
-      <div className='grid grid-col-1 text-2xl w-full text-center pt-8'>
-        <h1>Drugs Page</h1>
+
+      <div className='container'>
+        <h1 className='text-2xl'>Drugs</h1>
       </div>
     </React.Fragment>
   );

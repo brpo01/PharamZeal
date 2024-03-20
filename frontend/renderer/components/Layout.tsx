@@ -8,26 +8,45 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const date = new Date();
+  let hours = date.getHours();
+  const status =
+    hours < 12
+      ? "Morning"
+      : hours <= 18 && hours >= 12
+      ? "Afternoon"
+      : "Evening";
+
   return (
     <html lang='en' suppressHydrationWarning>
-      <body className='bg-white dark:bg-[#313338] relative'>
-        <div className='flex h-full'>
+      <body className='relative'>
+        <div className='flex h-full relative'>
           <Sidebar />
-          <div className='w-full'>
+          <div className='w-full ml-48 '>
             {/* NAVBAR */}
-            <nav className='bg-gray-800 p-4 w-full'>
-              <div className='mx-auto flex justify-between items-center'>
-                <ul className='flex space-x-4 justify-end w-full'>
-                  <li>
-                    <Link href='/dashboard/home'>
-                      <a className='text-white hover:text-gray-300'>Home</a>
-                    </Link>
-                  </li>
-                </ul>
+            <nav className='bg-white px-4 py-2 w-full border-b sticky top-0 z-40'>
+              <div className='flex justify-end items-center'>
+                <div className='font-medium text-gray-900'>
+                  <div className='text-base'>Good {status},</div>
+
+                  <div className='text-xs'>
+                    {new Date().toLocaleString("en-US", {
+                      weekday: "short",
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                      hour: "numeric",
+                      minute: "numeric",
+                      second: "numeric",
+                    })}
+                  </div>
+                </div>
               </div>
             </nav>
             {/* NAVBAR */}
-            <div className='flex-grow container mx-auto'>{children}</div>
+            <main className='bg-[#F4F4F4] w-full min-h-screen overflow-hidden py-4'>
+              {children}
+            </main>
           </div>
         </div>
       </body>
