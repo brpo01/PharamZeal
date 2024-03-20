@@ -76,13 +76,19 @@ export default function NextPage() {
             </Form.Item>
 
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-              <Button type='primary' htmlType='submit'>
+              <Button
+                type='primary'
+                htmlType='submit'
+                style={{
+                  borderRadius: "10px",
+                }}
+              >
                 Submit
               </Button>
             </Form.Item>
 
             <Link href='/dashboard/home'>
-              <a className='btn-blue'>Go to home page</a>
+              <a className='btn-blue rounded-md border p-2'>Go to home page</a>
             </Link>
           </Form>
         </div>
