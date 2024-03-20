@@ -5,21 +5,21 @@ import type { ReactElement } from "react";
 import type { NextPageWithLayout } from "../_app";
 import Layout from "../../components/Layout";
 
-const InventoryPage: NextPageWithLayout = () => {
+const DrugsPage: NextPageWithLayout = () => {
   return (
     <React.Fragment>
       <Head>
-        <title>Pharm Zeal - Inventory</title>
+        <title>Pharm Zeal - Drugs</title>
       </Head>
       <div className='grid grid-col-1 text-2xl w-full text-center pt-8'>
-        <h1>Inventory Page</h1>
+        <h1>Drugs Page</h1>
       </div>
     </React.Fragment>
   );
 };
 
-InventoryPage.getLayout = function getLayout(page: ReactElement) {
+DrugsPage.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 
-export default InventoryPage;
+export default DrugsPage;
