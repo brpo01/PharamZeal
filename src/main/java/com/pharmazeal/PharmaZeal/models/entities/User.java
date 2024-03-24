@@ -38,6 +38,10 @@ public class User {
     @OrderBy(value="id")
     private List<Address> addresses = new ArrayList<>();
 
+    @OneToMany(mappedBy="user")
+    @OrderBy(value="id")
+    private List<Sales> sales = new ArrayList<>();
+
     public void addAddress(Address address) {
         addresses.add(address);
     }

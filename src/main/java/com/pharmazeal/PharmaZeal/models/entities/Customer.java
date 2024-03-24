@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,35 +15,37 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name="drug")
+@Table(name="customer")
 
-public class Drug {
+public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String drug_code;
+    private String full_name;
 
-    private String drug_name;
+    private String firstname;
 
-    private boolean id_check;
+    private String lastname;
 
-    private String store;
+    private String gender;
+
+    private String address;
+
+    private String store_name;
 
     private String postcode;
 
-    private String available_stock;
+    private String medical_history;
 
-    private String price;
+    private String allegry;
 
-    private String expiry_date;
+    private LocalDate date_of_birth;
 
-    private boolean is_available;
+    private String mobile_number;
 
-    private String condition;
-
-    @OneToMany(mappedBy="drug")
+    @OneToMany(mappedBy="customer")
     @OrderBy(value="id")
     private List<Sales> sales = new ArrayList<>();
 }

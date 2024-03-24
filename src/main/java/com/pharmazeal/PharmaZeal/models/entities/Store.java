@@ -6,37 +6,32 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name="stoke")
-public class Stoke {
+@Table(name="store")
+
+public class Store {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String date_of_birth;
+    private String name;
 
-    private String surname;
+    private String address;
 
-    private String middle_name;
+    private String area_code;
 
-    private String firstname;
+    private String mobile_number;
 
-    private int house_number;
-
-    private String street_name;
-
-    private String postcode;
-
-    private String city;
-
-    private String county;
-
-    private String country;
+    @OneToMany(mappedBy="store")
+    @OrderBy(value="id")
+    private List<Sales> sales = new ArrayList<>();
 
 }
