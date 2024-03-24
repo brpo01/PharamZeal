@@ -53,10 +53,10 @@ CREATE TABLE customer
     firstname VARCHAR(50) NOT NULL,
     lastname VARCHAR(50) NOT NULL,
     gender VARCHAR(50) NOT NULL,
-    address VARCHAR(100) NOT NULL,
+    address VARCHAR(200) NOT NULL,
     store_name VARCHAR(50) NOT NULL,
     postcode VARCHAR(50) NOT NULL,
-    medical_history VARCHAR(50) NOT NULL,
+    medical_history VARCHAR(200) NOT NULL,
     allergy VARCHAR(50) NOT NULL,
     date_of_birth VARCHAR(50) NOT NULL,
     mobile_number VARCHAR(50) NOT NULL
@@ -66,8 +66,8 @@ CREATE TABLE drug
 (
     id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
     drug_code VARCHAR(50) NOT NULL,
-    drug_name VARCHAR(50) NOT NULL,
-    `condition` VARCHAR(50) NOT NULL,
+    drug_name VARCHAR(200) NOT NULL,
+    `condition` VARCHAR(200) NOT NULL,
     id_check BOOLEAN NOT NULL,
     store VARCHAR(50) NOT NULL,
     postcode VARCHAR(50) NOT NULL,
