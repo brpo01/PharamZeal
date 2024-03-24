@@ -26,6 +26,8 @@ public class Drug {
 
     private String drug_name;
 
+    private String condition;
+
     private boolean id_check;
 
     private String store;
@@ -39,8 +41,6 @@ public class Drug {
     private String expiry_date;
 
     private boolean is_available;
-
-    private String condition;
 
     @OneToMany(mappedBy="drug")
     @OrderBy(value="id")
