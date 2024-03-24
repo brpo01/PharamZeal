@@ -23,7 +23,7 @@ public class UserController {
         return "Hello Worlds!!";
     }
 
-    @PostMapping("")
+    @PostMapping("create")
     public DefaultResponseDTO createUser(@Valid @RequestBody NewUserRequestDTO data) {
         return this.userService.createUser(data);
     }
@@ -38,7 +38,7 @@ public class UserController {
         return this.userService.getUserDetails(request);
     }
 
-    @GetMapping()
+    @GetMapping("/all")
     public DefaultResponseDTO getAllUsers() {
         return this.userService.getAllUsers();
     }

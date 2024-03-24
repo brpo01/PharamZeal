@@ -14,6 +14,15 @@ CREATE TABLE roles
     name VARCHAR(20) NOT NULL
 );
 
+CREATE TABLE store
+(
+    id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    address VARCHAR(100) NOT NULL,
+    postcode VARCHAR(50) NOT NULL,
+    mobile_number VARCHAR(50) NOT NULL
+);
+
 CREATE TABLE users
 (
     id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -22,9 +31,11 @@ CREATE TABLE users
     emailAddress VARCHAR(50) NOT NULL UNIQUE,
     phoneNumber VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
+    store INTEGER NOT NULL,
     roleId INTEGER NOT NULL,
 
-    FOREIGN KEY (roleId) REFERENCES roles(id) ON DELETE CASCADE
+    FOREIGN KEY (roleId) REFERENCES roles(id) ON DELETE CASCADE,
+    FOREIGN KEY (store) REFERENCES store(id) ON DELETE CASCADE
 );
 
 CREATE TABLE addresses
@@ -48,15 +59,6 @@ CREATE TABLE customer
     medical_history VARCHAR(50) NOT NULL,
     allergy VARCHAR(50) NOT NULL,
     date_of_birth VARCHAR(50) NOT NULL,
-    mobile_number VARCHAR(50) NOT NULL
-);
-
-CREATE TABLE store
-(
-    id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
-    address VARCHAR(100) NOT NULL,
-    postcode VARCHAR(50) NOT NULL,
     mobile_number VARCHAR(50) NOT NULL
 );
 
@@ -87,15 +89,26 @@ CREATE TABLE drug_stock
 CREATE TABLE sales
 (
     id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    customerId INTEGER NOT NULL,
-    userId INTEGER NOT NULL,
+    customer INTEGER NOT NULL,
+    user INTEGER NOT NULL,
     quantity VARCHAR(50) NOT NULL,
     total_price VARCHAR(50) NOT NULL,
-    storeId INTEGER NOT NULL,
-    drugId INTEGER NOT NULL,
+    store INTEGER NOT NULL,
+    drug INTEGER NOT NULL,
     date_of_sale VARCHAR(50) NOT NULL,
-    FOREIGN KEY (customerId) REFERENCES customer(id) ON DELETE CASCADE,
-    FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (storeId) REFERENCES store(id) ON DELETE CASCADE,
-    FOREIGN KEY (drugId) REFERENCES drug(id) ON DELETE CASCADE
+    FOREIGN KEY (customer) REFERENCES customer(id) ON DELETE CASCADE,
+    FOREIGN KEY (user) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (store) REFERENCES store(id) ON DELETE CASCADE,
+    FOREIGN KEY (drug) REFERENCES drug(id) ON DELETE CASCADE
 );
+
+INSERT INTO pharmazeal.roles(name)
+VALUES ('admin'),
+       ('employee');
+
+INSERT INTO pharmazeal.store(name, address, postcode, mobile_number)
+VALUES ('Tunstall','12 Best Noon Street  Stoke-on-Trent Staffordshire  United Kingdom.','ST4', '07899076037'),
+       ('Fenton','12 York Street Stoke-on-Trent Staffordshire  United Kingdom.','ST5', '07899076038'),
+       ('Hanley','32 Harvard Street Stoke-on-Trent Staffordshire  United Kingdom.','ST6', '07899076039'),
+       ('Longton','33 Old Town Street Stoke-on-Trent Staffordshire  United Kingdom.','ST7', '07899076040'),
+       ('Stoke','61 Julien Street Stoke-on-Trent Staffordshire  United Kingdom.','ST8', '07899076041');

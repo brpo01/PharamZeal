@@ -2,6 +2,7 @@ package com.pharmazeal.PharmaZeal.dto.responses;
 
 
 import com.pharmazeal.PharmaZeal.models.entities.Role;
+import com.pharmazeal.PharmaZeal.models.entities.Store;
 import lombok.*;
 
 import java.util.List;
@@ -23,6 +24,8 @@ public class UserResponseDTO {
     private final String phoneNumber;
 
     private final Role role;
+
+    private final Store store;
 
     private List<AddressResponseDTO> addresses;
 }

@@ -46,13 +46,14 @@ public class SecurityConfig {
                 .mvcMatchers(HttpMethod.POST, "/users");
     }
 
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http.csrf().disable().httpBasic().disable().cors().disable()
-//                .authorizeHttpRequests(req ->
-//                            req
-//                                // User endpoints
-//                                .mvcMatchers(HttpMethod.GET, "/users").hasAnyAuthority("admin")
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.csrf().disable().httpBasic().disable().cors().disable()
+                .authorizeHttpRequests(req ->
+                            req
+                                // User endpoints
+                                .mvcMatchers(HttpMethod.GET, "/users").hasAnyAuthority("admin")
+                                    .mvcMatchers(HttpMethod.GET, "/users/create").hasAnyAuthority("admin")
 //                                // Product endpoints
 //                                .mvcMatchers(HttpMethod.POST, "/products").hasAnyAuthority("admin")
 //                                .mvcMatchers(HttpMethod.GET, "/products").hasAnyAuthority("admin", "customer")
@@ -68,13 +69,13 @@ public class SecurityConfig {
 //                                .mvcMatchers(HttpMethod.PUT, "/orders/{id}/assign").hasAnyAuthority("admin")
 //                                .mvcMatchers(HttpMethod.PUT, "/orders/{id}").hasAnyAuthority("driver")
 //                                .anyRequest().authenticated()
-//                )
-//                .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
-//                .addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-//                .exceptionHandling().accessDeniedHandler(accessDeniedHandler());
-//
-//        return http.build();
-//    }
+                )
+                .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
+                .addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling().accessDeniedHandler(accessDeniedHandler());
+
+        return http.build();
+    }
 
     @Bean
     public AccessDeniedHandler accessDeniedHandler() {

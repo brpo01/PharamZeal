@@ -31,6 +31,10 @@ public class User {
     private String password;
 
     @OneToOne()
+    @JoinColumn(name = "store")
+    private Store store;
+
+    @OneToOne()
     @JoinColumn(name = "roleId")
     private Role role;
 

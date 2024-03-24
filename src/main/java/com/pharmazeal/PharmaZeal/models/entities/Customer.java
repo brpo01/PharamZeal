@@ -39,7 +39,7 @@ public class Customer {
 
     private String medical_history;
 
-    private String allegry;
+    private String allergy;
 
     private LocalDate date_of_birth;
 

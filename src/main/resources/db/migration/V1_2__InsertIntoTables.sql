@@ -1,6 +1,5 @@
-# insert into pharmazeal.users(firstName, lastName, emailAddress, phoneNumber, password, roleId)
-# VALUES ('Admin', 'admin', 'admin@gmail.com', '0800','Password@123', 1),
-#        ('Rory', 'Styles', 'rory@gmail.com', '07823992763','Password@123', 2),
+# insert into pharmazeal.users(firstName, lastName, emailAddress, phoneNumber password, roleId)
+# VALUES ('Rory', 'Styles', 'rory@gmail.com', '07823992763','Password@123', 2),
 #        ('Maddy', 'Styles', 'mady@gmail.com','07823992764', 'Password@123', 2),
 #        ('Jerry', 'Styles', 'jerry@gmail.com','07823992765', 'Password@123', 2),
 #        ('Billy', 'Styles', 'billy@gmail.com','07823992766', 'Password@123', 2),
@@ -12,12 +11,8 @@
 #        ('200 Saints Stoke-on-Trent Staffordshire  United Kingdom', 2),
 #        ('50 Broods Stoke-on-Trent Staffordshire  United Kingdom', 2),
 #        ('10 Langley Stoke-on-Trent Staffordshire  United Kingdom', 2);
-#
-#
-# INSERT INTO pharmazeal.roles(name)
-# VALUES ('admin'),
-#        ('employee');
-#
+
+
 # INSERT INTO pharmazeal.customer(full_name, firstname, lastname, gender, address, store_name, postcode, medical_history, allergy, date_of_birth, mobile_number)
 # VALUES ('James John','James','John','M','99 Central Street ST4 2AU Stoke-on-Trent Staffordshire  United Kingdom.','Tunstall','ST4','Ortho Evra; Cialis; Guamanra','Pollen','1989-02-11',08130306595),
 #        ('Kao Steve','Kao','Steve','F','133 Park Streert ST4 8WS Stoke-on-Trent Staffordshire  United Kingdom.','Tunstall','ST4','Boudreaux Butt Paste','Dust mites','2001-01-19',08130306596),
@@ -2508,13 +2503,6 @@
 #        ('Topiramate',400,'2024-11-11'),
 #        ('L-methylfolate',450,'2024-12-12');
 #
-#
-# INSERT INTO pharmazeal.store(name, address, postcode, mobile_number)
-# VALUES ('Tunstall','12 Best Noon Street  Stoke-on-Trent Staffordshire  United Kingdom.','ST4', 07899076037),
-#        ('Fenton','12 York Street Stoke-on-Trent Staffordshire  United Kingdom.','ST5', 07899076038),
-#        ('Hanley','32 Harvard Street Stoke-on-Trent Staffordshire  United Kingdom.','ST6', 07899076039),
-#        ('Longton','33 Old Town Street Stoke-on-Trent Staffordshire  United Kingdom.','ST7', 07899076040),
-#        ('Stoke','61 Julien Street Stoke-on-Trent Staffordshire  United Kingdom.','ST8', 07899076041);
 #
 #
 #
