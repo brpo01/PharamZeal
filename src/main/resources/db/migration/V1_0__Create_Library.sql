@@ -30,7 +30,7 @@ CREATE TABLE users
 CREATE TABLE addresses
 (
     id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    addressLine VARCHAR(20) NOT NULL,
+    addressLine VARCHAR(100) NOT NULL,
     userId INTEGER NOT NULL,
     FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
 );
@@ -42,7 +42,7 @@ CREATE TABLE customer
     firstname VARCHAR(50) NOT NULL,
     lastname VARCHAR(50) NOT NULL,
     gender VARCHAR(50) NOT NULL,
-    address VARCHAR(50) NOT NULL,
+    address VARCHAR(100) NOT NULL,
     store_name VARCHAR(50) NOT NULL,
     postcode VARCHAR(50) NOT NULL,
     medical_history VARCHAR(50) NOT NULL,
@@ -55,7 +55,7 @@ CREATE TABLE store
 (
     id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
-    address VARCHAR(50) NOT NULL,
+    address VARCHAR(100) NOT NULL,
     postcode VARCHAR(50) NOT NULL,
     mobile_number VARCHAR(50) NOT NULL
 );
@@ -99,7 +99,3 @@ CREATE TABLE sales
     FOREIGN KEY (storeId) REFERENCES store(id) ON DELETE CASCADE,
     FOREIGN KEY (drugId) REFERENCES drug(id) ON DELETE CASCADE
 );
-
-INSERT INTO roles(name)
-VALUES ('admin'),
-       ('employee')
