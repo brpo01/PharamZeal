@@ -51,8 +51,8 @@ public class CustomerService {
 
         for (Customer customer : customers)
         {
-            CustomerResponseDTO productDto = this.customerMapper.createCustomerDto(customer);
-            list.add(productDto);
+            CustomerResponseDTO customerDto = this.customerMapper.createCustomerDto(customer);
+            list.add(customerDto);
         }
 
         return this.customerMapper.createCustomerListResponseDTO(list);

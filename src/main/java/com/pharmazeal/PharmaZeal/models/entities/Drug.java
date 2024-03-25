@@ -26,21 +26,21 @@ public class Drug {
 
     private String drugName;
 
-    private String condition;
+    private String customer_condition;
 
-    private boolean id_check;
+    private boolean idCheck;
 
     private String store;
 
     private String postcode;
 
-    private String available_stock;
+    private int available_stock;
 
-    private String price;
+    private double price;
 
     private String expiry_date;
 
-    private boolean is_available;
+    private boolean availability;
 
     @OneToMany(mappedBy="drug")
     @OrderBy(value="id")

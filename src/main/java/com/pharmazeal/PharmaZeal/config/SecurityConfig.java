@@ -61,6 +61,21 @@ public class SecurityConfig {
                                 .mvcMatchers(HttpMethod.GET, "/customer/{id}").hasAnyAuthority("admin", "employee")
                                 .mvcMatchers(HttpMethod.PUT, "/customer/{id}").hasAnyAuthority("admin")
                                 .mvcMatchers(HttpMethod.DELETE, "/customer/{id}").hasAnyAuthority("admin")
+
+                                // drug endpoints
+                                .mvcMatchers(HttpMethod.POST, "/drug").hasAnyAuthority("admin")
+                                .mvcMatchers(HttpMethod.GET, "/drug").hasAnyAuthority("admin", "employee")
+                                .mvcMatchers(HttpMethod.GET, "/drug/{id}").hasAnyAuthority("admin", "employee")
+                                .mvcMatchers(HttpMethod.PUT, "/drug/{id}").hasAnyAuthority("admin")
+                                .mvcMatchers(HttpMethod.DELETE, "/drug/{id}").hasAnyAuthority("admin")
+
+                                    // drug_stock endpoints
+                                    .mvcMatchers(HttpMethod.POST, "/drug_stock").hasAnyAuthority("admin")
+                                    .mvcMatchers(HttpMethod.GET, "/drug_stock").hasAnyAuthority("admin", "employee")
+                                    .mvcMatchers(HttpMethod.GET, "/drug_stock/{id}").hasAnyAuthority("admin", "employee")
+                                    .mvcMatchers(HttpMethod.PUT, "/drug_stock/{id}").hasAnyAuthority("admin")
+                                    .mvcMatchers(HttpMethod.DELETE, "/drug_stock/{id}").hasAnyAuthority("admin")
+
 //                                // Order endpoints
 //                                .mvcMatchers(HttpMethod.POST, "/orders").hasAnyAuthority("customer")
 //                                .mvcMatchers(HttpMethod.GET, "/orders").hasAnyAuthority("customer")

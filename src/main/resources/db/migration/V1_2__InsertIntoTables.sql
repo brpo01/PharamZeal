@@ -66,7 +66,7 @@ VALUES ('James John','James','John','M','99 Central Street ST4 2AU Stoke-on-Tren
        ('Soien Yung ','Soien','Yung ','F','12 York Street ST8 3AB Stoke-on-Trent Staffordshire  United Kingdom.','Stoke','ST8','Xanax; Acetaminophen / aspirin / caffeine; Gemfibrozil','Milk','2013-11-01', '07899076068');
 
 
-INSERT INTO pharmazeal.drug(drug_code, drugName, `condition`, id_check, store, postcode, available_stock, price, expiry_date, is_available)
+INSERT INTO pharmazeal.drug(drug_code, drugName, customer_condition, idCheck, store, postcode, available_stock, price, expiry_date, availability)
 VALUES ('VAL0001','Valsartan','Left Ventricular Dysfunction',TRUE,'Tunstall','ST4',50,10,'2024-01-01',TRUE),
        ('GUA0001','Guanfacine','ADHD',FALSE,'Tunstall','ST4',50,0.5,'2024-02-02',TRUE),
        ('LYB0001','Lybrel','Birth Control',FALSE,'Tunstall','ST4',50,1,'2024-03-03',TRUE),

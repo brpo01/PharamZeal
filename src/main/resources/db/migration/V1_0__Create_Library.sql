@@ -67,14 +67,14 @@ CREATE TABLE drug
     id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
     drug_code VARCHAR(50) NOT NULL,
     drugName VARCHAR(200) NOT NULL,
-    `condition` VARCHAR(200) NOT NULL,
-    id_check BOOLEAN NOT NULL,
+    customer_condition VARCHAR(200) NOT NULL,
+    idCheck BOOLEAN NOT NULL,
     store VARCHAR(50) NOT NULL,
     postcode VARCHAR(50) NOT NULL,
     available_stock VARCHAR(50) NOT NULL,
     price VARCHAR(50) NOT NULL,
     expiry_date VARCHAR(50) NOT NULL,
-    is_available BOOLEAN NOT NULL
+    availability BOOLEAN NOT NULL
 );
 
 
