@@ -76,15 +76,10 @@ public class SecurityConfig {
                                     .mvcMatchers(HttpMethod.PUT, "/drug_stock/{id}").hasAnyAuthority("admin")
                                     .mvcMatchers(HttpMethod.DELETE, "/drug_stock/{id}").hasAnyAuthority("admin")
 
-//                                // Order endpoints
-//                                .mvcMatchers(HttpMethod.POST, "/orders").hasAnyAuthority("customer")
-//                                .mvcMatchers(HttpMethod.GET, "/orders").hasAnyAuthority("customer")
-//                                .mvcMatchers(HttpMethod.GET, "/orders/all").hasAnyAuthority("admin")
-//                                .mvcMatchers(HttpMethod.GET, "/orders/driver").hasAnyAuthority("driver")
-//                                .mvcMatchers(HttpMethod.GET, "/orders/{id}").hasAnyAuthority("admin", "customer")
-//                                .mvcMatchers(HttpMethod.PUT, "/orders/{id}/assign").hasAnyAuthority("admin")
-//                                .mvcMatchers(HttpMethod.PUT, "/orders/{id}").hasAnyAuthority("driver")
-//                                .anyRequest().authenticated()
+                                    // sale endpoints
+                                    .mvcMatchers(HttpMethod.POST, "/sale").hasAnyAuthority("admin", "employee")
+                                    .mvcMatchers(HttpMethod.GET, "/sale").hasAnyAuthority("admin")
+                                    .mvcMatchers(HttpMethod.GET, "/sale/{id}").hasAnyAuthority("admin", "employee")
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
