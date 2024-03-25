@@ -24,7 +24,7 @@ public class Drug {
 
     private String drug_code;
 
-    private String drug_name;
+    private String drugName;
 
     private String condition;
 

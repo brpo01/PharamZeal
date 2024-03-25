@@ -59,14 +59,14 @@ CREATE TABLE customer
     medical_history VARCHAR(200) NOT NULL,
     allergy VARCHAR(50) NOT NULL,
     date_of_birth VARCHAR(50) NOT NULL,
-    mobile_number VARCHAR(50) NOT NULL
+    mobileNumber VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE drug
 (
     id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
     drug_code VARCHAR(50) NOT NULL,
-    drug_name VARCHAR(200) NOT NULL,
+    drugName VARCHAR(200) NOT NULL,
     `condition` VARCHAR(200) NOT NULL,
     id_check BOOLEAN NOT NULL,
     store VARCHAR(50) NOT NULL,
@@ -81,7 +81,7 @@ CREATE TABLE drug
 CREATE TABLE drug_stock
 (
     id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    drug_name VARCHAR(50) NOT NULL,
+    drugName VARCHAR(50) NOT NULL,
     total_stock INTEGER NOT NULL,
     expiry_date VARCHAR(50) NOT NULL
 );

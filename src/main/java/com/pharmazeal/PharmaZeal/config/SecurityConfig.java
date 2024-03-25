@@ -54,12 +54,13 @@ public class SecurityConfig {
                                 // User endpoints
                                 .mvcMatchers(HttpMethod.GET, "/users").hasAnyAuthority("admin")
                                     .mvcMatchers(HttpMethod.GET, "/users/create").hasAnyAuthority("admin")
-//                                // Product endpoints
-//                                .mvcMatchers(HttpMethod.POST, "/products").hasAnyAuthority("admin")
-//                                .mvcMatchers(HttpMethod.GET, "/products").hasAnyAuthority("admin", "customer")
-//                                .mvcMatchers(HttpMethod.GET, "/products/{id}").hasAnyAuthority("admin", "customer")
-//                                .mvcMatchers(HttpMethod.PUT, "/products/{id}").hasAnyAuthority("admin")
-//                                .mvcMatchers(HttpMethod.DELETE, "/products/{id}").hasAnyAuthority("admin")
+
+                                // customer endpoints
+                                .mvcMatchers(HttpMethod.POST, "/customer").hasAnyAuthority("admin")
+                                .mvcMatchers(HttpMethod.GET, "/customer").hasAnyAuthority("admin", "employee")
+                                .mvcMatchers(HttpMethod.GET, "/customer/{id}").hasAnyAuthority("admin", "employee")
+                                .mvcMatchers(HttpMethod.PUT, "/customer/{id}").hasAnyAuthority("admin")
+                                .mvcMatchers(HttpMethod.DELETE, "/customer/{id}").hasAnyAuthority("admin")
 //                                // Order endpoints
 //                                .mvcMatchers(HttpMethod.POST, "/orders").hasAnyAuthority("customer")
 //                                .mvcMatchers(HttpMethod.GET, "/orders").hasAnyAuthority("customer")

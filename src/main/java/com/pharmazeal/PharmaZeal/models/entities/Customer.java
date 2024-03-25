@@ -43,7 +43,7 @@ public class Customer {
 
     private LocalDate date_of_birth;
 
-    private String mobile_number;
+    private String mobileNumber;
 
     @OneToMany(mappedBy="customer")
     @OrderBy(value="id")

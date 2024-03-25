@@ -13,7 +13,7 @@
 #        ('10 Langley Stoke-on-Trent Staffordshire  United Kingdom', 2);
 
 
-INSERT INTO pharmazeal.customer(full_name, firstname, lastname, gender, address, store_name, postcode, medical_history, allergy, date_of_birth, mobile_number)
+INSERT INTO pharmazeal.customer(full_name, firstname, lastname, gender, address, store_name, postcode, medical_history, allergy, date_of_birth, mobileNumber)
 VALUES ('James John','James','John','M','99 Central Street ST4 2AU Stoke-on-Trent Staffordshire  United Kingdom.','Tunstall','ST4','Ortho Evra; Cialis; Guamanra','Pollen','1989-02-11','08130306595'),
        ('Kao Steve','Kao','Steve','F','133 Park Streert ST4 8WS Stoke-on-Trent Staffordshire  United Kingdom.','Tunstall','ST4','Boudreaux Butt Paste','Dust mites','2001-01-19','08130306596'),
        ('Nu Lee','Nu','Lee','M','290 Canal Street ST4 2LE Stoke-on-Trent Staffordshire  United Kingdom.','Tunstall','ST4','Prepopik','Pet dander','1985-08-02','08130306597'),
@@ -66,7 +66,7 @@ VALUES ('James John','James','John','M','99 Central Street ST4 2AU Stoke-on-Tren
        ('Soien Yung ','Soien','Yung ','F','12 York Street ST8 3AB Stoke-on-Trent Staffordshire  United Kingdom.','Stoke','ST8','Xanax; Acetaminophen / aspirin / caffeine; Gemfibrozil','Milk','2013-11-01', '07899076068');
 
 
-INSERT INTO pharmazeal.drug(drug_code, drug_name, `condition`, id_check, store, postcode, available_stock, price, expiry_date, is_available)
+INSERT INTO pharmazeal.drug(drug_code, drugName, `condition`, id_check, store, postcode, available_stock, price, expiry_date, is_available)
 VALUES ('VAL0001','Valsartan','Left Ventricular Dysfunction',TRUE,'Tunstall','ST4',50,10,'2024-01-01',TRUE),
        ('GUA0001','Guanfacine','ADHD',FALSE,'Tunstall','ST4',50,0.5,'2024-02-02',TRUE),
        ('LYB0001','Lybrel','Birth Control',FALSE,'Tunstall','ST4',50,1,'2024-03-03',TRUE),
@@ -2489,7 +2489,7 @@ VALUES ('VAL0001','Valsartan','Left Ventricular Dysfunction',TRUE,'Tunstall','ST
                                ('ALU0001','Aluminum chloride hexahydrate','Hyperhidrosis',TRUE,'Stoke','ST8',25,9.23,'2023-12-05',FALSE);
 
 
-INSERT INTO pharmazeal.drug_stock(drug_name, total_stock, expiry_date)
+INSERT INTO pharmazeal.drug_stock(drugName, total_stock, expiry_date)
 VALUES ('Valsartan',1000,'2024-01-01'),
        ('Guanfacine',500,'2024-02-02'),
        ('Lybrel',1000,'2024-03-03'),
