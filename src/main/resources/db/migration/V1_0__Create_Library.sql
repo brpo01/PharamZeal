@@ -81,6 +81,7 @@ CREATE TABLE drug
 CREATE TABLE drug_stock
 (
     id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    drug_code VARCHAR(50) NOT NULL,
     drugName VARCHAR(50) NOT NULL,
     total_stock INTEGER NOT NULL,
     expiry_date VARCHAR(50) NOT NULL

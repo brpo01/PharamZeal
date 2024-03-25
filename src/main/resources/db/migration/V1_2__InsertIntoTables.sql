@@ -2489,19 +2489,19 @@ VALUES ('VAL0001','Valsartan','Left Ventricular Dysfunction',TRUE,'Tunstall','ST
                                ('ALU0001','Aluminum chloride hexahydrate','Hyperhidrosis',TRUE,'Stoke','ST8',25,9.23,'2023-12-05',FALSE);
 
 
-INSERT INTO pharmazeal.drug_stock(drugName, total_stock, expiry_date)
-VALUES ('Valsartan',1000,'2024-01-01'),
-       ('Guanfacine',500,'2024-02-02'),
-       ('Lybrel',1000,'2024-03-03'),
-       ('Ortho Evra',500,'2024-04-04'),
-       ('Buprenorphine / naloxone',450,'2024-05-05'),
-       ('Cialis',550,'2024-06-06'),
-       ('Levonorgestrel',1000,'2024-07-07'),
-       ('Aripiprazole',500,'2024-08-08'),
-       ('Keppra',100,'2024-09-09'),
-       ('Ethinyl estradiol / levonorgestrel',500,'2024-10-10'),
-       ('Topiramate',400,'2024-11-11'),
-       ('L-methylfolate',450,'2024-12-12');
+INSERT INTO pharmazeal.drug_stock(drug_code, drugName, total_stock, expiry_date)
+VALUES ('VAL0001', 'Valsartan',1000,'2024-01-01'),
+       ('GUA0001','Guanfacine',500,'2024-02-02'),
+       ('LYB0001','Lybrel',1000,'2024-03-03'),
+       ('ORT0001','Ortho Evra',500,'2024-04-04'),
+       ('BUP0001','Buprenorphine / naloxone',450,'2024-05-05'),
+       ('CIA0001','Cialis',550,'2024-06-06'),
+       ('LEV0001','Levonorgestrel',1000,'2024-07-07'),
+       ('ARI0001','Aripiprazole',500,'2024-08-08'),
+       ('KEP0001','Keppra',100,'2024-09-09'),
+       ('ETH0001','Ethinyl estradiol / levonorgestrel',500,'2024-10-10'),
+       ('TOP0001','Topiramate',400,'2024-11-11'),
+       ('LMET0001','L-methylfolate',450,'2024-12-12');
 
 
 
