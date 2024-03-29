@@ -1,5 +1,6 @@
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { EmployeeSidebar } from "@/components/layout/employee-sidebar";
 
 export default function AdminLayout({
   children,
@@ -9,7 +10,12 @@ export default function AdminLayout({
   return (
     <div className='relative flex min-h-screen flex-col'>
       <SiteHeader />
-      <main className='flex-1'>{children}</main>
+      <div className='relative'>
+        <div className='h-full w-48 flex-col fixed z-40 border-r'>
+          <EmployeeSidebar />
+        </div>
+        <main className='pl-48'>{children}</main>
+      </div>
       <SiteFooter />
     </div>
   );

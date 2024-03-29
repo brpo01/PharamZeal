@@ -1,16 +1,14 @@
-import { Shell } from "@/components/shell";
-
 import { Heading } from "@/components/ui/heading";
 
-export default async function Admin() {
+export default async function Employee() {
   return (
-    <Shell as='div' className='gap-12'>
+    <div>
       <section>
         <Heading
           title='Employee page'
           description='Manage orders for your store'
         />
       </section>
-    </Shell>
+    </div>
   );
 }
