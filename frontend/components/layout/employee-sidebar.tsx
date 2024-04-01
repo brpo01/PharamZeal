@@ -14,39 +14,34 @@ export function EmployeeSidebar({
 
   const routes = [
     {
-      href: `/admin`,
+      href: `/employee`,
       label: "Dashboard",
-      active: pathname === `/admin`,
+      active: pathname === `/employee`,
     },
     {
-      href: `/admin/sales`,
+      href: `/employee/sales`,
       label: "Sales",
-      active: pathname === `/admin/sales`,
+      active: pathname === `/employee/sales`,
     },
     {
-      href: `/admin/customers`,
+      href: `/employee/customers`,
       label: "Customers",
-      active: pathname === `/admin/customers`,
+      active: pathname === `/employee/customers`,
     },
     {
-      href: `/admin/stock`,
+      href: `/employee/stock`,
       label: "Stock",
-      active: pathname === `/admin/stock`,
+      active: pathname === `/employee/stock`,
     },
     {
-      href: `/admin/drugs`,
+      href: `/employee/drugs`,
       label: "Drugs",
-      active: pathname === `/admin/drugs`,
+      active: pathname === `/employee/drugs`,
     },
     {
-      href: `/admin/employees`,
-      label: "Employees",
-      active: pathname === `/admin/employees`,
-    },
-    {
-      href: `/admin/contacts`,
+      href: `/employee/contacts`,
       label: "Contacts",
-      active: pathname === `/admin/contacts`,
+      active: pathname === `/employee/contacts`,
     },
   ];
 
