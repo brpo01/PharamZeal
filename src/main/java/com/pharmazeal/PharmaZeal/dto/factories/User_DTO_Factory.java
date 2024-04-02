@@ -38,7 +38,8 @@ public class User_DTO_Factory {
                 user.getLastName(),
                 user.getEmailAddress(),
                 user.getPhoneNumber(),
-                user.getRole()
+                user.getRole(),
+                user.getStore()
         );
 
         userDTO.setAddresses(createDTOCollection(user.getAddresses()));
@@ -63,7 +64,8 @@ public class User_DTO_Factory {
                        user.getLastName(),
                        user.getEmailAddress(),
                        user.getPhoneNumber(),
-                       user.getRole()
+                       user.getRole(),
+                       user.getStore()
                 );
 
         userDTO.setAddresses(createDTOCollection(user.getAddresses()));

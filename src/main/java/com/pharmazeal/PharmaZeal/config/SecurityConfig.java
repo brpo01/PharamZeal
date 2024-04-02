@@ -46,35 +46,47 @@ public class SecurityConfig {
                 .mvcMatchers(HttpMethod.POST, "/users");
     }
 
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http.csrf().disable().httpBasic().disable().cors().disable()
-//                .authorizeHttpRequests(req ->
-//                            req
-//                                // User endpoints
-//                                .mvcMatchers(HttpMethod.GET, "/users").hasAnyAuthority("admin")
-//                                // Product endpoints
-//                                .mvcMatchers(HttpMethod.POST, "/products").hasAnyAuthority("admin")
-//                                .mvcMatchers(HttpMethod.GET, "/products").hasAnyAuthority("admin", "customer")
-//                                .mvcMatchers(HttpMethod.GET, "/products/{id}").hasAnyAuthority("admin", "customer")
-//                                .mvcMatchers(HttpMethod.PUT, "/products/{id}").hasAnyAuthority("admin")
-//                                .mvcMatchers(HttpMethod.DELETE, "/products/{id}").hasAnyAuthority("admin")
-//                                // Order endpoints
-//                                .mvcMatchers(HttpMethod.POST, "/orders").hasAnyAuthority("customer")
-//                                .mvcMatchers(HttpMethod.GET, "/orders").hasAnyAuthority("customer")
-//                                .mvcMatchers(HttpMethod.GET, "/orders/all").hasAnyAuthority("admin")
-//                                .mvcMatchers(HttpMethod.GET, "/orders/driver").hasAnyAuthority("driver")
-//                                .mvcMatchers(HttpMethod.GET, "/orders/{id}").hasAnyAuthority("admin", "customer")
-//                                .mvcMatchers(HttpMethod.PUT, "/orders/{id}/assign").hasAnyAuthority("admin")
-//                                .mvcMatchers(HttpMethod.PUT, "/orders/{id}").hasAnyAuthority("driver")
-//                                .anyRequest().authenticated()
-//                )
-//                .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
-//                .addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-//                .exceptionHandling().accessDeniedHandler(accessDeniedHandler());
-//
-//        return http.build();
-//    }
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.csrf().disable().httpBasic().disable().cors().disable()
+                .authorizeHttpRequests(req ->
+                            req
+                                // User endpoints
+                                .mvcMatchers(HttpMethod.GET, "/users").hasAnyAuthority("admin")
+                                    .mvcMatchers(HttpMethod.GET, "/users/create").hasAnyAuthority("admin")
+
+                                // customer endpoints
+                                .mvcMatchers(HttpMethod.POST, "/customer").hasAnyAuthority("admin")
+                                .mvcMatchers(HttpMethod.GET, "/customer").hasAnyAuthority("admin", "employee")
+                                .mvcMatchers(HttpMethod.GET, "/customer/{id}").hasAnyAuthority("admin", "employee")
+                                .mvcMatchers(HttpMethod.PUT, "/customer/{id}").hasAnyAuthority("admin")
+                                .mvcMatchers(HttpMethod.DELETE, "/customer/{id}").hasAnyAuthority("admin")
+
+                                // drug endpoints
+                                .mvcMatchers(HttpMethod.POST, "/drug").hasAnyAuthority("admin")
+                                .mvcMatchers(HttpMethod.GET, "/drug").hasAnyAuthority("admin", "employee")
+                                .mvcMatchers(HttpMethod.GET, "/drug/{id}").hasAnyAuthority("admin", "employee")
+                                .mvcMatchers(HttpMethod.PUT, "/drug/{id}").hasAnyAuthority("admin")
+                                .mvcMatchers(HttpMethod.DELETE, "/drug/{id}").hasAnyAuthority("admin")
+
+                                    // drug_stock endpoints
+                                    .mvcMatchers(HttpMethod.POST, "/drug_stock").hasAnyAuthority("admin")
+                                    .mvcMatchers(HttpMethod.GET, "/drug_stock").hasAnyAuthority("admin", "employee")
+                                    .mvcMatchers(HttpMethod.GET, "/drug_stock/{id}").hasAnyAuthority("admin", "employee")
+                                    .mvcMatchers(HttpMethod.PUT, "/drug_stock/{id}").hasAnyAuthority("admin")
+                                    .mvcMatchers(HttpMethod.DELETE, "/drug_stock/{id}").hasAnyAuthority("admin")
+
+                                    // sale endpoints
+                                    .mvcMatchers(HttpMethod.POST, "/sale").hasAnyAuthority("admin", "employee")
+                                    .mvcMatchers(HttpMethod.GET, "/sale").hasAnyAuthority("admin")
+                                    .mvcMatchers(HttpMethod.GET, "/sale/{id}").hasAnyAuthority("admin", "employee")
+                )
+                .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
+                .addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling().accessDeniedHandler(accessDeniedHandler());
+
+        return http.build();
+    }
 
     @Bean
     public AccessDeniedHandler accessDeniedHandler() {

@@ -31,6 +31,9 @@ public class NewUserRequestDTO {
     private String password;
 
     @Min(value = 1, message = "Id must be greater than zero")
+    private int storeId;
+
+    @Min(value = 1, message = "Id must be greater than zero")
     private int roleId;
 
     @NotBlank(message = "Address cannot be blank")
