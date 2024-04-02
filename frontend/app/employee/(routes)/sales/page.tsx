@@ -57,10 +57,7 @@ export default async function SalesPage() {
     <div className='flex-col'>
       <div className='flex-1 space-y-4 p-8 pt-6'>
         <div className='flex items-center justify-between'>
-          <Heading
-            title={`Sales`}
-            description='Manage drugs and medicines for your store'
-          />
+          <Heading title={`Sales`} description='' />
           <Button onClick={() => router.push(`/medicine/new`)}>
             <Plus className='mr-2 h-4 w-4' /> Add New
           </Button>
