@@ -39,11 +39,11 @@ public class Customer {
 
     private String medical_history;
 
-    private String allegry;
+    private String allergy;
 
     private LocalDate date_of_birth;
 
-    private String mobile_number;
+    private String mobileNumber;
 
     @OneToMany(mappedBy="customer")
     @OrderBy(value="id")

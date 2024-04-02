@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DrugRepository extends JpaRepository<Drug, Integer> {
-    Drug findById(int id);
+    Drug findByDrugName(String name);
 }
