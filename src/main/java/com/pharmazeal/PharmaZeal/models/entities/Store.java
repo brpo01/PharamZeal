@@ -26,7 +26,7 @@ public class Store {
 
     private String address;
 
-    private String area_code;
+    private String postcode;
 
     private String mobile_number;
 

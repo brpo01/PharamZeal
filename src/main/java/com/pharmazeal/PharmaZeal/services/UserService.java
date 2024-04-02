@@ -6,12 +6,14 @@ import com.pharmazeal.PharmaZeal.dto.responses.DefaultResponseDTO;
 import com.pharmazeal.PharmaZeal.dto.responses.UserResponseDTO;
 import com.pharmazeal.PharmaZeal.models.entities.Address;
 import com.pharmazeal.PharmaZeal.models.entities.Role;
+import com.pharmazeal.PharmaZeal.models.entities.Store;
 import com.pharmazeal.PharmaZeal.models.entities.User;
 import com.pharmazeal.PharmaZeal.exceptions.CustomException;
 import com.pharmazeal.PharmaZeal.dto.factories.User_DTO_Factory;
 import com.pharmazeal.PharmaZeal.models.repositories.AddressRepository;
 import com.pharmazeal.PharmaZeal.models.repositories.RoleRepository;
 import com.pharmazeal.PharmaZeal.models.repositories.UserRepository;
+import com.pharmazeal.PharmaZeal.models.repositories.StoreRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -33,6 +35,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final AddressRepository addressRepository;
+    private final StoreRepository storeRepository;
 
     public DefaultResponseDTO createUser(NewUserRequestDTO data) {
 
@@ -53,6 +56,11 @@ public class UserService {
 
         String hashedPassword = passwordEncoder.encode(data.getPassword());
         newUser.setPassword(hashedPassword);
+
+        // Set Store
+        Store userStore = this.storeRepository.findById(data.getStoreId()).orElse(null);
+        if (userStore == null) return null;
+        newUser.setStore(userStore);
 
         // Set Role
         Role userRole = this.roleRepository.findById(data.getRoleId()).orElse(null);

@@ -24,23 +24,23 @@ public class Drug {
 
     private String drug_code;
 
-    private String drug_name;
+    private String drugName;
 
-    private boolean id_check;
+    private String customer_condition;
+
+    private boolean idCheck;
 
     private String store;
 
     private String postcode;
 
-    private String available_stock;
+    private int available_stock;
 
-    private String price;
+    private double price;
 
     private String expiry_date;
 
-    private boolean is_available;
-
-    private String condition;
+    private boolean availability;
 
     @OneToMany(mappedBy="drug")
     @OrderBy(value="id")

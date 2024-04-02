@@ -19,7 +19,9 @@ public class DrugStock {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String drug_name;
+    private String drug_code;
+
+    private String drugName;
 
     private int total_stock;
 
