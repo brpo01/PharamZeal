@@ -16,10 +16,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import { DrugColumn } from "./columns";
+import { EmployeesColumn } from "./columns";
 
 interface CellActionProps {
-  data: DrugColumn;
+  data: EmployeesColumn;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {

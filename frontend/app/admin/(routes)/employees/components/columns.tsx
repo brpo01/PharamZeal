@@ -4,30 +4,25 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import { CellAction } from "./cell-action";
 
-export type DrugColumn = {
+export type EmployeesColumn = {
   id: string;
   name: string;
-  quantity: number;
-  price: number;
-  expiry_date: string;
+  store: string;
+  role: string;
 };
 
-export const columns: ColumnDef<DrugColumn>[] = [
+export const columns: ColumnDef<EmployeesColumn>[] = [
   {
     accessorKey: "name",
     header: "Name",
   },
   {
-    accessorKey: "quantity",
-    header: "Quantity",
+    accessorKey: "store",
+    header: "Store",
   },
   {
-    accessorKey: "price",
-    header: "Price",
-  },
-  {
-    accessorKey: "expiry_date",
-    header: "Expiry Date",
+    accessorKey: "role",
+    header: "Role",
   },
   {
     id: "actions",

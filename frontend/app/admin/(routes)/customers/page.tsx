@@ -41,7 +41,7 @@ export default async function CustomersPage() {
         <div className='flex items-center justify-between'>
           <Heading
             title={`Customers`}
-            description='Manage customers for your store'
+            description='Manage customers for your stores'
           />
           <Button onClick={() => router.push(`/medicine/new`)}>
             <Plus className='mr-2 h-4 w-4' /> Add New

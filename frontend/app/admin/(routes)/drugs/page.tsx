@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator";
 
 import { formatter } from "@/lib/utils";
 
-import { StockColumn, columns } from "./components/columns";
+import { DrugColumn, columns } from "./components/columns";
 import { DataTable } from "@/components/ui/data-table";
 
 export default async function SalesPage() {
@@ -40,7 +40,7 @@ export default async function SalesPage() {
     },
   ];
 
-  const formattedStocks: StockColumn[] = stocks.map((item) => ({
+  const formattedStocks: DrugColumn[] = stocks.map((item) => ({
     id: item.id,
     name: item.name,
     quantity: item.quantity,
