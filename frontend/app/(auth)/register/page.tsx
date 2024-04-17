@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-// import { RegisterForm } from "@/app/components/auth/register-form";
+import { RegisterForm } from "@/components/auth/register-form";
 
 export default async function SignUpPage() {
   return (
@@ -17,7 +17,7 @@ export default async function SignUpPage() {
           <CardTitle className='text-2xl'>Register</CardTitle>
         </CardHeader>
         <CardContent className='grid gap-4'>
-          {/* <RegisterForm /> */}
+          <RegisterForm />
         </CardContent>
         <CardFooter>
           <div className='text-sm text-muted-foreground'>

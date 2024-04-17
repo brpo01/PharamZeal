@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-// import { LoginForm } from "@/app/components/auth/login-form";
+import { LoginForm } from "@/components/auth/login-form";
 
 export default async function LoginPage() {
   return (
@@ -16,7 +16,9 @@ export default async function LoginPage() {
         <CardHeader className='space-y-1'>
           <CardTitle className='text-2xl'>Login</CardTitle>
         </CardHeader>
-        <CardContent className='grid gap-4'>{/* <LoginForm /> */}</CardContent>
+        <CardContent className='grid gap-4'>
+          <LoginForm />
+        </CardContent>
         <CardFooter className='flex flex-wrap items-center justify-between gap-2'>
           <div className='text-sm text-muted-foreground'>
             <span className='mr-1 hidden sm:inline-block'>
