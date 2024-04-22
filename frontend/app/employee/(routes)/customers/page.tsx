@@ -43,7 +43,7 @@ export default async function CustomersPage() {
             title={`Customers`}
             description='Manage customers for your store'
           />
-          <Button onClick={() => router.push(`/medicine/new`)}>
+          <Button onClick={() => router.push(`/employee/customers/new`)}>
             <Plus className='mr-2 h-4 w-4' /> Add New
           </Button>
         </div>
