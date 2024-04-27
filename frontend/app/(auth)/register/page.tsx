@@ -11,7 +11,7 @@ import { RegisterForm } from "@/components/auth/register-form";
 
 export default async function SignUpPage() {
   return (
-    <div>
+    <div className='py-16'>
       <Card>
         <CardHeader className='space-y-1'>
           <CardTitle className='text-2xl'>Register</CardTitle>

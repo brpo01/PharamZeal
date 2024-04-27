@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-// import axios from "axios";
+import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Loader2 } from "lucide-react";
@@ -23,6 +23,13 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type Inputs = z.infer<typeof authSchema>;
 
@@ -34,37 +41,50 @@ export function RegisterForm() {
   const form = useForm<Inputs>({
     resolver: zodResolver(authSchema),
     defaultValues: {
-      name: "",
-      email: "",
+      firstName: "",
+      lastName: "",
+      emailAddress: "",
       password: "",
+      phoneNumber: "",
+      storeId: 1,
+      roleId: 2,
+      address: "",
     },
   });
 
-  function onSubmit(data: Inputs) {}
+  function onSubmit(data: Inputs) {
+    setLoading(true);
+    axios
+      .post(
+        "http://localhost:8080/users/create",
+        data
+        // , {
+        //   headers: {
+        //     "Access-Control-Allow-Origin": "http://localhost:3000",
+        //     "Content-Type": "application/json",
+        //   },
+        // }
+      )
+      .then((res) => {
+        console.log(res);
+        toast.success("Registered Successfully.");
+        router.refresh();
+      })
+      .then(() => {
+        setTimeout(() => {
+          router.push("/login");
+        }, 2500);
+      })
 
-  // function onSubmit(data: Inputs) {
-  //   setLoading(true);
-  //   axios
-  //     .post("/api/register", data)
-  //     .then(() => {
-  //       toast.success("Registered Successfully.");
-  //       router.refresh();
-  //     })
-  //     .then(() => {
-  //       setTimeout(() => {
-  //         router.push("/login");
-  //       }, 2500);
-  //     })
-
-  //     .catch((error: any) => {
-  //       const unknownError = "Something went wrong, please try again.";
-  //       toast.error(unknownError);
-  //       throw new Error(error);
-  //     })
-  //     .finally(() => {
-  //       setLoading(false);
-  //     });
-  // }
+      .catch((error: any) => {
+        const unknownError = "Something went wrong, please try again.";
+        toast.error(unknownError);
+        throw new Error(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }
 
   return (
     <Form {...form}>
@@ -75,7 +95,7 @@ export function RegisterForm() {
         <div className='flex gap-3'>
           <FormField
             control={form.control}
-            name='name'
+            name='firstName'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>First name</FormLabel>
@@ -89,7 +109,7 @@ export function RegisterForm() {
 
           <FormField
             control={form.control}
-            name='name'
+            name='lastName'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Last name</FormLabel>
@@ -104,7 +124,7 @@ export function RegisterForm() {
 
         <FormField
           control={form.control}
-          name='email'
+          name='emailAddress'
           render={({ field }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
@@ -118,7 +138,32 @@ export function RegisterForm() {
 
         <FormField
           control={form.control}
-          name='name'
+          name='storeId'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Location</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder='Select store location' />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value={1}>Tunstall</SelectItem>
+                  <SelectItem value={2}>Fenton</SelectItem>
+                  <SelectItem value={3}>Hanley</SelectItem>
+                  <SelectItem value={4}>Longton</SelectItem>
+                  <SelectItem value={5}>Stoke</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name='phoneNumber'
           render={({ field }) => (
             <FormItem>
               <FormLabel>Phone</FormLabel>
@@ -146,7 +191,7 @@ export function RegisterForm() {
 
         <FormField
           control={form.control}
-          name='name'
+          name='address'
           render={({ field }) => (
             <FormItem>
               <FormLabel>Address</FormLabel>

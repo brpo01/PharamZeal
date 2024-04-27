@@ -70,7 +70,7 @@ export default function SalePage() {
               variant='outline'
               role='combobox'
               aria-expanded={open}
-              className='w-[200px] justify-between'
+              className='min-w-[200px] justify-between'
             >
               {value
                 ? frameworks.find((framework) => framework.value === value)
@@ -109,7 +109,7 @@ export default function SalePage() {
 
         {/* DRUGS */}
         <div className='flex w-full'>
-          <div>
+          <div className='basis-1/2'>
             <h3>Drugs</h3>
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
@@ -156,7 +156,7 @@ export default function SalePage() {
               </PopoverContent>
             </Popover>
           </div>
-          <div>
+          <div className='basis-1/4'>
             <h3>Cart</h3>
           </div>
         </div>
