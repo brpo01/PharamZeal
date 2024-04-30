@@ -19,12 +19,19 @@ export default async function LoginPage() {
         <CardContent className='grid gap-4'>
           <LoginForm />
         </CardContent>
-        <CardFooter className='flex flex-wrap items-center justify-between gap-2'>
+        <CardFooter className='flex flex-wrap items-center gap-2'>
           <div className='text-sm text-muted-foreground'>
             <span className='mr-1 hidden sm:inline-block'>
               Don&apos;t have an account?
             </span>
           </div>
+          <Link
+            aria-label='Register'
+            href='/register'
+            className='text-primary underline-offset-4 transition-colors hover:underline'
+          >
+            Register
+          </Link>
         </CardFooter>
       </Card>
 

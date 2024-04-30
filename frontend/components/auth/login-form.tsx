@@ -4,6 +4,7 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
@@ -32,41 +33,35 @@ export function LoginForm() {
   const form = useForm<Inputs>({
     resolver: zodResolver(authLogin),
     defaultValues: {
-      email: "",
+      emailAddress: "",
       password: "",
     },
   });
 
-  function onSubmit(data: Inputs) {}
+  function onSubmit(data: Inputs) {
+    setLoading(true);
 
-  // function onSubmit(data: Inputs) {
-  //   setLoading(true);
-
-  //   signIn("credentials", {
-  //     ...data,
-  //     redirect: false,
-  //   })
-  //     .then((callback) => {
-  //       if (callback?.ok) {
-  //         toast.success("Logged In");
-  //         router.refresh();
-  //         router.push("/");
-  //       }
-
-  //       if (callback?.error) {
-  //         toast.error(callback.error);
-  //         throw new Error("Wrong Credentials");
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       const unknownError = "Something went wrong, please try again.";
-  //       toast.error(unknownError);
-  //       throw new Error(err);
-  //     })
-  //     .finally(() => {
-  //       setLoading(false);
-  //     });
-  // }
+    axios
+      .post("http://localhost:8080/users/login", data, {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        toast.success(res.data.message);
+        setTimeout(() => {}, 2500);
+      })
+      .catch((error: any) => {
+        const unknownError = "Something went wrong, please try again.";
+        toast.error(unknownError);
+        throw new Error(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }
 
   return (
     <Form {...form}>
@@ -76,7 +71,7 @@ export function LoginForm() {
       >
         <FormField
           control={form.control}
-          name='email'
+          name='emailAddress'
           render={({ field }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>

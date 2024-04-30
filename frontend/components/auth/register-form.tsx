@@ -55,27 +55,19 @@ export function RegisterForm() {
   function onSubmit(data: Inputs) {
     setLoading(true);
     axios
-      .post(
-        "http://localhost:8080/users/create",
-        data
-        // , {
-        //   headers: {
-        //     "Access-Control-Allow-Origin": "http://localhost:3000",
-        //     "Content-Type": "application/json",
-        //   },
-        // }
-      )
+      .post("http://localhost:8080/users/create", data, {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+        },
+      })
       .then((res) => {
         console.log(res);
-        toast.success("Registered Successfully.");
-        router.refresh();
-      })
-      .then(() => {
+        toast.success(res.data.message);
         setTimeout(() => {
-          router.push("/login");
+          if (res.data.statusCode === 200) router.push("/login");
         }, 2500);
       })
-
       .catch((error: any) => {
         const unknownError = "Something went wrong, please try again.";
         toast.error(unknownError);

@@ -28,7 +28,7 @@ export const authSchema = z.object({
 });
 
 export const authLogin = z.object({
-  email: z.string().email({
+  emailAddress: z.string().email({
     message: "Please enter a valid email address",
   }),
   password: z
