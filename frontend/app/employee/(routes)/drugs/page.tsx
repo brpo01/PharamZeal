@@ -12,44 +12,28 @@ import { Separator } from "@/components/ui/separator";
 
 import { formatter } from "@/lib/utils";
 
-import { StockColumn, columns } from "./components/columns";
+import { DrugColumn, columns } from "./components/columns";
 import { DataTable } from "@/components/ui/data-table";
 
 export default function SalesPage() {
   const params = useParams();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [drugs, setDrugs] = useState<DrugColumn[]>([]);
 
-  const stocks = [
-    {
-      id: "tututiti",
-      name: "paracetamol",
-      quantity: 2,
-      price: 5,
-      expiry_date: "12/06/2024",
-    },
-    {
-      id: "tututitierr",
-      name: "paracetamol 3",
-      quantity: 1,
-      price: 5,
-      expiry_date: "12/06/2024",
-    },
-    {
-      id: "tututiti45",
-      name: "panadol 1",
-      quantity: 5,
-      price: 56,
-      expiry_date: "12/07/2024",
-    },
-  ];
-
-  const formattedStocks: StockColumn[] = stocks.map((item) => ({
+  const formattedDrugs: DrugColumn[] = drugs.map((item) => ({
     id: item.id,
-    name: item.name,
-    quantity: item.quantity,
+    drugName: item.drugName,
     expiry_date: item.expiry_date,
     price: formatter.format(item.price),
+    availability: item.availability,
+    available_stock: item.available_stock,
+    customer_condition: item.customer_condition,
+    drug_code: item.drug_code,
+    id_check: item.id_check,
+    postcode: item.postcode,
+    sales: item.sales,
+    store: item.store,
   }));
 
   useEffect(() => {
@@ -67,7 +51,8 @@ export default function SalesPage() {
         },
       })
       .then((res) => {
-        console.log(res);
+        console.log(res.data.data);
+        setDrugs(res.data.data);
       })
       .catch((error: any) => {
         const unknownError = "Something went wrong, please try again.";
@@ -90,7 +75,11 @@ export default function SalesPage() {
 
         <Separator />
 
-        <DataTable searchKey='name' columns={columns} data={formattedStocks} />
+        <DataTable
+          searchKey='drugName'
+          columns={columns}
+          data={formattedDrugs}
+        />
       </div>
     </div>
   );

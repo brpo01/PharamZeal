@@ -1,6 +1,6 @@
 "use client";
 
-import { Edit, MoreHorizontal } from "lucide-react";
+import { Edit, MoreHorizontal, ScrollText } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
@@ -36,7 +36,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <DropdownMenuItem
             onClick={() => router.push(`/employee/customers/${data.id}`)}
           >
-            <Edit className='mr-2 h-4 w-4' /> View details
+            <ScrollText className='mr-2 h-4 w-4' /> View
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => {}}>
             <Edit className='mr-2 h-4 w-4' /> Update
