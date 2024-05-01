@@ -17,6 +17,7 @@ export default function CustomersPage() {
   const params = useParams();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [customers, setCustomers] = useState<CustomerColumn[]>([]);
 
   const data = [
     {
@@ -54,7 +55,7 @@ export default function CustomersPage() {
         },
       })
       .then((res) => {
-        console.log(res);
+        setCustomers(res.data.data);
       })
       .catch((error: any) => {
         const unknownError = "Something went wrong, please try again.";
@@ -64,6 +65,22 @@ export default function CustomersPage() {
         setLoading(false);
       });
   };
+
+  const formattedCustomers = customers.map((item) => ({
+    address: item.address,
+    allergy: item.allergy,
+    date_of_birth: item.date_of_birth,
+    firstname: item.firstname,
+    full_name: item.full_name,
+    gender: item.gender,
+    id: item.id,
+    lastname: item.lastname,
+    medical_history: item.medical_history,
+    mobileNumber: item.mobileNumber,
+    postcode: item.postcode,
+    sales: item.sales,
+    store_name: item.store_name,
+  }));
 
   return (
     <div className='flex-col'>
@@ -80,7 +97,11 @@ export default function CustomersPage() {
 
         <Separator />
 
-        <DataTable searchKey='name' columns={columns} data={data} />
+        <DataTable
+          searchKey='full_name'
+          columns={columns}
+          data={formattedCustomers}
+        />
       </div>
     </div>
   );
