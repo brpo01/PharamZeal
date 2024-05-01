@@ -18,6 +18,7 @@ export default function SalesPage() {
   const params = useParams();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  // const [sales, setSales] = useState<DrugColumn[]>([]);
 
   const sales = [
     {
@@ -71,7 +72,7 @@ export default function SalesPage() {
         },
       })
       .then((res) => {
-        console.log(res);
+        console.log(res.data.data);
       })
       .catch((error: any) => {
         const unknownError = "Something went wrong, please try again.";

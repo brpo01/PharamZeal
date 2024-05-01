@@ -42,7 +42,6 @@ export default function DrugPage() {
         },
       })
       .then((res) => {
-        console.log(res.data.data);
         setDrug(res.data.data);
       })
       .catch((error: any) => {

@@ -1,6 +1,7 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
+import { ChevronLeft } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
@@ -15,6 +16,10 @@ export default async function DrugPage() {
       <div className='flex-1 space-y-4 p-8 pt-6'>
         <div className='flex items-center justify-between'>
           <Heading title={`Add New Drug`} description='' />
+
+          <Button onClick={router.back}>
+            <ChevronLeft className='mr-2 h-4 w-4' /> Back
+          </Button>
         </div>
 
         <Separator />
