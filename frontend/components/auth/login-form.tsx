@@ -50,8 +50,12 @@ export function LoginForm() {
       })
       .then((res) => {
         console.log(res);
+        localStorage.setItem("apiToken", res.data.data.apiToken);
         toast.success(res.data.message);
-        setTimeout(() => {}, 2500);
+        setTimeout(() => {
+          if (res.data.data.user.role.id === 2) router.push("/employee");
+          if (res.data.data.user.role.id === 1) router.push("/admin");
+        }, 1000);
       })
       .catch((error: any) => {
         const unknownError = "Something went wrong, please try again.";

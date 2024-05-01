@@ -6,13 +6,17 @@ import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
+import { useState, useEffect } from "react";
+
+import axios from "axios";
 
 import { CustomerColumn, columns } from "./components/columns";
 import { DataTable } from "@/components/ui/data-table";
 
-export default async function CustomersPage() {
+export default function CustomersPage() {
   const params = useParams();
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const data = [
     {
@@ -34,6 +38,32 @@ export default async function CustomersPage() {
       dob: "12/12/2020",
     },
   ];
+
+  useEffect(() => {
+    getCustomers();
+  }, []);
+
+  const getCustomers = () => {
+    setLoading(true);
+    const accessToken = localStorage.getItem("apiToken");
+
+    axios
+      .get("http://localhost:8080/customer", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error: any) => {
+        const unknownError = "Something went wrong, please try again.";
+        throw new Error(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
   return (
     <div className='flex-col'>

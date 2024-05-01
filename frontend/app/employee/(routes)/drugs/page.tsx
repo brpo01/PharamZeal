@@ -2,6 +2,9 @@
 
 import { Plus } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+
+import axios from "axios";
 
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
@@ -12,9 +15,10 @@ import { formatter } from "@/lib/utils";
 import { StockColumn, columns } from "./components/columns";
 import { DataTable } from "@/components/ui/data-table";
 
-export default async function SalesPage() {
+export default function SalesPage() {
   const params = useParams();
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const stocks = [
     {
@@ -47,6 +51,32 @@ export default async function SalesPage() {
     expiry_date: item.expiry_date,
     price: formatter.format(item.price),
   }));
+
+  useEffect(() => {
+    getDrugs();
+  }, []);
+
+  const getDrugs = () => {
+    setLoading(true);
+    const accessToken = localStorage.getItem("apiToken");
+
+    axios
+      .get("http://localhost:8080/drug", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error: any) => {
+        const unknownError = "Something went wrong, please try again.";
+        throw new Error(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
   return (
     <div className='flex-col'>
