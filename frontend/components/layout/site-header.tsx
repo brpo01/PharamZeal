@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -18,11 +20,19 @@ import {
 import { Icons } from "@/components/icons";
 
 export function SiteHeader() {
+  const router = useRouter();
+
   const user = {
     name: "abdullahi",
     email: "onikoko@gmail.com",
     image: "",
     initials: "AO",
+  };
+
+  const logout = () => {
+    toast.success("Logged out successfully");
+    localStorage.clear();
+    router.push("/login");
   };
 
   return (
@@ -71,7 +81,7 @@ export function SiteHeader() {
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <div onClick={() => {}}>
+                  <div onClick={() => logout()}>
                     <Icons.logout className='mr-2 h-4 w-4' aria-hidden='true' />
                     Log out
                     <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Min;
-
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping( "/sale")
 @AllArgsConstructor

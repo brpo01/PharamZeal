@@ -38,6 +38,7 @@ public class SecurityConfig {
     private static final String[] WHITE_LIST_URL = {
             "/users/hello",
             "/users/login",
+            "/users/create"
     };
 
     @Bean
@@ -48,7 +49,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable().httpBasic().disable().cors().disable()
+        http.csrf().disable().httpBasic().disable().cors().and()
                 .authorizeHttpRequests(req ->
                             req
                                 // User endpoints
@@ -56,7 +57,7 @@ public class SecurityConfig {
                                     .mvcMatchers(HttpMethod.GET, "/users/create").hasAnyAuthority("admin")
 
                                 // customer endpoints
-                                .mvcMatchers(HttpMethod.POST, "/customer").hasAnyAuthority("admin")
+                                .mvcMatchers(HttpMethod.POST, "/customer").hasAnyAuthority("admin", "employee")
                                 .mvcMatchers(HttpMethod.GET, "/customer").hasAnyAuthority("admin", "employee")
                                 .mvcMatchers(HttpMethod.GET, "/customer/{id}").hasAnyAuthority("admin", "employee")
                                 .mvcMatchers(HttpMethod.PUT, "/customer/{id}").hasAnyAuthority("admin")
@@ -78,7 +79,7 @@ public class SecurityConfig {
 
                                     // sale endpoints
                                     .mvcMatchers(HttpMethod.POST, "/sale").hasAnyAuthority("admin", "employee")
-                                    .mvcMatchers(HttpMethod.GET, "/sale").hasAnyAuthority("admin")
+                                    .mvcMatchers(HttpMethod.GET, "/sale").hasAnyAuthority("admin", "employee")
                                     .mvcMatchers(HttpMethod.GET, "/sale/{id}").hasAnyAuthority("admin", "employee")
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))

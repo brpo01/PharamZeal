@@ -7,17 +7,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-// import { RegisterForm } from "@/app/components/auth/register-form";
+import { RegisterForm } from "@/components/auth/register-form";
 
 export default async function SignUpPage() {
   return (
-    <div>
+    <div className='py-16'>
       <Card>
         <CardHeader className='space-y-1'>
           <CardTitle className='text-2xl'>Register</CardTitle>
         </CardHeader>
         <CardContent className='grid gap-4'>
-          {/* <RegisterForm /> */}
+          <RegisterForm />
         </CardContent>
         <CardFooter>
           <div className='text-sm text-muted-foreground'>
