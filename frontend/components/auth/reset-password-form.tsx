@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import type { z } from "zod";
+import Link from "next/link";
 
 import { checkEmailSchema } from "@/lib/validations";
 import { Button } from "@/components/ui/button";
@@ -65,15 +66,24 @@ export function ResetPasswordForm() {
           )}
         />
 
-        <Button disabled={isPending}>
-          {isPending && (
-            <Loader2 className='mr-2 h-4 w-4 animate-spin' aria-hidden='true' />
-          )}
-          Continue
-          <span className='sr-only'>
-            Continue to reset password verification
-          </span>
-        </Button>
+        <Link
+          aria-label='Login'
+          href='/login'
+          className='text-primary underline-offset-4 transition-colors hover:underline'
+        >
+          <Button disabled={isPending}>
+            {isPending && (
+              <Loader2
+                className='mr-2 h-4 w-4 animate-spin'
+                aria-hidden='true'
+              />
+            )}
+            Continue
+            <span className='sr-only'>
+              Continue to reset password verification
+            </span>
+          </Button>
+        </Link>
       </form>
     </Form>
   );

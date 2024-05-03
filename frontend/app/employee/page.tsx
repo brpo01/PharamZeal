@@ -7,13 +7,16 @@ import { Separator } from "@/components/ui/separator";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { CreditCard, PoundSterling, Package } from "lucide-react";
+import useUserStore from "@/hooks/user-store";
 
 import { Overview } from "@/components/overview";
 
 import { formatter } from "@/lib/utils";
 
 export default function Employee() {
+  const { userData } = useUserStore();
   const router = useRouter();
+
   const data = [
     {
       name: "Jan",
@@ -69,7 +72,12 @@ export default function Employee() {
     <div className='flex-col'>
       <div className='flex-1 space-y-4 p-8 pt-6 pb-24'>
         <div className='flex items-center justify-between'>
-          <Heading title={`Welcome to stoke store`} description='' />
+          <Heading
+            title={`Welcome to ${
+              userData ? userData?.store?.name : "the"
+            } store`}
+            description=''
+          />
         </div>
 
         <Separator />

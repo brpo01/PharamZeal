@@ -10,6 +10,8 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import type { z } from "zod";
 
+import useUserStore from "@/hooks/user-store";
+
 import { authLogin } from "@/lib/validations";
 import { Button } from "@/components/ui/button";
 import {
@@ -26,6 +28,7 @@ import { PasswordInput } from "@/components/ui/password-input";
 type Inputs = z.infer<typeof authLogin>;
 
 export function LoginForm() {
+  const { setUser } = useUserStore();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -49,13 +52,17 @@ export function LoginForm() {
         },
       })
       .then((res) => {
-        console.log(res);
+        if (res.data.statusCode === 400) {
+          toast.error(res.data.message);
+        }
         localStorage.setItem("apiToken", res.data.data.apiToken);
+        setUser(res.data.data.user);
         toast.success(res.data.message);
+
         setTimeout(() => {
           if (res.data.data.user.role.id === 2) router.push("/employee");
           if (res.data.data.user.role.id === 1) router.push("/admin");
-        }, 1000);
+        }, 500);
       })
       .catch((error: any) => {
         const unknownError = "Something went wrong, please try again.";

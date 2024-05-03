@@ -19,14 +19,17 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Icons } from "@/components/icons";
 
+import useUserStore from "@/hooks/user-store";
+
 export function SiteHeader() {
   const router = useRouter();
+  const { userData } = useUserStore();
 
   const user = {
-    name: "abdullahi",
-    email: "onikoko@gmail.com",
+    name: `${userData?.firstName} ${userData?.lastName}`,
+    email: `${userData?.emailAddress}`,
     image: "",
-    initials: "AO",
+    initials: `${userData?.firstName[0]}${userData?.lastName[0]}`,
   };
 
   const logout = () => {
