@@ -19,27 +19,6 @@ export default function CustomersPage() {
   const [loading, setLoading] = useState(false);
   const [customers, setCustomers] = useState<CustomerColumn[]>([]);
 
-  const data = [
-    {
-      name: "abdullahi",
-      address: "86 seaford street",
-      age: 28,
-      dob: "12/12/2020",
-    },
-    {
-      name: "koko",
-      address: "86 seaford street",
-      age: 28,
-      dob: "12/12/2020",
-    },
-    {
-      name: "forbes",
-      address: "86 seaford street",
-      age: 28,
-      dob: "12/12/2020",
-    },
-  ];
-
   useEffect(() => {
     getCustomers();
   }, []);

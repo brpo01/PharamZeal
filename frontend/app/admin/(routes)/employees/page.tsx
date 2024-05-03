@@ -2,50 +2,60 @@
 
 import { Plus } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 
-import { EmployeesColumn, columns } from "./components/columns";
+import axios from "axios";
+
+import { EmployeeColumn, columns } from "./components/columns";
 import { DataTable } from "@/components/ui/data-table";
 
-export default async function EmployeesPage() {
+export default function EmployeesPage() {
   const params = useParams();
   const router = useRouter();
 
-  const employees: EmployeesColumn[] = [
-    {
-      store: "Tunstall",
-      id: "rtii4o4o5o5o5",
-      name: "Praise Bola",
-      role: "staff",
-    },
-    {
-      store: "Fenton",
-      id: "rtii4o4o5o5o544",
-      name: "Gourav",
-      role: "staff",
-    },
-    {
-      store: "Hanley",
-      id: "rtii4o4o5o5o53s",
-      name: "Md Sayyed",
-      role: "staff",
-    },
-    {
-      store: "Longton",
-      id: "rtii4o4o5455o5",
-      name: "Praise gourav",
-      role: "staff",
-    },
-    {
-      store: "Stoke",
-      id: "rtii4o4o=905o5o5",
-      name: "Bola Praise",
-      role: "staff",
-    },
-  ];
+  const [loading, setLoading] = useState(false);
+  const [users, setUsers] = useState<EmployeeColumn[]>([]);
+
+  useEffect(() => {
+    getUsers();
+  }, []);
+
+  const getUsers = () => {
+    setLoading(true);
+    const accessToken = localStorage.getItem("apiToken");
+
+    axios
+      .get("http://localhost:8080/users/all", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((res) => {
+        setUsers(res.data.data);
+      })
+      .catch((error: any) => {
+        const unknownError = "Something went wrong, please try again.";
+        throw new Error(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const employees = users.map((user) => {
+    return {
+      id: user.id,
+      name: `${user.firstName} ${user.lastName}`,
+      email: user.emailAddress,
+      phone: user.phoneNumber,
+      role: user.role.name,
+      store: user.store.name,
+    };
+  });
 
   return (
     <div className='flex-col'>
@@ -61,7 +71,7 @@ export default async function EmployeesPage() {
         </div>
 
         <Separator />
-        <DataTable searchKey='store' columns={columns} data={employees} />
+        <DataTable searchKey='name' columns={columns} data={employees} />
       </div>
     </div>
   );
