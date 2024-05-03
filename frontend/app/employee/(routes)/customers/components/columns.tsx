@@ -26,6 +26,14 @@ export const columns: ColumnDef<CustomerColumn>[] = [
     header: "Name",
   },
   {
+    accessorKey: "gender",
+    header: "Gender",
+  },
+  {
+    accessorKey: "mobileNumber",
+    header: "Pnone Number",
+  },
+  {
     accessorKey: "address",
     header: "Address",
   },
