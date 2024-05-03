@@ -6,34 +6,61 @@ import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
+import { useState, useEffect } from "react";
+
+import axios from "axios";
 
 import { CustomerColumn, columns } from "./components/columns";
 import { DataTable } from "@/components/ui/data-table";
 
-export default async function CustomersPage() {
+export default function CustomersPage() {
   const params = useParams();
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [customers, setCustomers] = useState<CustomerColumn[]>([]);
 
-  const data = [
-    {
-      name: "abdullahi",
-      address: "86 seaford street",
-      age: 28,
-      dob: "12/12/2020",
-    },
-    {
-      name: "koko",
-      address: "86 seaford street",
-      age: 28,
-      dob: "12/12/2020",
-    },
-    {
-      name: "forbes",
-      address: "86 seaford street",
-      age: 28,
-      dob: "12/12/2020",
-    },
-  ];
+  useEffect(() => {
+    getCustomers();
+  }, []);
+
+  const getCustomers = () => {
+    setLoading(true);
+    const accessToken = localStorage.getItem("apiToken");
+
+    axios
+      .get("http://localhost:8080/customer", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((res) => {
+        console.log(res.data.data);
+        setCustomers(res.data.data);
+      })
+      .catch((error: any) => {
+        const unknownError = "Something went wrong, please try again.";
+        throw new Error(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const formattedCustomers = customers.map((item) => ({
+    address: item.address,
+    allergy: item.allergy,
+    date_of_birth: item.date_of_birth,
+    firstname: item.firstname,
+    full_name: item.full_name,
+    gender: item.gender,
+    id: item.id,
+    lastname: item.lastname,
+    medical_history: item.medical_history,
+    mobileNumber: item.mobileNumber,
+    postcode: item.postcode,
+    sales: item.sales,
+    store_name: item.store_name,
+  }));
 
   return (
     <div className='flex-col'>
@@ -41,16 +68,20 @@ export default async function CustomersPage() {
         <div className='flex items-center justify-between'>
           <Heading
             title={`Customers`}
-            description='Manage customers for your stores'
+            description='Manage customers for your store'
           />
-          <Button onClick={() => router.push(`/medicine/new`)}>
+          <Button onClick={() => router.push(`/admin/customers/new`)}>
             <Plus className='mr-2 h-4 w-4' /> Add New
           </Button>
         </div>
 
         <Separator />
 
-        <DataTable searchKey='name' columns={columns} data={data} />
+        <DataTable
+          searchKey='full_name'
+          columns={columns}
+          data={formattedCustomers}
+        />
       </div>
     </div>
   );

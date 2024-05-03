@@ -5,28 +5,44 @@ import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
 
 export type CustomerColumn = {
-  id: string;
-  name: string;
+  id: number;
+  full_name: string;
   address: string;
-  age: number;
-  dob: string;
+  allergy: string;
+  date_of_birth: string;
+  firstname: string;
+  gender: string;
+  lastname: string;
+  medical_history: string;
+  mobileNumber: string;
+  postcode: string;
+  sales: number;
+  store_name: string;
 };
 
 export const columns: ColumnDef<CustomerColumn>[] = [
   {
-    accessorKey: "name",
+    accessorKey: "full_name",
     header: "Name",
+  },
+  {
+    accessorKey: "store_name",
+    header: "Store",
+  },
+  {
+    accessorKey: "gender",
+    header: "Gender",
+  },
+  {
+    accessorKey: "mobileNumber",
+    header: "Pnone Number",
   },
   {
     accessorKey: "address",
     header: "Address",
   },
   {
-    accessorKey: "age",
-    header: "Age",
-  },
-  {
-    accessorKey: "dob",
+    accessorKey: "date_of_birth",
     header: "Date of Birth",
   },
   {

@@ -26,6 +26,10 @@ export const columns: ColumnDef<DrugColumn>[] = [
     header: "Drug name",
   },
   {
+    accessorKey: "drug_code",
+    header: "Drug code",
+  },
+  {
     accessorKey: "store",
     header: "Store",
   },
@@ -36,14 +40,6 @@ export const columns: ColumnDef<DrugColumn>[] = [
   {
     accessorKey: "id_check",
     header: "Check ID",
-  },
-  {
-    accessorKey: "price",
-    header: "Price",
-  },
-  {
-    accessorKey: "expiry_date",
-    header: "Expiry Date",
   },
   {
     id: "actions",
