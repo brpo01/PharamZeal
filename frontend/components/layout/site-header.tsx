@@ -30,6 +30,7 @@ export function SiteHeader() {
     email: `${userData?.emailAddress}`,
     image: "",
     initials: `${userData?.firstName[0]}${userData?.lastName[0]}`,
+    role: userData?.role?.name,
   };
 
   const logout = () => {
@@ -69,6 +70,9 @@ export function SiteHeader() {
                     </p>
                     <p className='text-xs leading-none text-muted-foreground'>
                       {user.email}
+                    </p>
+                    <p className='text-xs leading-none text-muted-foreground capitalize'>
+                      {user.role}
                     </p>
                   </div>
                 </DropdownMenuLabel>

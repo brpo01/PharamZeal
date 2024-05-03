@@ -1,13 +1,15 @@
 "use client";
-
-import { useRouter } from "next/navigation";
+import axios from "axios";
 
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-import { CreditCard, PoundSterling, Package } from "lucide-react";
+import { CreditCard, PoundSterling, Package, Users } from "lucide-react";
 import useUserStore from "@/hooks/user-store";
+import { useState, useEffect } from "react";
+import { CustomerColumn } from "./(routes)/customers/components/columns";
+import { DrugColumn } from "./(routes)/drugs/components/columns";
 
 import { Overview } from "@/components/overview";
 
@@ -15,7 +17,66 @@ import { formatter } from "@/lib/utils";
 
 export default function Employee() {
   const { userData } = useUserStore();
-  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [customers, setCustomers] = useState<CustomerColumn[]>([]);
+  const [drugs, setDrugs] = useState<DrugColumn[]>([]);
+
+  useEffect(() => {
+    getCustomers();
+    getDrugs();
+  }, []);
+
+  const getCustomers = () => {
+    setLoading(true);
+    const accessToken = localStorage.getItem("apiToken");
+
+    axios
+      .get("http://localhost:8080/customer", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((res) => {
+        setCustomers(res.data.data);
+      })
+      .catch((error: any) => {
+        const unknownError = "Something went wrong, please try again.";
+        throw new Error(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const getDrugs = () => {
+    setLoading(true);
+    const accessToken = localStorage.getItem("apiToken");
+
+    axios
+      .get("http://localhost:8080/drug", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((res) => {
+        setDrugs(res.data.data);
+      })
+      .catch((error: any) => {
+        const unknownError = "Something went wrong, please try again.";
+        throw new Error(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const filteredCustomers = customers.filter((customer) => {
+    return customer.store_name === userData?.store?.name;
+  });
+
+  const filteredDrugs = drugs.filter((drug) => {
+    return drug.store === userData?.store?.name;
+  });
 
   const data = [
     {
@@ -82,7 +143,7 @@ export default function Employee() {
 
         <Separator />
 
-        <div className='grid gap-4 grid-cols-3'>
+        <div className='grid gap-4 grid-cols-4'>
           <Card>
             <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
               <CardTitle className='text-sm font-medium'>
@@ -91,9 +152,22 @@ export default function Employee() {
               <PoundSterling className='h-4 w-4 text-muted-foreground' />
             </CardHeader>
             <CardContent>
-              <div className='text-2xl font-bold'>{formatter.format(1000)}</div>
+              <div className='text-2xl font-bold'>{formatter.format(500)}</div>
             </CardContent>
           </Card>
+
+          <Card>
+            <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+              <CardTitle className='text-sm font-medium'>Customers</CardTitle>
+              <Users className='h-4 w-4 text-muted-foreground' />
+            </CardHeader>
+            <CardContent>
+              <div className='text-2xl font-bold'>
+                {filteredCustomers.length}
+              </div>
+            </CardContent>
+          </Card>
+
           <Card>
             <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
               <CardTitle className='text-sm font-medium'>Sales</CardTitle>
@@ -111,7 +185,7 @@ export default function Employee() {
               <Package className='h-4 w-4 text-muted-foreground' />
             </CardHeader>
             <CardContent>
-              <div className='text-2xl font-bold'>{12}</div>
+              <div className='text-2xl font-bold'>{filteredDrugs.length}</div>
             </CardContent>
           </Card>
         </div>

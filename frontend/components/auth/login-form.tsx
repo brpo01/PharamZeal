@@ -56,6 +56,7 @@ export function LoginForm() {
           toast.error(res.data.message);
         }
         localStorage.setItem("apiToken", res.data.data.apiToken);
+        console.log(res.data.data.user);
         setUser(res.data.data.user);
         toast.success(res.data.message);
 

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { useState, useEffect } from "react";
+import useUserStore from "@/hooks/user-store";
 
 import axios from "axios";
 
@@ -16,6 +17,8 @@ import { DataTable } from "@/components/ui/data-table";
 export default function CustomersPage() {
   const params = useParams();
   const router = useRouter();
+  const { userData } = useUserStore();
+
   const [loading, setLoading] = useState(false);
   const [customers, setCustomers] = useState<CustomerColumn[]>([]);
 
@@ -45,7 +48,11 @@ export default function CustomersPage() {
       });
   };
 
-  const formattedCustomers = customers.map((item) => ({
+  const filteredCustomers = customers.filter((customer) => {
+    return customer.store_name === userData?.store?.name;
+  });
+
+  const formattedCustomers = filteredCustomers.map((item) => ({
     address: item.address,
     allergy: item.allergy,
     date_of_birth: item.date_of_birth,
