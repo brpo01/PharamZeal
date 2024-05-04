@@ -7,7 +7,7 @@ import { Heading } from "@/components/ui/heading";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useState, useEffect } from "react";
-import { formatter } from "@/lib/utils";
+import { formatter, formatDate } from "@/lib/utils";
 
 import {
   Card,
@@ -58,7 +58,7 @@ export default function SalePage() {
     <div className='flex-col'>
       <div className='flex-1 space-y-4 p-8 pt-6 pb-24'>
         <div className='flex items-center justify-between'>
-          <Heading title={`Sale Details`} description='' />
+          <Heading title={`Sale Invoice`} description='' />
 
           <Button onClick={router.back}>
             <ChevronLeft className='mr-2 h-4 w-4' /> Back
@@ -69,45 +69,25 @@ export default function SalePage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>
-              <div className='font-semibold'>Customer</div>
-              <p>{sale?.full_name}</p>
-            </CardTitle>
+            <div className='flex justify-between items-center'>
+              <h1>Invoice: #{sale?.id}</h1>
+
+              <h1>Date of sale: {formatDate(sale?.date_of_sale)}</h1>
+            </div>
+            <Separator />
           </CardHeader>
           <CardContent>
             <div className='space-y-4'>
               <div className='flex  justify-between gap-4 items-center'>
                 <div className='flex flex-col'>
-                  <div className='font-semibold'>Store</div>
-                  <p className='text-sm'>{sale?.name}</p>
+                  <div className='text-sm'>Store</div>
+                  <p className='text-sm font-semibold'>{sale?.name}</p>
                 </div>
 
                 <div className='flex flex-col'>
                   <div className='font-semibold'>Cashier</div>
                   <p className='text-sm'>{sale?.firstname}</p>
                 </div>
-
-                <div className='flex flex-col'>
-                  <div className='font-semibold'>Date of sale</div>
-                  <p className='text-sm'>{sale?.date_of_sale}</p>
-                </div>
-              </div>
-
-              <div className='flex  justify-between gap-4 items-center'>
-                <div className='flex flex-col'>
-                  <div className='font-semibold'>Drug</div>
-                  <p className='text-sm'>{sale?.drugName}</p>
-                </div>
-
-                <div className='flex flex-col'>
-                  <div className='font-semibold'>Quantity</div>
-                  <p className='text-sm'>{sale?.quantity}</p>
-                </div>
-              </div>
-
-              <div className='flex flex-col'>
-                <div className='font-semibold'>Total price</div>
-                <p className='text-sm'>{formatter.format(sale?.total_price)}</p>
               </div>
             </div>
           </CardContent>

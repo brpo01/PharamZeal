@@ -5,7 +5,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
 
 export type SaleColumn = {
-  id: number;
+  id: number | string;
   quantity: number;
   date_of_sale: string;
   customer?: any;
@@ -17,28 +17,29 @@ export type SaleColumn = {
   store?: any;
   total_price: number | string;
   user?: any;
+  status?: string;
 };
 
 export const columns: ColumnDef<SaleColumn>[] = [
   {
+    accessorKey: "id",
+    header: "Invoice No.",
+  },
+  {
+    accessorKey: "date_of_sale",
+    header: "Date",
+  },
+  {
     accessorKey: "full_name",
-    header: "Customer",
-  },
-  {
-    accessorKey: "drugName",
-    header: "Drug",
-  },
-  {
-    accessorKey: "quantity",
-    header: "Quantity",
+    header: "Customer name",
   },
   {
     accessorKey: "total_price",
     header: "Total Price",
   },
   {
-    accessorKey: "date_of_sale",
-    header: "Date of sale",
+    accessorKey: "status",
+    header: "Status",
   },
   {
     accessorKey: "firstname",

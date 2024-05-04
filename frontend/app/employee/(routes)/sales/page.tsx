@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 
-import { formatter } from "@/lib/utils";
+import { formatter, formatDate } from "@/lib/utils";
 
 import { SaleColumn, columns } from "./components/columns";
 import { DataTable } from "@/components/ui/data-table";
@@ -22,7 +22,7 @@ export default function SalesPage() {
 
   const formattedSales: SaleColumn[] = sales.map((item) => ({
     id: item.id,
-    date_of_sale: item.date_of_sale,
+    date_of_sale: formatDate(item.date_of_sale),
     quantity: item.quantity,
     drugName: item.drugName,
     firstname: item.firstname,
@@ -30,6 +30,7 @@ export default function SalesPage() {
     name: item.name,
     drug: item.drug,
     total_price: formatter.format(item.total_price),
+    status: "Paid",
   }));
 
   useEffect(() => {
