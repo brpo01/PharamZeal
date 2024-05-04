@@ -60,13 +60,16 @@ public class SaleService {
         newSale.setStore(store);
 
         // Set Drug
-        Drug drug = this.drugRepository.findById(data.getDrugId()).orElse(null);
-        if (drug == null) return null;
-        newSale.setDrug(drug);
+        List<Drug> drugs = new ArrayList<>();
+        for (Integer drugId : data.getDrugId()) {
+            Drug drug = drugRepository.findById(drugId).orElseThrow(() -> new CustomException("Drug not found", 404, HttpStatus.OK));
+            drugs.add(drug);
+            newSale.setDrug(drugs);
+        }
 
         this.saleRepository.save(newSale);
 
-        return this.saleMapper.createSalesResponseDTO(newSale, "Sale of drug was processed successful.");
+        return this.saleMapper.createSalesResponseDTO(newSale, "Sale of drug was processed successfully.");
     }
 
 
@@ -74,6 +77,7 @@ public class SaleService {
 
         List<SalesResponseDTO> list = new ArrayList<>();
         List<Sales> sales = this.saleRepository.findAll();
+
 
         for (Sales sale : sales)
         {

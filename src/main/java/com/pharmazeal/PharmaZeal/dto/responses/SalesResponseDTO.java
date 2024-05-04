@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 @Setter
 @EqualsAndHashCode
@@ -34,9 +35,8 @@ public class SalesResponseDTO {
 
     private final String name;
 
-    private final int drug;
-
-    private final String drugName;
+    private List<DrugResponseDTO> drugs;
 
     private final LocalDate date_of_sale;
+
 }
