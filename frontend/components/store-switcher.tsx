@@ -19,7 +19,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-// import { useStoreModal } from "@/hooks/use-store-modal"
+import useStoreSwitcher from "@/hooks/use-store-switcher";
 import { useParams, useRouter } from "next/navigation";
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<
@@ -34,24 +34,28 @@ export default function StoreSwitcher({
   className,
   items = [],
 }: StoreSwitcherProps) {
-  // const storeModal = useStoreModal();
-  const params = useParams();
-  const router = useRouter();
-
-  const formattedItems = items.map((item) => ({
-    label: item.name,
-    value: item.id,
-  }));
-
-  const currentStore = formattedItems.find(
-    (item) => item.value === params.storeId
-  );
-
+  const { storeData, setStoreData } = useStoreSwitcher();
   const [open, setOpen] = React.useState(false);
 
-  const onStoreSelect = (store: { value: string; label: string }) => {
-    setOpen(false);
-    router.push(`/${store.value}`);
+  const params = useParams();
+
+  interface data {
+    name: string;
+    value: number;
+  }
+
+  const formattedItems = items.map((item) => ({
+    name: item.name,
+    value: item.value,
+  }));
+
+  const currentStore = formattedItems.find((item) => item.value === 0);
+
+  console.log(storeData);
+
+  const onStoreSelect = (store: data) => {
+    console.log(store);
+    setStoreData(store);
   };
 
   return (
@@ -66,7 +70,7 @@ export default function StoreSwitcher({
           className={cn("w-[160px] justify-between", className)}
         >
           <Store className='mr-2 h-4 w-4' />
-          {currentStore?.label}
+          {currentStore?.name}
           <ChevronsUpDown className='ml-auto h-4 w-4 shrink-0 opacity-50' />
         </Button>
       </PopoverTrigger>
@@ -83,7 +87,7 @@ export default function StoreSwitcher({
                   className='text-sm'
                 >
                   <Store className='mr-2 h-4 w-4' />
-                  {store.label}
+                  {store.name}
                   <Check
                     className={cn(
                       "ml-auto h-4 w-4",
