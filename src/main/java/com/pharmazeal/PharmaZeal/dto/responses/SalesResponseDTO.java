@@ -23,6 +23,14 @@ public class SalesResponseDTO {
 
     private final String full_name;
 
+    private final String gender;
+
+    private final String address;
+
+    private final String medical_history;
+
+    private final String mobileNumber;
+
     private final int user;
 
     private final String firstname;
