@@ -4,9 +4,10 @@ package com.pharmazeal.PharmaZeal.dto.requests;
 import lombok.*;
 
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import javax.validation.constraints.FutureOrPresent;
 import java.time.LocalDate;
+import java.util.List;
 
 @AllArgsConstructor
 @RequiredArgsConstructor
@@ -30,8 +31,8 @@ public class NewSaleRequestDTO {
     @Min(value = 1, message = "Id must be greater than zero")
     private int storeId;
 
-    @Min(value = 1, message = "Id must be greater than zero")
-    private int drugId;
+    @Size(min=1, max=10)
+    private List<Integer> drugId;
 
     @FutureOrPresent(message = "Address cannot be blank")
     private LocalDate date_of_sale;

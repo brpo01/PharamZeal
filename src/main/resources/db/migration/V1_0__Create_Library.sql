@@ -62,21 +62,6 @@ CREATE TABLE customer
     mobileNumber VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE drug
-(
-    id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    drug_code VARCHAR(50) NOT NULL,
-    drugName VARCHAR(200) NOT NULL,
-    customer_condition VARCHAR(200) NOT NULL,
-    idCheck BOOLEAN NOT NULL,
-    store VARCHAR(50) NOT NULL,
-    postcode VARCHAR(50) NOT NULL,
-    available_stock VARCHAR(50) NOT NULL,
-    price VARCHAR(50) NOT NULL,
-    expiry_date VARCHAR(50) NOT NULL,
-    availability BOOLEAN NOT NULL
-);
-
 
 CREATE TABLE drug_stock
 (
@@ -95,12 +80,27 @@ CREATE TABLE sales
     quantity VARCHAR(50) NOT NULL,
     total_price VARCHAR(50) NOT NULL,
     store INTEGER NOT NULL,
-    drug INTEGER NOT NULL,
     date_of_sale VARCHAR(50) NOT NULL,
     FOREIGN KEY (customer) REFERENCES customer(id) ON DELETE CASCADE,
     FOREIGN KEY (user) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (store) REFERENCES store(id) ON DELETE CASCADE,
-    FOREIGN KEY (drug) REFERENCES drug(id) ON DELETE CASCADE
+    FOREIGN KEY (store) REFERENCES store(id) ON DELETE CASCADE
+);
+
+CREATE TABLE drug
+(
+    id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    drug_code VARCHAR(50) NOT NULL,
+    drugName VARCHAR(200) NOT NULL,
+    customer_condition VARCHAR(200) NOT NULL,
+    idCheck BOOLEAN NOT NULL,
+    store VARCHAR(50) NOT NULL,
+    postcode VARCHAR(50) NOT NULL,
+    available_stock VARCHAR(50) NOT NULL,
+    price VARCHAR(50) NOT NULL,
+    expiry_date VARCHAR(50) NOT NULL,
+    availability BOOLEAN NOT NULL,
+    sale INTEGER,
+    FOREIGN KEY (sale) REFERENCES sales(id) ON DELETE CASCADE
 );
 
 INSERT INTO pharmazeal.roles(name)

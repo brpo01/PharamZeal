@@ -42,7 +42,7 @@ public class Drug {
 
     private boolean availability;
 
-    @OneToMany(mappedBy="drug")
-    @OrderBy(value="id")
-    private List<Sales> sales = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name="sale")
+    private Sales sale;
 }
