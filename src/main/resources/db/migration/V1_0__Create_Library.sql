@@ -103,6 +103,15 @@ CREATE TABLE drug
     FOREIGN KEY (sale) REFERENCES sales(id) ON DELETE CASCADE
 );
 
+
+# CREATE TABLE drug_sale (
+#                             drug_id BIGINT,
+#                             sales_id BIGINT
+# #                             PRIMARY KEY (drug_id, sales_id),
+# #                             FOREIGN KEY (drug_id) REFERENCES drug(id)
+# #                             FOREIGN KEY (sales_id) REFERENCES sales(id)
+# );
+
 INSERT INTO pharmazeal.roles(name)
 VALUES ('admin'),
        ('employee');
