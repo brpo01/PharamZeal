@@ -9,7 +9,7 @@ export type SaleColumn = {
   quantity: number;
   date_of_sale: string;
   customer?: any;
-  drug?: any;
+  drugs?: any;
   drugName: string;
   firstname: string;
   full_name: string;
@@ -18,6 +18,9 @@ export type SaleColumn = {
   total_price: number | string;
   user?: any;
   status?: string;
+  mobileNumber: string;
+  address: string;
+  gender: string;
 };
 
 export const columns: ColumnDef<SaleColumn>[] = [

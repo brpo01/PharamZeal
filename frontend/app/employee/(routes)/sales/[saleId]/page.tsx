@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect } from "react";
 
 import { useParams, useRouter } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
@@ -6,7 +7,6 @@ import { ChevronLeft } from "lucide-react";
 import { Heading } from "@/components/ui/heading";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { useState, useEffect } from "react";
 import { formatter, formatDate } from "@/lib/utils";
 
 import {
@@ -17,19 +17,51 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
 import axios from "axios";
 
 import { SaleColumn } from "../components/columns";
 
+export type DrugColumn = {
+  id: string;
+  price: string | number;
+  availability: boolean;
+  available_stock: number;
+  customer_condition: string;
+  drugName: string;
+  drug_code: string;
+  expiry_date: string;
+  id_check: boolean;
+  idCheck?: boolean;
+  postcode: string;
+  sales: any;
+  store: string;
+  quantity?: number;
+  tax?: number;
+  name?: string;
+  amount?: number;
+};
+
 export default function SalePage() {
+  const [sale, setSale] = useState<SaleColumn>();
+
   const params = useParams();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [sale, setSale] = useState<SaleColumn>();
 
   useEffect(() => {
     getSale();
-  }, []);
+  }, [setSale]);
 
   const getSale = () => {
     setLoading(true);
@@ -42,8 +74,12 @@ export default function SalePage() {
         },
       })
       .then((res) => {
-        console.log(res.data.data);
-        setSale(res.data.data);
+        // setSale(res.data.data.sale);
+        const result = res.data.data.sale;
+        console.log(result);
+        setSale(result);
+        console.log(res.data.data.sale);
+        console.log(sale);
       })
       .catch((error: any) => {
         const unknownError = "Something went wrong, please try again.";
@@ -53,6 +89,16 @@ export default function SalePage() {
         setLoading(false);
       });
   };
+
+  const formattedDrugs: DrugColumn[] = sale?.drugs.map((item: any) => ({
+    id: item.id,
+    name: item.drugName,
+    quantity: item.quantity || 1,
+    amount: formatter.format(item.price * item.quantity),
+    price: formatter.format(item.price),
+    total: formatter.format(item.total),
+    tax: formatter.format(item.tax || 0),
+  }));
 
   return (
     <div className='flex-col'>
@@ -69,7 +115,7 @@ export default function SalePage() {
 
         <Card>
           <CardHeader>
-            <div className='flex justify-between items-center'>
+            <div className='flex justify-between items-center text-sm'>
               <h1>Invoice: #{sale?.id}</h1>
 
               <h1>Date of sale: {formatDate(sale?.date_of_sale)}</h1>
@@ -80,15 +126,62 @@ export default function SalePage() {
             <div className='space-y-4'>
               <div className='flex  justify-between gap-4 items-center'>
                 <div className='flex flex-col'>
-                  <div className='text-sm'>Store</div>
-                  <p className='text-sm font-semibold'>{sale?.name}</p>
+                  <div className='text-sm font-semibold'>Store</div>
+                  <p className='text-sm capitalize'>{sale?.name}</p>
                 </div>
 
                 <div className='flex flex-col'>
                   <div className='font-semibold'>Cashier</div>
-                  <p className='text-sm'>{sale?.firstname}</p>
+                  <p className='text-sm capitalize'>{sale?.firstname}</p>
                 </div>
               </div>
+
+              <div>
+                <p className='text-sm font-semibold'>SOLD TO:</p>
+                <div className='flex  justify-between gap-4 items-start'>
+                  <p className='text-sm flex-1'>{sale?.full_name}</p>
+
+                  <p className='text-sm flex-1'>{sale?.mobileNumber}</p>
+
+                  <p className='text-sm flex-1'>{sale?.address}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className='mt-8'>
+              {/* <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Drug Name</TableHead>
+                    <TableHead className='w-[160px]'>Rate</TableHead>
+                    <TableHead className='w-[160px]'>Quantity</TableHead>
+                    <TableHead className='text-right w-[160px]'>Tax</TableHead>
+                    <TableHead className='text-right w-[160px]'>
+                      Amount
+                    </TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {formattedDrugs.map((drug) => (
+                    <TableRow key={drug.id}>
+                      <TableCell className='font-medium'>{drug.name}</TableCell>
+                      <TableCell>{drug.price}</TableCell>
+                      <TableCell>{drug.quantity}</TableCell>
+                      <TableCell className='text-right'>{drug.tax}</TableCell>
+                      <TableCell className='text-right'>
+                        {drug.amount}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+                <TableFooter>
+                  <TableRow>
+                    <TableCell colSpan={3}>Total</TableCell>
+                    <TableCell className='text-right'>0</TableCell>
+                    <TableCell className='text-right'>$2,500.00</TableCell>
+                  </TableRow>
+                </TableFooter>
+              </Table> */}
             </div>
           </CardContent>
         </Card>
