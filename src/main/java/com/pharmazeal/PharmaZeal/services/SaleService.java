@@ -3,11 +3,7 @@ package com.pharmazeal.PharmaZeal.services;
 import com.pharmazeal.PharmaZeal.dto.requests.NewSaleRequestDTO;
 import com.pharmazeal.PharmaZeal.dto.responses.DefaultResponseDTO;
 import com.pharmazeal.PharmaZeal.dto.responses.SalesResponseDTO;
-import com.pharmazeal.PharmaZeal.models.entities.Customer;
-import com.pharmazeal.PharmaZeal.models.entities.Drug;
-import com.pharmazeal.PharmaZeal.models.entities.Store;
-import com.pharmazeal.PharmaZeal.models.entities.User;
-import com.pharmazeal.PharmaZeal.models.entities.Sales;
+import com.pharmazeal.PharmaZeal.models.entities.*;
 import com.pharmazeal.PharmaZeal.exceptions.CustomException;
 import com.pharmazeal.PharmaZeal.dto.factories.Sales_DTO_Factory;
 import com.pharmazeal.PharmaZeal.models.repositories.CustomerRepository;
@@ -64,7 +60,7 @@ public class SaleService {
         for (Integer drugId : data.getDrugId()) {
             Drug drug = drugRepository.findById(drugId).orElseThrow(() -> new CustomException("Drug not found", 404, HttpStatus.OK));
             drugs.add(drug);
-            newSale.setDrug(drugs);
+            newSale.addDrug(drug);
         }
 
         this.saleRepository.save(newSale);
