@@ -42,8 +42,13 @@ public class Sales {
 
     @OneToMany(mappedBy="sale")
     @OrderBy(value="id")
-    private List<Drug> drug = new ArrayList<>();
+    private List<Drug> drugs = new ArrayList<>();
 
     private LocalDate date_of_sale;
+
+    public void addDrug(Drug drug) {
+        drugs.add(drug);
+        drug.setSale(this);
+    }
 
 }

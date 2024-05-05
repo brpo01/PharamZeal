@@ -46,7 +46,7 @@ public class Sales_DTO_Factory {
                 sale.getDate_of_sale()
         );
 
-        saleDTO.setDrugs(createDTOCollection(sale.getDrug()));
+        saleDTO.setDrugs(createDTOCollection(sale.getDrugs()));
 
         DefaultResponseDTO response = new DefaultResponseDTO();
         response.setStatusCode(200);
@@ -78,7 +78,7 @@ public class Sales_DTO_Factory {
                 sale.getDate_of_sale()
         );
 
-        saleDTO.setDrugs(createDTOCollection(sale.getDrug()));
+        saleDTO.setDrugs(createDTOCollection(sale.getDrugs()));
 
         return saleDTO;
     }
