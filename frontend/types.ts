@@ -1,14 +1,16 @@
 export interface Drug {
-  id: string;
-  name: string;
-  price: string;
-  drug_code: string;
+  id: number;
   drugName: string;
+  price: number;
+  drug_code: string;
   customer_condition: string;
-  id_check: number;
+  id_check: boolean;
   store: string;
   postcode: string;
-  availalble_stock: number;
+  available_stock: number;
   expiry_date: string;
-  availability: number;
+  availability: boolean;
+  sales: any;
+  quantity?: number;
+  tax?: number;
 }

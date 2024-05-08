@@ -9,10 +9,14 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
+import MultiSelectFormField from "@/components/ui/multi-select";
 
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, X } from "lucide-react";
+import useUserStore from "@/hooks/user-store";
+import useCart from "@/hooks/use-cart";
 
 import { cn } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
 import {
   Command,
   CommandEmpty,
@@ -26,33 +30,21 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from "@/components/ui/card";
+
 import { CustomerColumn } from "../../customers/components/columns";
 import { DrugColumn } from "../../drugs/components/columns";
 
-const frameworks = [
-  {
-    value: "next.js",
-    label: "Next.js",
-  },
-  {
-    value: "sveltekit",
-    label: "SvelteKit",
-  },
-  {
-    value: "nuxt.js",
-    label: "Nuxt.js",
-  },
-  {
-    value: "remix",
-    label: "Remix",
-  },
-  {
-    value: "astro",
-    label: "Astro",
-  },
-];
-
 export default function SalePage() {
+  const { userData } = useUserStore();
+  const cart = useCart();
   const params = useParams();
   const router = useRouter();
 
@@ -60,6 +52,7 @@ export default function SalePage() {
   const [customers, setCustomers] = useState<CustomerColumn[]>([]);
   const [customer, setCustomer] = useState<CustomerColumn>();
   const [drugs, setDrugs] = useState<DrugColumn[]>([]);
+  const [selectedDrugsID, setSelectedDrugsID] = useState<String[]>();
 
   useEffect(() => {
     getCustomers();
@@ -77,7 +70,6 @@ export default function SalePage() {
         },
       })
       .then((res) => {
-        console.log(res.data.data);
         setCustomers(res.data.data);
       })
       .catch((error: any) => {
@@ -100,7 +92,6 @@ export default function SalePage() {
         },
       })
       .then((res) => {
-        console.log(res.data.data);
         setDrugs(res.data.data);
       })
       .catch((error: any) => {
@@ -112,6 +103,11 @@ export default function SalePage() {
       });
   };
 
+  function onDrugSelect(drug: string[]) {
+    console.log(drug);
+    // setSelectedDrugsID(drug);
+  }
+
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
 
@@ -120,9 +116,64 @@ export default function SalePage() {
     setOpen(false);
   };
 
+  const onRemove = () => {
+    cart.removeItem(data.id);
+  };
+
+  const onCheckout = async () => {
+    setLoading(true);
+
+    axios
+      .post(
+        "http://localhost:8080/sale",
+        {
+          customerId: customer?.id,
+          userId: userData?.id,
+          quantity: totalQuantity,
+          total_price: totalPrice,
+          storeId: userData?.store?.id,
+          // drugId: selectedDrugsID,
+          drugId: [1],
+          date_of_sale: Date.now(),
+        },
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error: any) => {
+        const unknownError = "Something went wrong, please try again.";
+        throw new Error(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const totalQuantity = cart.items.reduce((total, item) => {
+    return total + (item?.quantity || 1);
+  }, 0);
+
+  const totalPrice = cart.items.reduce((total, item) => {
+    return (
+      total +
+      Number(item.price * (item?.quantity || 1)) +
+      (item.tax ? item.tax : 0)
+    );
+  }, 0);
+
+  const filteredDrugs = drugs.filter((drug) => {
+    return drug.store === userData?.store?.name;
+  });
+
   return (
     <div className='flex-col w-full'>
-      <div className='flex-1 space-y-4 p-8 pt-6'>
+      <div className='flex-1 space-y-4 p-8 pt-6 pb-24'>
         <div className='flex items-center justify-between'>
           <Heading title={`New Sale`} description='' />
         </div>
@@ -174,53 +225,123 @@ export default function SalePage() {
         </Popover>
         {/* CUSTOMERS */}
 
+        {customer ? (
+          <Card>
+            <CardHeader>
+              <CardTitle>{customer?.full_name}</CardTitle>
+              <CardDescription>Phone: {customer?.mobileNumber}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className='space-y-4'>
+                <div className='flex  justify-between gap-4 items-center'>
+                  <div className='flex flex-col'>
+                    <div className='font-semibold'>Gender</div>
+                    <p className='text-sm'>{customer?.gender}</p>
+                  </div>
+
+                  <div className='flex flex-col'>
+                    <div className='font-semibold'>Date of birth</div>
+                    <p className='text-sm'>{customer?.date_of_birth}</p>
+                  </div>
+                </div>
+
+                <div className='flex flex-col'>
+                  <div className='font-semibold'>Address</div>
+                  <p className='text-sm'>{customer?.address}</p>
+                </div>
+
+                <div className='flex  justify-between gap-4 items-center'>
+                  <div className='flex flex-col'>
+                    <div className='font-semibold'>Allergy</div>
+                    <p className='text-sm'>{customer?.allergy}</p>
+                  </div>
+
+                  <div className='flex flex-col'>
+                    <div className='font-semibold'>Medical history</div>
+                    <p className='text-sm'>{customer?.medical_history}</p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ) : null}
+
         {/* DRUGS */}
-        {/* <Popover open={open} onOpenChange={setOpen}>
-          <PopoverTrigger asChild>
-            <Button
-              variant='outline'
-              role='combobox'
-              aria-expanded={open}
-              className='w-[200px] justify-between'
-            >
-              {value
-                ? frameworks.find((framework) => framework.value === value)
-                    ?.label
-                : "Select framework..."}
-              <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className='w-[200px] p-0'>
-            <Command>
-              <CommandInput placeholder='Search framework...' />
-              <CommandList>
-                <CommandEmpty>No framework found.</CommandEmpty>
-                <CommandGroup>
-                  {frameworks.map((framework) => (
-                    <CommandItem
-                      key={framework.value}
-                      value={framework.value}
-                      onSelect={(currentValue) => {
-                        setValue(currentValue === value ? "" : currentValue);
-                        setOpen(false);
-                      }}
-                    >
-                      <Check
-                        className={cn(
-                          "mr-2 h-4 w-4",
-                          value === framework.value
-                            ? "opacity-100"
-                            : "opacity-0"
-                        )}
-                      />
-                      {framework.label}
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
-              </CommandList>
-            </Command>
-          </PopoverContent>
-        </Popover> */}
+
+        <div className='flex items-start gap-4'>
+          <div className='flex-1'>
+            <MultiSelectFormField
+              options={filteredDrugs}
+              defaultValue={[]}
+              onValueChange={(value) => onDrugSelect(value)}
+              placeholder='Select options'
+              variant='inverted'
+            />
+          </div>
+          <div className='flex-1'>
+            <Card>
+              <CardHeader>
+                <CardTitle>
+                  <h1>Cart</h1>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div>
+                  {cart.items.length === 0 && (
+                    <p className='text-neutral-500'>No items added to cart</p>
+                  )}
+                  <div>
+                    {cart.items.map((item) => (
+                      <div className='flex py-6 border-b w-full'>
+                        <div className='flex items-start justify-between'>
+                          <div className='flex items-center gap-4'>
+                            <p className='text-lg font-semibold text-black'>
+                              {item.drugName}
+                            </p>
+                            <p>{item.price}</p>
+                            <Input
+                              type='number'
+                              placeholder='1'
+                              className='w-8'
+                            />
+                          </div>
+
+                          <div onClick={onRemove}>
+                            <X size={15} />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </CardContent>
+              <CardFooter>
+                <div className='mt-15 bg-gray-50 px-4 py-6 w-full'>
+                  <h2 className='text-lg font-medium text-gray-900'>
+                    Order Summary
+                  </h2>
+                  <div className='mt-6 space-y-4'>
+                    <div className='flex items-center justify-between border-t border-gray-200 pt-4'>
+                      <div className='text-base font-medium text-gray-900'>
+                        Order total
+                      </div>
+
+                      <div className='font-semibold'>{totalPrice}</div>
+                    </div>
+                  </div>
+                  <Button
+                    disabled={cart.items.length === 0}
+                    onClick={onCheckout}
+                    className='w-full mt-6'
+                  >
+                    Checkout
+                  </Button>
+                </div>
+              </CardFooter>
+            </Card>
+          </div>
+        </div>
+
         {/* DRUGS */}
       </div>
     </div>
