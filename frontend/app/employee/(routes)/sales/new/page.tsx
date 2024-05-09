@@ -55,11 +55,13 @@ export default function SalePage() {
   const [customers, setCustomers] = useState<CustomerColumn[]>([]);
   const [customer, setCustomer] = useState<CustomerColumn>();
   const [drugs, setDrugs] = useState<DrugColumn[]>([]);
+  const [filteredSelectedDrugs, setFilteredSelectedDrug] =
+    useState<DrugColumn[]>();
 
   const [isMounted, setIsMounted] = useState(false);
 
   let selectedDrugsID: string[] = [];
-  let filteredSelectedDrugs: DrugColumn[] = [];
+  // let filteredSelectedDrugs: DrugColumn[] = [];
 
   // if (!isMounted) {
   //   return null;
@@ -117,11 +119,13 @@ export default function SalePage() {
   };
 
   function onDrugSelect(drug: string[]) {
+    setFilteredSelectedDrug([]);
     selectedDrugsID = drug;
-    // console.log(selectedDrugsID);
+    console.log(selectedDrugsID);
     const selected = drugs.filter((item) => selectedDrugsID?.includes(item.id));
     console.log(selected);
-    filteredSelectedDrugs = selected;
+    setFilteredSelectedDrug(selected); //
+    // filteredSelectedDrugs = selected;
   }
 
   const [open, setOpen] = React.useState(false);
@@ -310,34 +314,46 @@ export default function SalePage() {
                   variant='inverted'
                 />
 
-                {filteredSelectedDrugs.length > 0 &&
-                  filteredSelectedDrugs.map((drug) => (
-                    <div className='flex justify-between items-start gap-4'>
-                      <div className='flex justify-between items-center flex-wrap'>
-                        <div className='flex flex-col gap-1'>
-                          <div>Name</div>
-                          <p>{drug.drugName}</p>
-                        </div>
-                        <div className='flex flex-col gap-1'>
-                          <div>Check ID</div>
-                          <p>{drug.id_check}</p>
-                        </div>
-                        <div className='flex flex-col gap-1'>
-                          <div>Condition</div>
-                          <p>{drug.customer_condition}</p>
-                        </div>
-                        <div className='flex flex-col gap-1'>
-                          <div>Available</div>
-                          <p>{drug.availability}</p>
-                        </div>
-                        <div className='flex flex-col gap-1'>
-                          <div>Expiry date</div>
-                          <p>{drug.expiry_date}</p>
-                        </div>
-                      </div>
-                      <Button onClick={onAddToCart(drug)}>Add</Button>
+                <>
+                  {filteredSelectedDrugs && (
+                    <div className='border mt-8 p-4 rounded-md'>
+                      {filteredSelectedDrugs
+                        ? filteredSelectedDrugs.map((drug, index) => (
+                            <div
+                              key={index}
+                              className='flex justify-between items-start gap-4 border p-4 rounded-md'
+                            >
+                              <div className='flex justify-between gap-4 flex-wrap'>
+                                <div className='flex flex-col gap-1'>
+                                  <div className='font-semibold'>Name</div>
+                                  <p>{drug.drugName}</p>
+                                </div>
+                                <div className='flex flex-col gap-1'>
+                                  <div className='font-semibold'>Check ID</div>
+                                  <p>{drug.id_check ? "Yes" : "No"}</p>
+                                </div>
+                                <div className='flex flex-col gap-1'>
+                                  <div className='font-semibold'>Condition</div>
+                                  <p>{drug.customer_condition}</p>
+                                </div>
+                                <div className='flex flex-col gap-1'>
+                                  <div className='font-semibold'>Available</div>
+                                  <p>{drug.availability ? "Yes" : "No"}</p>
+                                </div>
+                                <div className='flex flex-col gap-1'>
+                                  <div className='font-semibold'>
+                                    Expiry date
+                                  </div>
+                                  <p>{drug.expiry_date}</p>
+                                </div>
+                              </div>
+                              {/* <Button onClick={onAddToCart(drug)}>Add</Button> */}
+                            </div>
+                          ))
+                        : null}
                     </div>
-                  ))}
+                  )}
+                </>
               </div>
               <div className='flex-1'>
                 {cart && (
