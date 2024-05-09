@@ -13,6 +13,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -34,7 +35,7 @@ import { SaleColumn } from "../components/columns";
 
 export type DrugColumn = {
   id: string;
-  price: string | number;
+  price: number;
   availability: boolean;
   available_stock: number;
   customer_condition: string;
@@ -94,7 +95,7 @@ export default function SalePage() {
     id: item.id,
     name: item.drugName,
     quantity: item.quantity || 1,
-    amount: formatter.format(item.price * item.quantity),
+    amount: formatter.format(item.price * (item.quantity | 1)),
     price: formatter.format(item.price),
     total: formatter.format(item.total),
     tax: formatter.format(item.tax || 0),
@@ -149,41 +150,53 @@ export default function SalePage() {
             </div>
 
             <div className='mt-8'>
-              {/* <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Drug Name</TableHead>
-                    <TableHead className='w-[160px]'>Rate</TableHead>
-                    <TableHead className='w-[160px]'>Quantity</TableHead>
-                    <TableHead className='text-right w-[160px]'>Tax</TableHead>
-                    <TableHead className='text-right w-[160px]'>
-                      Amount
-                    </TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {formattedDrugs.map((drug) => (
-                    <TableRow key={drug.id}>
-                      <TableCell className='font-medium'>{drug.name}</TableCell>
-                      <TableCell>{drug.price}</TableCell>
-                      <TableCell>{drug.quantity}</TableCell>
-                      <TableCell className='text-right'>{drug.tax}</TableCell>
-                      <TableCell className='text-right'>
-                        {drug.amount}
-                      </TableCell>
+              {formattedDrugs && (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Drug Name</TableHead>
+                      <TableHead className='w-[160px]'>Rate</TableHead>
+                      <TableHead className='w-[160px]'>Quantity</TableHead>
+                      <TableHead className='text-right w-[160px]'>
+                        Tax
+                      </TableHead>
+                      <TableHead className='text-right w-[160px]'>
+                        Amount
+                      </TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-                <TableFooter>
-                  <TableRow>
-                    <TableCell colSpan={3}>Total</TableCell>
-                    <TableCell className='text-right'>0</TableCell>
-                    <TableCell className='text-right'>$2,500.00</TableCell>
-                  </TableRow>
-                </TableFooter>
-              </Table> */}
+                  </TableHeader>
+                  <TableBody>
+                    {formattedDrugs.map((drug) => (
+                      <TableRow key={drug.id}>
+                        <TableCell className='font-medium'>
+                          {drug.name}
+                        </TableCell>
+                        <TableCell>{drug.price}</TableCell>
+                        <TableCell>{drug.quantity}</TableCell>
+                        <TableCell className='text-right'>{drug.tax}</TableCell>
+                        <TableCell className='text-right'>
+                          {drug.amount}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                  <TableFooter>
+                    <TableRow>
+                      <TableCell colSpan={3}>Total</TableCell>
+                      <TableCell className='text-right'>
+                        {formatter.format(0)}
+                      </TableCell>
+                      <TableCell className='text-right'>$238</TableCell>
+                    </TableRow>
+                  </TableFooter>
+                </Table>
+              )}
             </div>
           </CardContent>
+
+          <CardFooter className='flex justify-end'>
+            <Button>Download Invoice</Button>
+          </CardFooter>
         </Card>
       </div>
     </div>
