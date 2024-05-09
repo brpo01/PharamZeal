@@ -6,6 +6,7 @@ import { useParams, usePathname } from "next/navigation";
 import StoreSwitcher from "@/components/store-switcher";
 
 import { cn } from "@/lib/utils";
+import { Value } from "@radix-ui/react-select";
 
 export function AdminSidebar({
   className,
@@ -17,21 +18,27 @@ export function AdminSidebar({
   const stores = [
     {
       name: "All Stores",
+      value: 0,
     },
     {
       name: "Tunstall",
+      Value: 1,
     },
     {
       name: "Fenton",
+      Value: 2,
     },
     {
       name: "Hanley",
+      Value: 3,
     },
     {
       name: "Longton",
+      Value: 4,
     },
     {
       name: "Stoke",
+      Value: 5,
     },
   ];
 

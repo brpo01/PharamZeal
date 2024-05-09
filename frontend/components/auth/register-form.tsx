@@ -53,9 +53,13 @@ export function RegisterForm() {
   });
 
   function onSubmit(data: Inputs) {
+    let formattedData = {
+      ...data,
+      storeId: parseInt(data.storeId),
+    };
     setLoading(true);
     axios
-      .post("http://localhost:8080/users/create", data, {
+      .post("http://localhost:8080/users/create", formattedData, {
         headers: {
           "Access-Control-Allow-Origin": "*",
           "Content-Type": "application/json",
@@ -134,7 +138,11 @@ export function RegisterForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Location</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value.toString()}
+                value={field.value}
+              >
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder='Select store location' />

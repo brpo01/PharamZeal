@@ -1,12 +1,12 @@
 "use client";
 
-// import axios from "axios";
-import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
+import axios from "axios";
+import { ScrollText, Edit, MoreHorizontal, Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
-// import { toast } from "react-hot-toast";
+import { toast } from "sonner";
 
-// import { AlertModal } from "@/components/modals/alert-modal";
+import { AlertModal } from "@/components/modals/alert-modal";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -16,40 +16,50 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import { EmployeesColumn } from "./columns";
+import { EmployeeColumn } from "./columns";
 
 interface CellActionProps {
-  data: EmployeesColumn;
+  data: EmployeeColumn;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  const params = useParams();
 
-  const onConfirm = () => {
-    // try {
-    //   setLoading(true);
-    //   await axios.delete(`/api/${params.storeId}/products/${data.id}`);
-    //   toast.success('Product deleted.');
-    //   router.refresh();
-    // } catch (error) {
-    //   toast.error('Something went wrong');
-    // } finally {
-    //   setLoading(false);
-    //   setOpen(false);
-    // }
+  const onConfirm = async () => {
+    setLoading(true);
+
+    const accessToken = localStorage.getItem("apiToken");
+
+    axios
+      .delete(`http://localhost:8080/users/${data.id}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((res) => {
+        setOpen(false);
+        toast.success("user deleted.");
+        router.refresh();
+      })
+      .catch((error: any) => {
+        const unknownError = "Something went wrong, please try again.";
+        throw new Error(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
     <>
-      {/* <AlertModal 
-        isOpen={open} 
+      <AlertModal
+        isOpen={open}
         onClose={() => setOpen(false)}
         onConfirm={onConfirm}
         loading={loading}
-      /> */}
+      />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant='ghost' className='h-8 w-8 p-0'>
@@ -60,9 +70,12 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         <DropdownMenuContent align='end'>
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuItem
-            onClick={() =>
-              router.push(`/${params.storeId}/products/${data.id}`)
-            }
+            onClick={() => router.push(`/admin/employees/${data.id}`)}
+          >
+            <ScrollText className='mr-2 h-4 w-4' /> View
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => router.push(`/admin/employees/${data.id}`)}
           >
             <Edit className='mr-2 h-4 w-4' /> Update
           </DropdownMenuItem>

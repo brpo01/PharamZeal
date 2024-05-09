@@ -5,34 +5,48 @@ import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
 
 export type SaleColumn = {
-  id: string;
-  name: string;
-  drug: string;
+  id: number | string;
   quantity: number;
-  price: number;
   date_of_sale: string;
+  customer?: any;
+  drugs?: any;
+  drugName: string;
+  firstname: string;
+  full_name: string;
+  name: string;
+  store?: any;
+  total_price: number | string;
+  user?: any;
+  status?: string;
+  mobileNumber: string;
+  address: string;
+  gender: string;
 };
 
 export const columns: ColumnDef<SaleColumn>[] = [
   {
-    accessorKey: "name",
-    header: "Name",
-  },
-  {
-    accessorKey: "drug",
-    header: "Drug",
-  },
-  {
-    accessorKey: "quantity",
-    header: "Quantity",
-  },
-  {
-    accessorKey: "price",
-    header: "Price",
+    accessorKey: "id",
+    header: "Invoice No.",
   },
   {
     accessorKey: "date_of_sale",
-    header: "Date of sale",
+    header: "Date",
+  },
+  {
+    accessorKey: "full_name",
+    header: "Customer name",
+  },
+  {
+    accessorKey: "total_price",
+    header: "Total Price",
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+  },
+  {
+    accessorKey: "firstname",
+    header: "Cashier",
   },
   {
     id: "actions",

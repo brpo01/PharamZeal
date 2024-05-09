@@ -19,37 +19,32 @@ export default async function LoginPage() {
         <CardContent className='grid gap-4'>
           <LoginForm />
         </CardContent>
-        <CardFooter className='flex flex-wrap items-center gap-2'>
+        <CardFooter className='flex flex-col flex-wrap items-center gap-2'>
           <div className='text-sm text-muted-foreground'>
             <span className='mr-1 hidden sm:inline-block'>
               Don&apos;t have an account?
             </span>
           </div>
-          <Link
-            aria-label='Register'
-            href='/register'
-            className='text-primary underline-offset-4 transition-colors hover:underline'
-          >
-            Register
-          </Link>
+
+          <div className='flex gap-2'>
+            <Link
+              aria-label='Register'
+              href='/register'
+              className='text-primary underline-offset-4 transition-colors hover:underline'
+            >
+              Register
+            </Link>
+
+            <Link
+              aria-label='Reset Password'
+              href='/reset-password'
+              className='text-primary underline-offset-4 transition-colors hover:underline'
+            >
+              Forget password
+            </Link>
+          </div>
         </CardFooter>
       </Card>
-
-      <Link
-        aria-label='admin'
-        href='/admin'
-        className='text-primary underline-offset-4 transition-colors hover:underline'
-      >
-        Admin
-      </Link>
-
-      <Link
-        aria-label='employee'
-        href='/employee'
-        className='text-primary underline-offset-4 transition-colors hover:underline'
-      >
-        Staff
-      </Link>
     </div>
   );
 }

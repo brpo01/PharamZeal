@@ -1,12 +1,72 @@
-import { CreditCard, PoundSterling, Package } from "lucide-react";
+"use client";
+import axios from "axios";
+
+import { CreditCard, PoundSterling, Package, Users } from "lucide-react";
 
 import { Separator } from "@/components/ui/separator";
 import { Overview } from "@/components/overview";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Heading } from "@/components/ui/heading";
 import { formatter } from "@/lib/utils";
+import { useState, useEffect } from "react";
 
-export default async function Admin() {
+import { CustomerColumn } from "./(routes)/customers/components/columns";
+import { DrugColumn } from "./(routes)/drugs/components/columns";
+
+export default function Admin() {
+  const [loading, setLoading] = useState(false);
+  const [customers, setCustomers] = useState<CustomerColumn[]>([]);
+  const [drugs, setDrugs] = useState<DrugColumn[]>([]);
+
+  useEffect(() => {
+    getCustomers();
+    getDrugs();
+  }, []);
+
+  const getCustomers = () => {
+    setLoading(true);
+    const accessToken = localStorage.getItem("apiToken");
+
+    axios
+      .get("http://localhost:8080/customer", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((res) => {
+        setCustomers(res.data.data);
+      })
+      .catch((error: any) => {
+        const unknownError = "Something went wrong, please try again.";
+        throw new Error(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const getDrugs = () => {
+    setLoading(true);
+    const accessToken = localStorage.getItem("apiToken");
+
+    axios
+      .get("http://localhost:8080/drug", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((res) => {
+        setDrugs(res.data.data);
+      })
+      .catch((error: any) => {
+        const unknownError = "Something went wrong, please try again.";
+        throw new Error(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
   const data = [
     {
       name: "Jan",
@@ -63,7 +123,7 @@ export default async function Admin() {
       <div className='flex-1 space-y-4 p-8 pt-6'>
         <Heading title='Dashboard' description='Overview of your store' />
         <Separator />
-        <div className='grid gap-4 grid-cols-3'>
+        <div className='grid gap-4 grid-cols-4'>
           <Card>
             <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
               <CardTitle className='text-sm font-medium'>
@@ -73,6 +133,15 @@ export default async function Admin() {
             </CardHeader>
             <CardContent>
               <div className='text-2xl font-bold'>{formatter.format(1000)}</div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+              <CardTitle className='text-sm font-medium'>Customers</CardTitle>
+              <Users className='h-4 w-4 text-muted-foreground' />
+            </CardHeader>
+            <CardContent>
+              <div className='text-2xl font-bold'>{customers.length}</div>
             </CardContent>
           </Card>
           <Card>
@@ -92,7 +161,7 @@ export default async function Admin() {
               <Package className='h-4 w-4 text-muted-foreground' />
             </CardHeader>
             <CardContent>
-              <div className='text-2xl font-bold'>{12}</div>
+              <div className='text-2xl font-bold'>{drugs.length}</div>
             </CardContent>
           </Card>
         </div>

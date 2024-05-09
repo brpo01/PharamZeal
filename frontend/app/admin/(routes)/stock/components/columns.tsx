@@ -6,20 +6,40 @@ import { CellAction } from "./cell-action";
 
 export type StockColumn = {
   id: string;
-  name: string;
-  quantity: number;
-  price: number;
+  price: string | number;
+  availability: boolean;
+  available_stock: number;
+  customer_condition: string;
+  drugName: string;
+  drug_code: string;
   expiry_date: string;
+  id_check: boolean;
+  idCheck?: boolean;
+  postcode: string;
+  sales: any;
+  store: string;
 };
 
 export const columns: ColumnDef<StockColumn>[] = [
   {
-    accessorKey: "name",
+    accessorKey: "drugName",
     header: "Name",
   },
   {
-    accessorKey: "quantity",
-    header: "Quantity",
+    accessorKey: "drug_code",
+    header: "Drug code",
+  },
+  {
+    accessorKey: "store",
+    header: "Store",
+  },
+  {
+    accessorKey: "availability",
+    header: "Available",
+  },
+  {
+    accessorKey: "available_stock",
+    header: "Available Stock",
   },
   {
     accessorKey: "price",

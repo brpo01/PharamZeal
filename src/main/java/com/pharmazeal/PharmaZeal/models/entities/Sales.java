@@ -7,6 +7,10 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -36,10 +40,15 @@ public class Sales {
     @JoinColumn(name = "store", nullable = false)
     private Store store;
 
-    @ManyToOne
-    @JoinColumn(name = "drug", nullable = false)
-    private Drug drug;
+    @OneToMany(mappedBy="sale")
+    @OrderBy(value="id")
+    private List<Drug> drugs = new ArrayList<>();
 
     private LocalDate date_of_sale;
+
+    public void addDrug(Drug drug) {
+        drugs.add(drug);
+        drug.setSale(this);
+    }
 
 }
