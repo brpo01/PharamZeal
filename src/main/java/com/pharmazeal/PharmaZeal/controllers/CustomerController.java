@@ -20,7 +20,7 @@ public class CustomerController {
     private  final CustomerService customerService;
 
     @PostMapping()
-    public DefaultResponseDTO createProduct(@Valid @RequestBody NewCustomerRequestDTO data) {
+    public DefaultResponseDTO createCustomer(@Valid @RequestBody NewCustomerRequestDTO data) {
         return this.customerService.createCustomer(data);
     }
 
