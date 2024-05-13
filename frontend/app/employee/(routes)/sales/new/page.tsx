@@ -5,6 +5,7 @@ import axios from "axios";
 import * as React from "react";
 import { useParams, useRouter } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
+import { toast } from "sonner";
 
 import { useState, useEffect } from "react";
 
@@ -133,6 +134,14 @@ export default function SalePage() {
   const [value, setValue] = React.useState("");
 
   const onCustomerSelect = (customer: CustomerColumn) => {
+    const ageAlert = calculateAge(customer.date_of_birth) < 18;
+
+    if (ageAlert) {
+      toast.error("Customer is under 18 years old, ask for ID", {
+        duration: 8000,
+        position: "top-center",
+      });
+    }
     setCustomer(customer);
     setOpen(false);
   };
@@ -348,7 +357,13 @@ export default function SalePage() {
                                 </div>
                                 <div className='flex flex-col gap-1'>
                                   <div className='font-semibold'>Check ID</div>
-                                  <p>{drug.id_check ? "Yes" : "No"}</p>
+                                  <p
+                                    className={`${
+                                      drug.id_check ? "text-red-500" : ""
+                                    }`}
+                                  >
+                                    {drug.id_check ? "Yes" : "No"}
+                                  </p>
                                 </div>
                                 <div className='flex flex-col gap-1'>
                                   <div className='font-semibold'>Condition</div>
