@@ -22,7 +22,7 @@ export const authSchema = z.object({
     }),
 
   phoneNumber: z.string(),
-  storeId: z.number(),
+  storeId: z.number().optional(),
   roleId: z.number(),
   address: z.string(),
 });

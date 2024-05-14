@@ -18,6 +18,7 @@ export type CustomerColumn = {
   postcode: string;
   sales: number;
   store_name: string;
+  age?: number;
 };
 
 export const columns: ColumnDef<CustomerColumn>[] = [
@@ -40,6 +41,10 @@ export const columns: ColumnDef<CustomerColumn>[] = [
   {
     accessorKey: "address",
     header: "Address",
+  },
+  {
+    accessorKey: "age",
+    header: "Age",
   },
   {
     accessorKey: "date_of_birth",
