@@ -3,7 +3,7 @@
 import axios from "axios";
 
 import * as React from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 import { toast } from "sonner";
 
@@ -16,7 +16,6 @@ import MultiSelectFormField from "@/components/ui/multi-select";
 
 import { Check, ChevronsUpDown, X } from "lucide-react";
 import useUserStore from "@/hooks/user-store";
-import useCart from "@/hooks/use-cart";
 
 import { cn, calculateAge } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
@@ -39,20 +38,16 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  CardFooter,
 } from "@/components/ui/card";
 
 import { CustomerColumn } from "../../customers/components/columns";
 import { DrugColumn } from "../../drugs/components/columns";
-import { Drug } from "@/types";
 
 export default function SalePage() {
   const { userData } = useUserStore();
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
-  const [open, setOpen] = React.useState(false);
-
   const [customers, setCustomers] = useState<CustomerColumn[]>([]);
   const [customer, setCustomer] = useState<CustomerColumn>();
   const [drugs, setDrugs] = useState<DrugColumn[]>([]);
@@ -114,6 +109,8 @@ export default function SalePage() {
       });
   };
 
+  const [open, setOpen] = React.useState(false);
+
   const onCustomerSelect = (customer: CustomerColumn) => {
     const ageAlert = calculateAge(customer.date_of_birth) < 18;
 
@@ -125,6 +122,41 @@ export default function SalePage() {
     }
     setCustomer(customer);
     setOpen(false);
+  };
+
+  const onCheckout = async () => {
+    setLoading(true);
+
+    axios
+      .post(
+        "http://localhost:8080/sale",
+        {
+          customerId: customer?.id,
+          userId: userData?.id,
+          // quantity: totalQuantity,
+          // total_price: totalPrice,
+          storeId: userData?.store?.id,
+          // drugId: selectedDrugsID,
+          drugId: [1],
+          date_of_sale: Date.now(),
+        },
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error: any) => {
+        const unknownError = "Something went wrong, please try again.";
+        throw new Error(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -143,6 +175,124 @@ export default function SalePage() {
             <Separator />
 
             <h2 className='font-semibold'>Check customer details</h2>
+
+            {/* CUSTOMERS */}
+            <Popover open={open} onOpenChange={setOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant='outline'
+                  size='sm'
+                  role='combobox'
+                  aria-expanded={open}
+                  aria-label='Select a customer'
+                  className={cn("w-[200px] justify-between")}
+                >
+                  {customer?.full_name || "Select customer..."}
+                  <ChevronsUpDown className='ml-auto h-4 w-4 shrink-0 opacity-50' />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className='w-[200px] p-0'>
+                <Command>
+                  <CommandList>
+                    <CommandInput placeholder='Search customer...' />
+                    <CommandEmpty>No customer found.</CommandEmpty>
+                    <CommandGroup>
+                      {customers.map((cust) => (
+                        <CommandItem
+                          key={cust.id}
+                          onSelect={() => onCustomerSelect(cust)}
+                          className='text-sm '
+                        >
+                          {cust.full_name}
+                          <Check
+                            className={cn(
+                              "ml-auto h-4 w-4",
+                              customer?.id === cust.id
+                                ? "opacity-100"
+                                : "opacity-0"
+                            )}
+                          />
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
+            {/* CUSTOMERS */}
+
+            {customer ? (
+              <Card>
+                <CardHeader>
+                  <CardTitle>{customer?.full_name}</CardTitle>
+                  <CardDescription>
+                    Phone: {customer?.mobileNumber}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className='space-y-4'>
+                    <div className='flex  justify-between gap-4 items-center'>
+                      <div className='flex flex-col'>
+                        <div className='text-sm'>Gender</div>
+                        <p className='font-semibold'>{customer?.gender}</p>
+                      </div>
+
+                      <div className='flex flex-col'>
+                        <div className='text-sm'>Age</div>
+                        <p
+                          className={`font-semibold ${
+                            calculateAge(customer?.date_of_birth) < 18
+                              ? "text-red-500"
+                              : ""
+                          }`}
+                        >
+                          {calculateAge(customer?.date_of_birth)}
+                        </p>
+                      </div>
+
+                      <div className='flex flex-col'>
+                        <div className='text-sm'>Date of birth</div>
+                        <p className='font-semibold'>
+                          {customer?.date_of_birth}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className='flex flex-col'>
+                      <div className='text-sm'>Address</div>
+                      <p className='font-semibold'>{customer?.address}</p>
+                    </div>
+
+                    <div className='flex  justify-between gap-4 items-center'>
+                      <div className='flex flex-col'>
+                        <div className='text-sm'>Allergy</div>
+                        <p className='font-semibold text-red-500'>
+                          {customer?.allergy}
+                        </p>
+                      </div>
+
+                      <div className='flex flex-col'>
+                        <div className='text-sm'>Medical history</div>
+                        <p className='font-semibold'>
+                          {customer?.medical_history}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ) : null}
+
+            <Separator />
+            {/* DRUGS */}
+
+            <h2 className='font-semibold mt-8'>Check drug details</h2>
+            <div className='flex items-start gap-4'>
+              <div className='flex-1'></div>
+              <div className='flex-1'></div>
+            </div>
+
+            {/* DRUGS */}
           </div>
         </div>
       )}
