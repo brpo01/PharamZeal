@@ -8,10 +8,12 @@ import { ChevronLeft } from "lucide-react";
 import { toast } from "sonner";
 
 import { useState, useEffect } from "react";
+import Select from "react-select";
 
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
+
 import MultiSelectFormField from "@/components/ui/multi-select";
 
 import { Check, ChevronsUpDown, X } from "lucide-react";
@@ -51,6 +53,7 @@ export default function SalePage() {
   const [customers, setCustomers] = useState<CustomerColumn[]>([]);
   const [customer, setCustomer] = useState<CustomerColumn>();
   const [drugs, setDrugs] = useState<DrugColumn[]>([]);
+  const [selectedDrugs, setSelectedDrugs] = useState<DrugColumn[]>([]);
 
   const [isMounted, setIsMounted] = useState(false);
 
@@ -158,6 +161,22 @@ export default function SalePage() {
         setLoading(false);
       });
   };
+
+  const formattedDrugs = drugs.map((drug) => ({
+    value: drug.id,
+    label: drug.drugName,
+    id: drug.id,
+    drug_code: drug.drug_code,
+    drugName: drug.drugName,
+    customer_condition: drug.customer_condition,
+    id_check: drug.id_check,
+    store: drug.store,
+    postcode: drug.postcode,
+    available_stock: drug.available_stock,
+    price: drug.price,
+    expiry_date: drug.expiry_date,
+    availability: drug.availability,
+  }));
 
   return (
     <>
@@ -288,7 +307,59 @@ export default function SalePage() {
 
             <h2 className='font-semibold mt-8'>Check drug details</h2>
             <div className='flex items-start gap-4'>
-              <div className='flex-1'></div>
+              <div className='flex-1'>
+                <Select
+                  isMulti
+                  options={formattedDrugs}
+                  onChange={(e) => {
+                    console.log(e);
+                    setSelectedDrugs(e);
+                  }}
+                />
+
+                {selectedDrugs && (
+                  <div className='border mt-8 p-4 rounded-md flex flex-col gap-4'>
+                    {selectedDrugs
+                      ? selectedDrugs.map((drug, index) => (
+                          <div
+                            key={index}
+                            className='flex justify-between items-start gap-4 border p-4 rounded-md'
+                          >
+                            <div className='flex justify-between gap-4 flex-wrap'>
+                              <div className='flex flex-col gap-1'>
+                                <div className='font-semibold'>Name</div>
+                                <p>{drug.drugName}</p>
+                              </div>
+                              <div className='flex flex-col gap-1'>
+                                <div className='font-semibold'>Check ID</div>
+                                <p
+                                  className={`${
+                                    drug.id_check ? "text-red-500" : ""
+                                  }`}
+                                >
+                                  {drug.id_check ? "Yes" : "No"}
+                                </p>
+                              </div>
+                              <div className='flex flex-col gap-1'>
+                                <div className='font-semibold'>Condition</div>
+                                <p>{drug.customer_condition}</p>
+                              </div>
+                              <div className='flex flex-col gap-1'>
+                                <div className='font-semibold'>Available</div>
+                                <p>{drug.availability ? "Yes" : "No"}</p>
+                              </div>
+                              <div className='flex flex-col gap-1'>
+                                <div className='font-semibold'>Expiry date</div>
+                                <p>{drug.expiry_date}</p>
+                              </div>
+                            </div>
+                            <Button onClick={() => {}}>Add</Button>
+                          </div>
+                        ))
+                      : null}
+                  </div>
+                )}
+              </div>
               <div className='flex-1'></div>
             </div>
 
