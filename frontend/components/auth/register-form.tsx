@@ -23,19 +23,23 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
+import Select from "react-select";
 
 type Inputs = z.infer<typeof authSchema>;
+
+const storeOptions = [
+  { value: 1, label: "Tunstall" },
+  { value: 2, label: "Fenton" },
+  { value: 3, label: "Hanley" },
+  { value: 4, label: "Longton" },
+  { value: 5, label: "Stoke" },
+];
 
 export function RegisterForm() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [storeId, setStoreId] = useState(1);
 
   // react-hook-form
   const form = useForm<Inputs>({
@@ -55,8 +59,9 @@ export function RegisterForm() {
   function onSubmit(data: Inputs) {
     let formattedData = {
       ...data,
-      storeId: parseInt(data.storeId),
+      storeId: storeId,
     };
+
     setLoading(true);
     axios
       .post("http://localhost:8080/users/create", formattedData, {
@@ -66,7 +71,6 @@ export function RegisterForm() {
         },
       })
       .then((res) => {
-        console.log(res);
         toast.success(res.data.message);
         setTimeout(() => {
           if (res.data.statusCode === 200) router.push("/login");
@@ -139,23 +143,11 @@ export function RegisterForm() {
             <FormItem>
               <FormLabel>Location</FormLabel>
               <Select
-                onValueChange={field.onChange}
-                defaultValue={field.value.toString()}
-                value={field.value}
-              >
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder='Select store location' />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value={1}>Tunstall</SelectItem>
-                  <SelectItem value={2}>Fenton</SelectItem>
-                  <SelectItem value={3}>Hanley</SelectItem>
-                  <SelectItem value={4}>Longton</SelectItem>
-                  <SelectItem value={5}>Stoke</SelectItem>
-                </SelectContent>
-              </Select>
+                options={storeOptions}
+                onChange={(e) => {
+                  setStoreId(e?.value);
+                }}
+              />
               <FormMessage />
             </FormItem>
           )}
