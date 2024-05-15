@@ -4,7 +4,7 @@ import axios from "axios";
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Check, ChevronsUpDown, X } from "lucide-react";
 import { toast } from "sonner";
 
 import { useState, useEffect } from "react";
@@ -14,13 +14,11 @@ import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 
-import MultiSelectFormField from "@/components/ui/multi-select";
-
-import { Check, ChevronsUpDown, X } from "lucide-react";
 import useUserStore from "@/hooks/user-store";
 
 import { cn, calculateAge } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
+import { MouseEventHandler } from "react";
 import {
   Command,
   CommandEmpty,
@@ -40,10 +38,12 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  CardFooter,
 } from "@/components/ui/card";
 
 import { CustomerColumn } from "../../customers/components/columns";
 import { DrugColumn } from "../../drugs/components/columns";
+import { Drug } from "@/types";
 
 export default function SalePage() {
   const { userData } = useUserStore();
@@ -56,6 +56,8 @@ export default function SalePage() {
   const [selectedDrugs, setSelectedDrugs] = useState<DrugColumn[]>([]);
 
   const [isMounted, setIsMounted] = useState(false);
+
+  let cart: Drug[] = [];
 
   // if (!isMounted) {
   //   return null;
@@ -127,6 +129,17 @@ export default function SalePage() {
     setOpen(false);
   };
 
+  const onRemove = (data: Drug) => {};
+
+  const onAddToCart = (drug: Drug) => {
+    const index = cart.indexOf(drug);
+    if (index !== -1) {
+      cart.splice(index, 1); // Remove item if it exists
+    } else {
+      cart.push(drug); // Otherwise, push it into the array
+    }
+  };
+
   const onCheckout = async () => {
     setLoading(true);
 
@@ -177,6 +190,14 @@ export default function SalePage() {
     expiry_date: drug.expiry_date,
     availability: drug.availability,
   }));
+
+  const totalQuantity = cart.reduce((total, item) => {
+    return total + (item?.quantity || 1);
+  }, 0);
+
+  const totalPrice = cart.reduce((total, item) => {
+    return total + Number(item.price * (item?.quantity || 1));
+  }, 0);
 
   return (
     <>
@@ -327,13 +348,13 @@ export default function SalePage() {
                           >
                             <div className='flex justify-between gap-4 flex-wrap'>
                               <div className='flex flex-col gap-1'>
-                                <div className='font-semibold'>Name</div>
-                                <p>{drug.drugName}</p>
+                                <div className='text-sm'>Name</div>
+                                <p className='font-semibold'>{drug.drugName}</p>
                               </div>
                               <div className='flex flex-col gap-1'>
-                                <div className='font-semibold'>Check ID</div>
+                                <div className='text-sm'>Check ID</div>
                                 <p
-                                  className={`${
+                                  className={`font-semibold ${
                                     drug.id_check ? "text-red-500" : ""
                                   }`}
                                 >
@@ -341,26 +362,101 @@ export default function SalePage() {
                                 </p>
                               </div>
                               <div className='flex flex-col gap-1'>
-                                <div className='font-semibold'>Condition</div>
-                                <p>{drug.customer_condition}</p>
+                                <div className='text-sm'>Available</div>
+                                <p className='font-semibold'>
+                                  {drug.availability ? "Yes" : "No"}
+                                </p>
                               </div>
                               <div className='flex flex-col gap-1'>
-                                <div className='font-semibold'>Available</div>
-                                <p>{drug.availability ? "Yes" : "No"}</p>
+                                <div className='text-sm'>Expiry date</div>
+                                <p className='font-semibold'>
+                                  {drug.expiry_date}
+                                </p>
                               </div>
                               <div className='flex flex-col gap-1'>
-                                <div className='font-semibold'>Expiry date</div>
-                                <p>{drug.expiry_date}</p>
+                                <div className='text-sm'>Condition</div>
+                                <p className='font-semibold'>
+                                  {drug.customer_condition}
+                                </p>
                               </div>
                             </div>
-                            <Button onClick={() => {}}>Add</Button>
+                            <div onClick={onAddToCart(drug)}></div>
                           </div>
                         ))
                       : null}
                   </div>
                 )}
               </div>
-              <div className='flex-1'></div>
+              <div className='flex-1'>
+                <Card>
+                  <CardHeader>
+                    <CardTitle>
+                      <h1>Cart</h1>
+
+                      <p className='text-xs text-red-500 mt-4'>
+                        Note: A customer can buy more than 10 quantity of a
+                        single drug.
+                      </p>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div>
+                      {cart.length === 0 && (
+                        <p className='text-neutral-500'>
+                          No items added to cart
+                        </p>
+                      )}
+
+                      <div>
+                        {cart.map((item) => (
+                          <div
+                            key={item.id}
+                            className='flex py-6 border-b w-full'
+                          >
+                            <div className='flex items-start justify-between w-full'>
+                              <div className='flex items-center gap-4 justify-between w-full'>
+                                <p className='text-lg font-semibold text-black'>
+                                  {item.drugName}
+                                </p>
+                                <p>{item.price}</p>
+                                <Input
+                                  type='number'
+                                  placeholder='1'
+                                  className='w-18'
+                                  max='10'
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </CardContent>
+                  <CardFooter>
+                    <div className='mt-15 bg-gray-50 px-4 py-6 w-full'>
+                      <h2 className='text-lg font-medium text-gray-900'>
+                        Order Summary
+                      </h2>
+                      <div className='mt-6 space-y-4'>
+                        <div className='flex items-center justify-between border-t border-gray-200 pt-4'>
+                          <p className='text-base font-medium text-gray-900'>
+                            Order total
+                          </p>
+
+                          <div className='font-semibold'>{totalPrice}</div>
+                        </div>
+                      </div>
+                      <Button
+                        disabled={cart.length === 0}
+                        onClick={onCheckout}
+                        className='w-full mt-6'
+                      >
+                        Checkout
+                      </Button>
+                    </div>
+                  </CardFooter>
+                </Card>
+              </div>
             </div>
 
             {/* DRUGS */}

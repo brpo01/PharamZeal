@@ -14,40 +14,7 @@ interface CartStore {
 const useCart = create(
   persist<CartStore>(
     (set, get) => ({
-      items: [
-        {
-          availability: true,
-          available_stock: 50,
-          customer_condition: "Left Ventricular Dysfunction",
-          drugName: "Valsartan",
-          drug_code: "VAL0001",
-          expiry_date: "2024-01-01",
-          id: 1,
-          id_check: true,
-          postcode: "ST4",
-          price: 10,
-          sales: null,
-          store: "Tunstall",
-          quantity: 1,
-          tax: 0,
-        },
-        {
-          availability: true,
-          available_stock: 50,
-          customer_condition: "Left Ventricular Dysfunction",
-          drugName: "Valsartan2",
-          drug_code: "VAL00012",
-          expiry_date: "2024-01-01",
-          id: 1,
-          id_check: true,
-          postcode: "ST4",
-          price: 10,
-          sales: null,
-          store: "Tunstall",
-          quantity: 1,
-          tax: 0,
-        },
-      ],
+      items: [],
       addItem: (data: Drug) => {
         const currentItems = get().items;
         const existingItem = currentItems.find((item) => item.id === data.id);
