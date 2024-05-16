@@ -74,7 +74,7 @@ export default function SalePage() {
 
   const [isMounted, setIsMounted] = useState(false);
 
-  let cart: Drug[] = [];
+  let cart: DrugColumn[] = [];
 
   // if (!isMounted) {
   //   return null;
@@ -150,7 +150,7 @@ export default function SalePage() {
     setOpen(false);
   };
 
-  const onAddToCart = (drug: Drug) => {
+  const onAddToCart = (drug: DrugColumn) => {
     const index = cart.indexOf(drug);
     if (index !== -1) {
       cart.splice(index, 1); // Remove item if it exists
@@ -257,7 +257,7 @@ export default function SalePage() {
   const totalPrice = () => {
     let totalPrice = 0;
 
-    selectedDrugs.forEach((drug) => {
+    cart.forEach((drug) => {
       if (drug.price != null) {
         totalPrice += drug.price;
       }
@@ -474,7 +474,13 @@ export default function SalePage() {
                                   </p>
                                 </div>
                               </div>
-                              <div onClick={onAddToCart(drug)}></div>
+                              <div>
+                                {!drug.availability ? (
+                                  ""
+                                ) : (
+                                  <div onClick={onAddToCart(drug)}></div>
+                                )}
+                              </div>
                             </div>
 
                             <>
@@ -511,7 +517,7 @@ export default function SalePage() {
 
                       <p className='text-xs text-red-500 mt-2'>
                         Note: A customer can't buy more than 10 quantity of a
-                        single drug.
+                        particular drug.
                       </p>
                     </CardTitle>
                   </CardHeader>
@@ -534,11 +540,11 @@ export default function SalePage() {
                                 <p className='text-lg font-semibold text-black'>
                                   {item.drugName}
                                 </p>
-                                <p>{item.price}</p>
+                                <p>{formatter.format(item.price)}</p>
                                 <Input
                                   type='number'
                                   placeholder='1'
-                                  className='w-18'
+                                  className='w-16'
                                   max='10'
                                 />
                               </div>
