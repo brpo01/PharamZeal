@@ -6,6 +6,9 @@ import axios from "axios";
 
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+
+import { Plus } from "lucide-react";
 
 import { formatter } from "@/lib/utils";
 
@@ -60,9 +63,13 @@ export default function StocksPage() {
 
   return (
     <div className='flex-col'>
-      <div className='flex-1 space-y-4 p-8 pt-6 pb-24'>
+      <div className='flex-1 space-y-4 p-8 pt-6 pb-32'>
         <div className='flex items-center justify-between'>
           <Heading title={`Stocks`} description='' />
+
+          <Button onClick={() => router.push(`/admin/stock/new`)}>
+            <Plus className='mr-2 h-4 w-4' /> Add New
+          </Button>
         </div>
 
         <Separator />

@@ -35,6 +35,7 @@ export default function EmployeesPage() {
         },
       })
       .then((res) => {
+        console.log(res.data.data);
         setUsers(res.data.data);
       })
       .catch((error: any) => {
@@ -46,7 +47,7 @@ export default function EmployeesPage() {
       });
   };
 
-  const employees = users.map((user) => {
+  const employees = users?.map((user) => {
     return {
       id: user.id,
       name: `${user.firstName} ${user.lastName}`,
@@ -59,7 +60,7 @@ export default function EmployeesPage() {
 
   return (
     <div className='flex-col'>
-      <div className='flex-1 space-y-4 p-8 pt-6'>
+      <div className='flex-1 space-y-4 p-8 pt-6 pb-32'>
         <div className='flex items-center justify-between'>
           <Heading
             title={`Employees`}

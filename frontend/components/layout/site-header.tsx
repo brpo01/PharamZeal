@@ -75,9 +75,13 @@ export function SiteHeader() {
                     <p className='text-xs leading-none text-muted-foreground capitalize'>
                       {user.role}
                     </p>
-                    <p className='text-xs leading-none text-muted-foreground capitalize'>
-                      {user.store}
-                    </p>
+                    {user.role != "Admin" ? (
+                      ""
+                    ) : (
+                      <p className='text-xs leading-none text-muted-foreground capitalize'>
+                        {user.store}
+                      </p>
+                    )}
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
