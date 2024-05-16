@@ -4,7 +4,7 @@ import axios from "axios";
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { ChevronLeft, Check, ChevronsUpDown, X } from "lucide-react";
+import { ChevronLeft, Check, ChevronsUpDown, Loader2, X } from "lucide-react";
 import { toast } from "sonner";
 
 import { useState, useEffect } from "react";
@@ -140,8 +140,23 @@ export default function SalePage() {
     }
   };
 
+  const formatDate = () => {
+    const now = new Date(Date.now());
+
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0"); // getMonth() returns 0-11, so we add 1
+    const day = String(now.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  };
+
   const onCheckout = async () => {
+    const getDrugIds = () => {
+      return selectedDrugs.map((drug) => drug.id);
+    };
+
     setLoading(true);
+    const accessToken = localStorage.getItem("apiToken");
 
     axios
       .post(
@@ -149,22 +164,28 @@ export default function SalePage() {
         {
           customerId: customer?.id,
           userId: userData?.id,
-          // quantity: totalQuantity,
-          // total_price: totalPrice,
+          quantity: totalQuantity,
+          total_price: totalPrice,
           storeId: userData?.store?.id,
-          // drugId: selectedDrugsID,
-          drugId: [1],
-          date_of_sale: Date.now(),
+          drugId: getDrugIds(),
+          date_of_sale: formatDate(),
         },
         {
           headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
           },
         }
       )
       .then((res) => {
-        console.log(res);
+        if (res.data.statusCode === 200) {
+          toast.success(res.data.message, {
+            duration: 3000,
+            position: "top-center",
+          });
+        }
+        setTimeout(() => {
+          if (res.data.statusCode === 200) router.push("/employee/sales");
+        }, 2500);
       })
       .catch((error: any) => {
         const unknownError = "Something went wrong, please try again.";
@@ -191,9 +212,23 @@ export default function SalePage() {
     availability: drug.availability,
   }));
 
-  const totalQuantity = cart.reduce((total, item) => {
-    return total + (item?.quantity || 1);
-  }, 0);
+  const totalQuantity = () => {
+    let totalQuantity = 0;
+
+    selectedDrugs.forEach((drug) => {
+      if (drug.quantity != null) {
+        totalQuantity += drug.quantity;
+      }
+    });
+
+    // If any drug does not have a quantity property, use the array length
+    const itemsWithoutQuantity = selectedDrugs.filter(
+      (drug) => drug.quantity == null
+    ).length;
+    totalQuantity += itemsWithoutQuantity;
+
+    return totalQuantity;
+  };
 
   const totalPrice = cart.reduce((total, item) => {
     return total + Number(item.price * (item?.quantity || 1));
@@ -333,7 +368,6 @@ export default function SalePage() {
                   isMulti
                   options={formattedDrugs}
                   onChange={(e) => {
-                    console.log(e);
                     setSelectedDrugs(e);
                   }}
                 />
@@ -393,8 +427,8 @@ export default function SalePage() {
                     <CardTitle>
                       <h1>Cart</h1>
 
-                      <p className='text-xs text-red-500 mt-4'>
-                        Note: A customer can buy more than 10 quantity of a
+                      <p className='text-xs text-red-500 mt-2'>
+                        Note: A customer can't buy more than 10 quantity of a
                         single drug.
                       </p>
                     </CardTitle>
@@ -447,10 +481,16 @@ export default function SalePage() {
                         </div>
                       </div>
                       <Button
-                        disabled={cart.length === 0}
+                        disabled={cart.length === 0 || loading}
                         onClick={onCheckout}
                         className='w-full mt-6'
                       >
+                        {loading && (
+                          <Loader2
+                            className='mr-2 h-4 w-4 animate-spin'
+                            aria-hidden='true'
+                          />
+                        )}
                         Checkout
                       </Button>
                     </div>

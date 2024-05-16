@@ -18,6 +18,7 @@ export type DrugColumn = {
   postcode: string;
   sales: any;
   store: string;
+  quantity?: number;
 };
 
 export const columns: ColumnDef<DrugColumn>[] = [
