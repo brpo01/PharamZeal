@@ -16,7 +16,7 @@ import { Separator } from "@/components/ui/separator";
 
 import useUserStore from "@/hooks/user-store";
 
-import { cn, calculateAge } from "@/lib/utils";
+import { cn, calculateAge, formatter } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { MouseEventHandler } from "react";
 import {
@@ -42,8 +42,24 @@ import {
 } from "@/components/ui/card";
 
 import { CustomerColumn } from "../../customers/components/columns";
-import { DrugColumn } from "../../drugs/components/columns";
 import { Drug } from "@/types";
+
+export type DrugColumn = {
+  id: string;
+  price: number;
+  availability: boolean;
+  available_stock: number;
+  customer_condition: string;
+  drugName: string;
+  drug_code: string;
+  expiry_date: string;
+  id_check: boolean;
+  idCheck?: boolean;
+  postcode: string;
+  sales: any;
+  store: string;
+  quantity?: number;
+};
 
 export default function SalePage() {
   const { userData } = useUserStore();
@@ -53,6 +69,7 @@ export default function SalePage() {
   const [customers, setCustomers] = useState<CustomerColumn[]>([]);
   const [customer, setCustomer] = useState<CustomerColumn>();
   const [drugs, setDrugs] = useState<DrugColumn[]>([]);
+  const [storeDrugs, setStoreDrugs] = useState<DrugColumn[]>([]);
   const [selectedDrugs, setSelectedDrugs] = useState<DrugColumn[]>([]);
 
   const [isMounted, setIsMounted] = useState(false);
@@ -104,6 +121,10 @@ export default function SalePage() {
       })
       .then((res) => {
         setDrugs(res.data.data);
+        let store = res.data.data.filter(
+          (drug: DrugColumn) => drug.store === userData?.store.name
+        );
+        setStoreDrugs(store);
       })
       .catch((error: any) => {
         const unknownError = "Something went wrong, please try again.";
@@ -128,8 +149,6 @@ export default function SalePage() {
     setCustomer(customer);
     setOpen(false);
   };
-
-  const onRemove = (data: Drug) => {};
 
   const onAddToCart = (drug: Drug) => {
     const index = cart.indexOf(drug);
@@ -164,8 +183,8 @@ export default function SalePage() {
         {
           customerId: customer?.id,
           userId: userData?.id,
-          quantity: totalQuantity,
-          total_price: totalPrice,
+          quantity: totalQuantity(),
+          total_price: totalPrice(),
           storeId: userData?.store?.id,
           drugId: getDrugIds(),
           date_of_sale: formatDate(),
@@ -183,20 +202,25 @@ export default function SalePage() {
             position: "top-center",
           });
         }
+
         setTimeout(() => {
           if (res.data.statusCode === 200) router.push("/employee/sales");
         }, 2500);
       })
       .catch((error: any) => {
-        const unknownError = "Something went wrong, please try again.";
-        throw new Error(error);
+        if (error.response.data.statusCode === 400) {
+          toast.error(error.response.data.message, {
+            duration: 3000,
+            position: "top-center",
+          });
+        }
       })
       .finally(() => {
         setLoading(false);
       });
   };
 
-  const formattedDrugs = drugs.map((drug) => ({
+  const formattedDrugs = storeDrugs.map((drug) => ({
     value: drug.id,
     label: drug.drugName,
     id: drug.id,
@@ -230,15 +254,44 @@ export default function SalePage() {
     return totalQuantity;
   };
 
-  const totalPrice = cart.reduce((total, item) => {
-    return total + Number(item.price * (item?.quantity || 1));
-  }, 0);
+  const totalPrice = () => {
+    let totalPrice = 0;
+
+    selectedDrugs.forEach((drug) => {
+      if (drug.price != null) {
+        totalPrice += drug.price;
+      }
+    });
+
+    return totalPrice;
+  };
+
+  const onDrugSelect = (drug: DrugColumn[]) => {
+    setSelectedDrugs(drug);
+  };
+
+  function findAvailableDrugs(drugArray: any, drugName: string) {
+    // Filter drugs with the same drugName where availability is true
+    const availableDrugs = drugArray.filter(
+      (drug: DrugColumn) => drug.drugName === drugName && drug.availability
+    );
+
+    // If no available drugs with the provided name are found,
+    // return drugs with the same name where availability is true
+    if (availableDrugs.length === 0) {
+      return drugArray.filter(
+        (drug: DrugColumn) => drug.drugName === drugName && drug.availability
+      );
+    }
+
+    return availableDrugs;
+  }
 
   return (
     <>
       {isMounted && (
         <div className='flex-col w-full'>
-          <div className='flex-1 space-y-4 p-8 pt-6 pb-24'>
+          <div className='flex-1 space-y-4 p-8 pt-6 pb-36'>
             <div className='flex items-center justify-between'>
               <Heading title={`New Sale`} description='' />
 
@@ -368,7 +421,7 @@ export default function SalePage() {
                   isMulti
                   options={formattedDrugs}
                   onChange={(e) => {
-                    setSelectedDrugs(e);
+                    onDrugSelect(e);
                   }}
                 />
 
@@ -378,43 +431,72 @@ export default function SalePage() {
                       ? selectedDrugs.map((drug, index) => (
                           <div
                             key={index}
-                            className='flex justify-between items-start gap-4 border p-4 rounded-md'
+                            className='flex flex-col items-start gap-4 border p-4 rounded-md'
                           >
-                            <div className='flex justify-between gap-4 flex-wrap'>
-                              <div className='flex flex-col gap-1'>
-                                <div className='text-sm'>Name</div>
-                                <p className='font-semibold'>{drug.drugName}</p>
+                            <div className='flex justify-between gap-4'>
+                              <div className='flex justify-between gap-4 flex-wrap'>
+                                <div className='flex flex-col gap-1'>
+                                  <div className='text-sm'>Name</div>
+                                  <p className='font-semibold'>
+                                    {drug.drugName}
+                                  </p>
+                                </div>
+                                <div className='flex flex-col gap-1'>
+                                  <div className='text-sm'>Check ID</div>
+                                  <p
+                                    className={`font-semibold ${
+                                      drug.id_check ? "text-red-500" : ""
+                                    }`}
+                                  >
+                                    {drug.id_check ? "Yes" : "No"}
+                                  </p>
+                                </div>
+                                <div className='flex flex-col gap-1'>
+                                  <div className='text-sm'>Available</div>
+                                  <p
+                                    className={`font-semibold ${
+                                      drug.availability ? "" : "text-red-500"
+                                    }`}
+                                  >
+                                    {drug.availability ? "Yes" : "No"}
+                                  </p>
+                                </div>
+                                <div className='flex flex-col gap-1'>
+                                  <div className='text-sm'>Expiry date</div>
+                                  <p className='font-semibold'>
+                                    {drug.expiry_date}
+                                  </p>
+                                </div>
+                                <div className='flex flex-col gap-1'>
+                                  <div className='text-sm'>Condition</div>
+                                  <p className='font-semibold'>
+                                    {drug.customer_condition}
+                                  </p>
+                                </div>
                               </div>
-                              <div className='flex flex-col gap-1'>
-                                <div className='text-sm'>Check ID</div>
-                                <p
-                                  className={`font-semibold ${
-                                    drug.id_check ? "text-red-500" : ""
-                                  }`}
-                                >
-                                  {drug.id_check ? "Yes" : "No"}
-                                </p>
-                              </div>
-                              <div className='flex flex-col gap-1'>
-                                <div className='text-sm'>Available</div>
-                                <p className='font-semibold'>
-                                  {drug.availability ? "Yes" : "No"}
-                                </p>
-                              </div>
-                              <div className='flex flex-col gap-1'>
-                                <div className='text-sm'>Expiry date</div>
-                                <p className='font-semibold'>
-                                  {drug.expiry_date}
-                                </p>
-                              </div>
-                              <div className='flex flex-col gap-1'>
-                                <div className='text-sm'>Condition</div>
-                                <p className='font-semibold'>
-                                  {drug.customer_condition}
-                                </p>
-                              </div>
+                              <div onClick={onAddToCart(drug)}></div>
                             </div>
-                            <div onClick={onAddToCart(drug)}></div>
+
+                            <>
+                              {drug.availability ? (
+                                ""
+                              ) : (
+                                <div>
+                                  <p className='text-sm'>Available at:</p>
+
+                                  <div className='flex gap-4 item-center'>
+                                    {findAvailableDrugs(
+                                      drugs,
+                                      drug.drugName
+                                    ).map((drug: DrugColumn) => (
+                                      <p className='text-sm font-semibold text-red-500'>
+                                        {drug.store}
+                                      </p>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+                            </>
                           </div>
                         ))
                       : null}
@@ -477,7 +559,9 @@ export default function SalePage() {
                             Order total
                           </p>
 
-                          <div className='font-semibold'>{totalPrice}</div>
+                          <div className='font-semibold'>
+                            {formatter.format(totalPrice())}
+                          </div>
                         </div>
                       </div>
                       <Button
