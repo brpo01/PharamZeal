@@ -31,6 +31,7 @@ export function SiteHeader() {
     image: "",
     initials: `${userData?.firstName[0]}${userData?.lastName[0]}`,
     role: userData?.role?.name,
+    store: userData?.store.name,
   };
 
   const logout = () => {
@@ -64,7 +65,7 @@ export function SiteHeader() {
               </DropdownMenuTrigger>
               <DropdownMenuContent className='w-56' align='end' forceMount>
                 <DropdownMenuLabel className='font-normal'>
-                  <div className='flex flex-col space-y-1'>
+                  <div className='flex flex-col space-y-2'>
                     <p className='text-sm font-medium leading-none capitalize'>
                       {user.name}
                     </p>
@@ -73,6 +74,9 @@ export function SiteHeader() {
                     </p>
                     <p className='text-xs leading-none text-muted-foreground capitalize'>
                       {user.role}
+                    </p>
+                    <p className='text-xs leading-none text-muted-foreground capitalize'>
+                      {user.store}
                     </p>
                   </div>
                 </DropdownMenuLabel>
