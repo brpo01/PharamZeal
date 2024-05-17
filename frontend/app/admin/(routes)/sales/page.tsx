@@ -10,6 +10,7 @@ import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 
 import { formatter } from "@/lib/utils";
+import useStoreSwitcher from "@/hooks/use-store-switcher";
 
 import { SaleColumn, columns } from "./components/columns";
 import { DataTable } from "@/components/ui/data-table";
@@ -17,6 +18,7 @@ import { DataTable } from "@/components/ui/data-table";
 export default function SalesPage() {
   const params = useParams();
   const router = useRouter();
+  const { storeData } = useStoreSwitcher();
   const [loading, setLoading] = useState(false);
   const [sales, setSales] = useState<SaleColumn[]>([]);
 
@@ -47,7 +49,14 @@ export default function SalesPage() {
       });
   };
 
-  const formattedSales: SaleColumn[] = sales.map((item) => ({
+  const filterDataByStore = () => {
+    if (storeData?.name === "All Stores") {
+      return sales;
+    }
+    return sales.filter((item) => item.name === storeData?.name);
+  };
+
+  const formattedSales: SaleColumn[] = filterDataByStore().map((item) => ({
     id: item.id,
     date_of_sale: item.date_of_sale,
     quantity: item.quantity,

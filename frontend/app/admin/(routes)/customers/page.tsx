@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { useState, useEffect } from "react";
+import useStoreSwitcher from "@/hooks/use-store-switcher";
 
 import axios from "axios";
 import { calculateAge } from "@/lib/utils";
@@ -17,6 +18,7 @@ import { DataTable } from "@/components/ui/data-table";
 export default function CustomersPage() {
   const params = useParams();
   const router = useRouter();
+  const { storeData } = useStoreSwitcher();
   const [loading, setLoading] = useState(false);
   const [customers, setCustomers] = useState<CustomerColumn[]>([]);
 
@@ -47,7 +49,14 @@ export default function CustomersPage() {
       });
   };
 
-  const formattedCustomers = customers.map((item) => ({
+  const filterDataByStore = () => {
+    if (storeData?.name === "All Stores") {
+      return customers;
+    }
+    return customers.filter((item) => item.store_name === storeData?.name);
+  };
+
+  const formattedCustomers = filterDataByStore().map((item) => ({
     address: item.address,
     allergy: item.allergy,
     date_of_birth: item.date_of_birth,

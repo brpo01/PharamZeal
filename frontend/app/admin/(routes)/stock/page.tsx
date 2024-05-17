@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 
 import axios from "axios";
+import useStoreSwitcher from "@/hooks/use-store-switcher";
 
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
@@ -16,6 +17,8 @@ import { StockColumn, columns } from "./components/columns";
 import { DataTable } from "@/components/ui/data-table";
 
 export default function StocksPage() {
+  const { storeData } = useStoreSwitcher();
+
   const [loading, setLoading] = useState(false);
   const [stocks, setStocks] = useState<StockColumn[]>([]);
 
@@ -46,7 +49,14 @@ export default function StocksPage() {
       });
   };
 
-  const formattedStocks: StockColumn[] = stocks.map((item) => ({
+  const filterDataByStore = () => {
+    if (storeData?.name === "All Stores") {
+      return stocks;
+    }
+    return stocks.filter((item) => item.store === storeData?.name);
+  };
+
+  const formattedStocks: StockColumn[] = filterDataByStore().map((item) => ({
     id: item.id,
     drugName: item.drugName,
     expiry_date: item.expiry_date,

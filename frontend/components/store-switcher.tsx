@@ -49,13 +49,15 @@ export default function StoreSwitcher({
     value: item.value,
   }));
 
-  const currentStore = formattedItems.find((item) => item.value === 0);
-
-  console.log(storeData);
+  const currentStore = formattedItems.find(
+    (item) => item.value === storeData?.value
+  );
 
   const onStoreSelect = (store: data) => {
     console.log(store);
     setStoreData(store);
+    console.log(storeData);
+    setOpen(false);
   };
 
   return (
