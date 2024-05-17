@@ -54,9 +54,7 @@ export default function StoreSwitcher({
   );
 
   const onStoreSelect = (store: data) => {
-    console.log(store);
     setStoreData(store);
-    console.log(storeData);
     setOpen(false);
   };
 
@@ -79,7 +77,7 @@ export default function StoreSwitcher({
       <PopoverContent className='w-[200px] p-0'>
         <Command>
           <CommandList>
-            <CommandInput placeholder='Search store...' />
+            {/* <CommandInput placeholder='Search store...' /> */}
             <CommandEmpty>No store found.</CommandEmpty>
             <CommandGroup heading='Stores'>
               {formattedItems.map((store) => (

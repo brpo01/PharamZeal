@@ -37,7 +37,7 @@ export default function CustomersPage() {
         },
       })
       .then((res) => {
-        console.log(res.data.data);
+        // console.log(res.data.data);
         setCustomers(res.data.data);
       })
       .catch((error: any) => {

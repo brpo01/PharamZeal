@@ -9,6 +9,7 @@ import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 
 import axios from "axios";
+import useStoreSwitcher from "@/hooks/use-store-switcher";
 
 import { EmployeeColumn, columns } from "./components/columns";
 import { DataTable } from "@/components/ui/data-table";
@@ -16,7 +17,7 @@ import { DataTable } from "@/components/ui/data-table";
 export default function EmployeesPage() {
   const params = useParams();
   const router = useRouter();
-
+  const { storeData } = useStoreSwitcher();
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState<EmployeeColumn[]>([]);
 
@@ -47,7 +48,14 @@ export default function EmployeesPage() {
       });
   };
 
-  const employees = users?.map((user) => {
+  const filterDataByStore = () => {
+    if (storeData?.name === "All Stores") {
+      return users;
+    }
+    return users.filter((item) => item.store.name === storeData?.name);
+  };
+
+  const employees = filterDataByStore().map((user) => {
     return {
       id: user.id,
       name: `${user.firstName} ${user.lastName}`,
