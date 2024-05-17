@@ -1,8 +1,9 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import { useParams, useRouter } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
+import html2pdf from "html2pdf.js";
 
 import { Heading } from "@/components/ui/heading";
 import { Button } from "@/components/ui/button";
@@ -59,6 +60,7 @@ export default function SalePage() {
   const params = useParams();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const cardRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     getSale();
@@ -127,6 +129,11 @@ export default function SalePage() {
     tax: formatter.format(item.tax || 0),
   }));
 
+  const handleExportPdf = () => {
+    const element = cardRef.current;
+    html2pdf().from(element).save();
+  };
+
   return (
     <div className='flex-col'>
       <div className='flex-1 space-y-4 p-8 pt-6 pb-32'>
@@ -140,7 +147,7 @@ export default function SalePage() {
 
         <Separator />
 
-        <Card>
+        <Card ref={cardRef}>
           <CardHeader>
             <div className='flex justify-between items-center text-sm'>
               <h1 className='font-semibold'>Invoice: #{sale?.id}</h1>
@@ -227,7 +234,7 @@ export default function SalePage() {
           </CardContent>
 
           <CardFooter className='flex justify-end'>
-            <Button>Download Invoice</Button>
+            <Button onClick={handleExportPdf}>Download Invoice</Button>
           </CardFooter>
         </Card>
       </div>

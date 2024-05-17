@@ -42,12 +42,12 @@ export default function CustomerPage() {
         },
       })
       .then((res) => {
-        console.log(res.data.data);
+        // console.log(res);
         setCustomer(res.data.data);
       })
       .catch((error: any) => {
         const unknownError = "Something went wrong, please try again.";
-        throw new Error(error);
+        // throw new Error(error);
       })
       .finally(() => {
         setLoading(false);

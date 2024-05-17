@@ -46,7 +46,7 @@ export function SiteHeader() {
         {/* BRAND NAME */}
         <div className='flex items-center space-x-2'>
           <Icons.brand className='h-8 w-8' aria-hidden='true' />
-          <span className='font-bold'>Pharma Zeal</span>
+          <span className='font-bold'>PharmaZeal</span>
         </div>
         {/* BRAND NAME */}
         <div className='flex flex-1 items-center justify-end space-x-4'>
