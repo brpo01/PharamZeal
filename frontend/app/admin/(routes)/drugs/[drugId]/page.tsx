@@ -75,20 +75,22 @@ export default function DrugPage() {
             <div className='space-y-4'>
               <div className='flex  justify-between gap-4 items-center'>
                 <div className='flex flex-col'>
-                  <div className='font-semibold'>Price</div>
-                  <p className='text-sm'>{formatter.format(drug?.price)}</p>
+                  <div className='text-sm'>Price</div>
+                  <p className='font-semibold'>
+                    {formatter.format(drug?.price)}
+                  </p>
                 </div>
 
                 <div className='flex flex-col'>
-                  <div className='font-semibold'>Expiry date</div>
-                  <p className='text-sm'>{drug?.expiry_date}</p>
+                  <div className='text-sm'>Expiry date</div>
+                  <p className='font-semibold'>{drug?.expiry_date}</p>
                 </div>
               </div>
 
               <div className='flex  justify-between gap-4 items-center'>
                 <div className='flex flex-col'>
                   <div className='font-semibold'>Check ID</div>
-                  <p className='text-sm'>{drug?.idCheck}</p>
+                  <p className='text-sm'>{drug?.idCheck ? "Yes" : "No"}</p>
                 </div>
 
                 <div className='flex flex-col'>

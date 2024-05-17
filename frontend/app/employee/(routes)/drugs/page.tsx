@@ -11,17 +11,23 @@ import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 
 import { formatter } from "@/lib/utils";
+import useUserStore from "@/hooks/user-store";
 
 import { DrugColumn, columns } from "./components/columns";
 import { DataTable } from "@/components/ui/data-table";
 
 export default function SalesPage() {
+  const { userData } = useUserStore();
   const params = useParams();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [drugs, setDrugs] = useState<DrugColumn[]>([]);
 
-  const formattedDrugs: DrugColumn[] = drugs.map((item) => ({
+  const filteredDrugs = drugs.filter((drug) => {
+    return drug.store === userData?.store?.name;
+  });
+
+  const formattedDrugs: DrugColumn[] = filteredDrugs.map((item) => ({
     id: item.id,
     drugName: item.drugName,
     expiry_date: item.expiry_date,

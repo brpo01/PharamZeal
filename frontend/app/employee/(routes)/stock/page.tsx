@@ -11,25 +11,12 @@ import { formatter } from "@/lib/utils";
 
 import { StockColumn, columns } from "./components/columns";
 import { DataTable } from "@/components/ui/data-table";
+import useUserStore from "@/hooks/user-store";
 
 export default function StocksPage() {
+  const { userData } = useUserStore();
   const [loading, setLoading] = useState(false);
   const [stocks, setStocks] = useState<StockColumn[]>([]);
-
-  const formattedStocks: StockColumn[] = stocks.map((item) => ({
-    id: item.id,
-    drugName: item.drugName,
-    expiry_date: item.expiry_date,
-    price: formatter.format(item.price),
-    availability: item.availability,
-    available_stock: item.available_stock,
-    customer_condition: item.customer_condition,
-    drug_code: item.drug_code,
-    id_check: item.id_check,
-    postcode: item.postcode,
-    sales: item.sales,
-    store: item.store,
-  }));
 
   useEffect(() => {
     getStocks();
@@ -56,6 +43,25 @@ export default function StocksPage() {
         setLoading(false);
       });
   };
+
+  const filteredStocks = stocks.filter((store) => {
+    return store.store === userData?.store?.name;
+  });
+
+  const formattedStocks: StockColumn[] = filteredStocks.map((item) => ({
+    id: item.id,
+    drugName: item.drugName,
+    expiry_date: item.expiry_date,
+    price: formatter.format(item.price),
+    availability: item.availability,
+    available_stock: item.available_stock,
+    customer_condition: item.customer_condition,
+    drug_code: item.drug_code,
+    id_check: item.id_check,
+    postcode: item.postcode,
+    sales: item.sales,
+    store: item.store,
+  }));
 
   return (
     <div className='flex-col'>
