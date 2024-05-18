@@ -86,9 +86,11 @@ export default function SalesPage() {
           />
         </div>
 
-        <div className='flex'>
-          <Button onClick={handleExportPdf}>Download Sales</Button>
-        </div>
+        {sales.length ? (
+          <div className='flex'>
+            <Button onClick={handleExportPdf}>Download Sales</Button>
+          </div>
+        ) : null}
       </div>
     </div>
   );

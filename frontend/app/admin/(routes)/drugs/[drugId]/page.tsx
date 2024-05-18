@@ -123,7 +123,7 @@ export default function DrugPage() {
 
               <div className='flex flex-col'>
                 <div className='font-semibold'>Available</div>
-                <p className='text-sm'>{drug?.availability}</p>
+                <p className='text-sm'>{drug?.availability ? "Yes" : "No"}</p>
               </div>
             </div>
           </CardContent>

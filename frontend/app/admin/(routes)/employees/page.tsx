@@ -40,8 +40,9 @@ export default function EmployeesPage() {
         setUsers(res.data.data);
       })
       .catch((error: any) => {
+        console.log(error);
         const unknownError = "Something went wrong, please try again.";
-        throw new Error(error);
+        // throw new Error(error);
       })
       .finally(() => {
         setLoading(false);
@@ -52,10 +53,10 @@ export default function EmployeesPage() {
     if (storeData?.name === "All Stores") {
       return users;
     }
-    return users.filter((item) => item.store.name === storeData?.name);
+    return users?.filter((item) => item.store.name === storeData?.name);
   };
 
-  const employees = filterDataByStore().map((user) => {
+  const employees = filterDataByStore()?.map((user) => {
     return {
       id: user.id,
       name: `${user.firstName} ${user.lastName}`,

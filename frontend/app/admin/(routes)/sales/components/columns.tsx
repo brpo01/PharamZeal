@@ -41,6 +41,11 @@ export const columns: ColumnDef<SaleColumn>[] = [
     header: "Date of sale",
   },
   {
+    accessorKey: "status",
+    header: "Status",
+    cell: () => <div className='text-green-400'>Paid</div>,
+  },
+  {
     accessorKey: "firstname",
     header: "Cashier",
   },
