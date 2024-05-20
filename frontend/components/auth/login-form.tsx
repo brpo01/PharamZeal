@@ -52,11 +52,10 @@ export function LoginForm() {
         },
       })
       .then((res) => {
-        if (res.data.statusCode === 400) {
-          toast.error(res.data.message);
-        }
         localStorage.setItem("apiToken", res.data.data.apiToken);
-        console.log(res.data.data.user);
+
+        console.log(res.data.data);
+
         setUser(res.data.data.user);
         toast.success(res.data.message);
 
@@ -64,11 +63,15 @@ export function LoginForm() {
           if (res.data.data.user.role.id === 2) router.push("/employee");
           if (res.data.data.user.role.id === 1) router.push("/admin");
         }, 500);
+
+        if (res.data.statusCode === 400) {
+          toast.error(res.data.message);
+        }
       })
       .catch((error: any) => {
         const unknownError = "Something went wrong, please try again.";
         toast.error(unknownError);
-        throw new Error(error);
+        // throw new Error(error);
       })
       .finally(() => {
         setLoading(false);

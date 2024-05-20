@@ -22,6 +22,7 @@ import {
   Search,
   DollarSign,
   GraduationCap,
+  Blend,
   X,
   type Icon as LucideIcon,
   type LucideProps,
@@ -56,6 +57,6 @@ export const Icons = {
   dollarSign: DollarSign,
   file: FilePlus,
   cap: GraduationCap,
-  brand: ShieldCheck,
+  brand: Blend,
   library: Library,
 };

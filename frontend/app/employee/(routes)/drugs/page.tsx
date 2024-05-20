@@ -11,17 +11,23 @@ import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 
 import { formatter } from "@/lib/utils";
+import useUserStore from "@/hooks/user-store";
 
 import { DrugColumn, columns } from "./components/columns";
 import { DataTable } from "@/components/ui/data-table";
 
 export default function SalesPage() {
+  const { userData } = useUserStore();
   const params = useParams();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [drugs, setDrugs] = useState<DrugColumn[]>([]);
 
-  const formattedDrugs: DrugColumn[] = drugs.map((item) => ({
+  const filteredDrugs = drugs.filter((drug) => {
+    return drug.store === userData?.store?.name;
+  });
+
+  const formattedDrugs: DrugColumn[] = filteredDrugs.map((item) => ({
     id: item.id,
     drugName: item.drugName,
     expiry_date: item.expiry_date,
@@ -67,9 +73,6 @@ export default function SalesPage() {
       <div className='flex-1 space-y-4 p-8 pt-6 pb-24'>
         <div className='flex items-center justify-between'>
           <Heading title={`Drugs`} description='' />
-          <Button onClick={() => router.push(`/employee/drugs/new`)}>
-            <Plus className='mr-2 h-4 w-4' /> Add New
-          </Button>
         </div>
 
         <Separator />

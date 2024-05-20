@@ -3,9 +3,13 @@
 import { useState, useEffect } from "react";
 
 import axios from "axios";
+import useStoreSwitcher from "@/hooks/use-store-switcher";
 
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+
+import { Plus } from "lucide-react";
 
 import { formatter } from "@/lib/utils";
 
@@ -13,6 +17,8 @@ import { StockColumn, columns } from "./components/columns";
 import { DataTable } from "@/components/ui/data-table";
 
 export default function StocksPage() {
+  const { storeData } = useStoreSwitcher();
+
   const [loading, setLoading] = useState(false);
   const [stocks, setStocks] = useState<StockColumn[]>([]);
 
@@ -43,7 +49,14 @@ export default function StocksPage() {
       });
   };
 
-  const formattedStocks: StockColumn[] = stocks.map((item) => ({
+  const filterDataByStore = () => {
+    if (storeData?.name === "All Stores") {
+      return stocks;
+    }
+    return stocks.filter((item) => item.store === storeData?.name);
+  };
+
+  const formattedStocks: StockColumn[] = filterDataByStore().map((item) => ({
     id: item.id,
     drugName: item.drugName,
     expiry_date: item.expiry_date,
@@ -60,9 +73,13 @@ export default function StocksPage() {
 
   return (
     <div className='flex-col'>
-      <div className='flex-1 space-y-4 p-8 pt-6 pb-24'>
+      <div className='flex-1 space-y-4 p-8 pt-6 pb-32'>
         <div className='flex items-center justify-between'>
           <Heading title={`Stocks`} description='' />
+
+          <Button onClick={() => router.push(`/admin/stock/new`)}>
+            <Plus className='mr-2 h-4 w-4' /> Add New
+          </Button>
         </div>
 
         <Separator />

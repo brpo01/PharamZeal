@@ -17,7 +17,7 @@ export function SiteFooter() {
           href='/'
           className='z-20 flex items-center text-lg font-bold tracking-tight'
         >
-          <span>Pharma Zeal</span>
+          <span>PharmaZeal</span>
         </Link>
         <div className='flex items-center space-x-1'>
           <ThemeToggle />

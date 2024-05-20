@@ -1,8 +1,9 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import { useParams, useRouter } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
+import html2pdf from "html2pdf.js";
 
 import { Heading } from "@/components/ui/heading";
 import { Button } from "@/components/ui/button";
@@ -59,6 +60,7 @@ export default function SalePage() {
   const params = useParams();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const cardRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     getSale();
@@ -75,12 +77,8 @@ export default function SalePage() {
         },
       })
       .then((res) => {
-        // setSale(res.data.data.sale);
         const result = res.data.data.sale;
-        console.log(result);
         setSale(result);
-        console.log(res.data.data.sale);
-        console.log(sale);
       })
       .catch((error: any) => {
         const unknownError = "Something went wrong, please try again.";
@@ -89,6 +87,36 @@ export default function SalePage() {
       .finally(() => {
         setLoading(false);
       });
+  };
+
+  const totalQuantity = () => {
+    let totalQuantity = 0;
+
+    sale?.drugs.forEach((drug) => {
+      if (drug.quantity != null) {
+        totalQuantity += drug.quantity;
+      }
+    });
+
+    // If any drug does not have a quantity property, use the array length
+    const itemsWithoutQuantity = sale?.drugs.filter(
+      (drug: any) => drug.quantity == null
+    ).length;
+    totalQuantity += itemsWithoutQuantity;
+
+    return totalQuantity;
+  };
+
+  const totalPrice = () => {
+    let totalPrice = 0;
+
+    sale?.drugs.forEach((drug: any) => {
+      if (drug.price != null) {
+        totalPrice += drug.price;
+      }
+    });
+
+    return totalPrice;
   };
 
   const formattedDrugs: DrugColumn[] = sale?.drugs.map((item: any) => ({
@@ -101,9 +129,14 @@ export default function SalePage() {
     tax: formatter.format(item.tax || 0),
   }));
 
+  const handleExportPdf = () => {
+    const element = cardRef.current;
+    html2pdf().from(element).save();
+  };
+
   return (
     <div className='flex-col'>
-      <div className='flex-1 space-y-4 p-8 pt-6 pb-24'>
+      <div className='flex-1 space-y-4 p-8 pt-6 pb-32'>
         <div className='flex items-center justify-between'>
           <Heading title={`Sale Invoice`} description='' />
 
@@ -114,12 +147,14 @@ export default function SalePage() {
 
         <Separator />
 
-        <Card>
+        <Card ref={cardRef}>
           <CardHeader>
             <div className='flex justify-between items-center text-sm'>
-              <h1>Invoice: #{sale?.id}</h1>
+              <h1 className='font-semibold'>Invoice: #{sale?.id}</h1>
 
-              <h1>Date of sale: {formatDate(sale?.date_of_sale)}</h1>
+              <h1 className='font-semibold'>
+                Date of sale: {formatDate(sale?.date_of_sale)}
+              </h1>
             </div>
             <Separator />
           </CardHeader>
@@ -127,24 +162,24 @@ export default function SalePage() {
             <div className='space-y-4'>
               <div className='flex  justify-between gap-4 items-center'>
                 <div className='flex flex-col'>
-                  <div className='text-sm font-semibold'>Store</div>
-                  <p className='text-sm capitalize'>{sale?.name}</p>
+                  <div className='text-sm'>Store</div>
+                  <p className='font-semibold capitalize'>{sale?.name}</p>
                 </div>
 
                 <div className='flex flex-col'>
-                  <div className='font-semibold'>Cashier</div>
-                  <p className='text-sm capitalize'>{sale?.firstname}</p>
+                  <div className='text-sm'>Cashier</div>
+                  <p className='font-semibold capitalize'>{sale?.firstname}</p>
                 </div>
               </div>
 
               <div>
-                <p className='text-sm font-semibold'>SOLD TO:</p>
+                <p className='text-sm'>SOLD TO:</p>
                 <div className='flex  justify-between gap-4 items-start'>
-                  <p className='text-sm flex-1'>{sale?.full_name}</p>
+                  <p className='font-semibold flex-1'>{sale?.full_name}</p>
 
-                  <p className='text-sm flex-1'>{sale?.mobileNumber}</p>
+                  <p className='font-semibold flex-1'>{sale?.mobileNumber}</p>
 
-                  <p className='text-sm flex-1'>{sale?.address}</p>
+                  <p className='font-semibold flex-1'>{sale?.address}</p>
                 </div>
               </div>
             </div>
@@ -182,11 +217,15 @@ export default function SalePage() {
                   </TableBody>
                   <TableFooter>
                     <TableRow>
-                      <TableCell colSpan={3}>Total</TableCell>
+                      <TableCell colSpan={2}>Total</TableCell>
+                      <TableCell>{totalQuantity()}</TableCell>
                       <TableCell className='text-right'>
                         {formatter.format(0)}
                       </TableCell>
-                      <TableCell className='text-right'>$238</TableCell>
+                      <TableCell className='text-right'>
+                        {" "}
+                        {formatter.format(totalPrice())}
+                      </TableCell>
                     </TableRow>
                   </TableFooter>
                 </Table>
@@ -195,7 +234,7 @@ export default function SalePage() {
           </CardContent>
 
           <CardFooter className='flex justify-end'>
-            <Button>Download Invoice</Button>
+            <Button onClick={handleExportPdf}>Download Invoice</Button>
           </CardFooter>
         </Card>
       </div>

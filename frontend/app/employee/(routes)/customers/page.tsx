@@ -9,6 +9,8 @@ import { Separator } from "@/components/ui/separator";
 import { useState, useEffect } from "react";
 import useUserStore from "@/hooks/user-store";
 
+import { calculateAge } from "@/lib/utils";
+
 import axios from "axios";
 
 import { CustomerColumn, columns } from "./components/columns";
@@ -66,6 +68,7 @@ export default function CustomersPage() {
     postcode: item.postcode,
     sales: item.sales,
     store_name: item.store_name,
+    age: calculateAge(item.date_of_birth),
   }));
 
   return (

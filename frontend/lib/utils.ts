@@ -19,3 +19,16 @@ export const formatDate = (inputDate: string) => {
   const date: Date = new Date(inputDate);
   return date.toLocaleDateString("en-GB", options);
 };
+
+export const calculateAge = (birthDate: string): number => {
+  const currentDate: Date = new Date();
+  const [birthYear, birthMonth, birthDay]: number[] = birthDate
+    .split("-")
+    .map(Number);
+  const age: number = currentDate.getFullYear() - birthYear;
+  const isBirthdayPassed: boolean =
+    currentDate.getMonth() > birthMonth - 1 ||
+    (currentDate.getMonth() === birthMonth - 1 &&
+      currentDate.getDate() >= birthDay);
+  return isBirthdayPassed ? age : age - 1;
+};

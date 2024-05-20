@@ -2,8 +2,9 @@
 
 import { Plus } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import html2pdf from "html2pdf.js";
 
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
@@ -19,6 +20,7 @@ export default function SalesPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [sales, setSales] = useState<SaleColumn[]>([]);
+  const salesRef = useRef<HTMLInputElement>(null);
 
   const formattedSales: SaleColumn[] = sales.map((item) => ({
     id: item.id,
@@ -48,7 +50,6 @@ export default function SalesPage() {
         },
       })
       .then((res) => {
-        console.log(res.data.data);
         setSales(res.data.data);
       })
       .catch((error: any) => {
@@ -60,9 +61,14 @@ export default function SalesPage() {
       });
   };
 
+  const handleExportPdf = () => {
+    const element = salesRef.current;
+    html2pdf().from(element).save();
+  };
+
   return (
     <div className='flex-col'>
-      <div className='flex-1 space-y-4 p-8 pt-6'>
+      <div className='flex-1 space-y-4 p-8 pt-6 pb-32'>
         <div className='flex items-center justify-between'>
           <Heading title={`Sales`} description='' />
           <Button onClick={() => router.push(`/employee/sales/new`)}>
@@ -72,11 +78,19 @@ export default function SalesPage() {
 
         <Separator />
 
-        <DataTable
-          searchKey='full_name'
-          columns={columns}
-          data={formattedSales}
-        />
+        <div ref={salesRef}>
+          <DataTable
+            searchKey='full_name'
+            columns={columns}
+            data={formattedSales}
+          />
+        </div>
+
+        {sales.length ? (
+          <div className='flex'>
+            <Button onClick={handleExportPdf}>Download Sales</Button>
+          </div>
+        ) : null}
       </div>
     </div>
   );
