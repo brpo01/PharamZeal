@@ -25,7 +25,11 @@ public class UserResponseDTO {
 
     private final Role role;
 
-    private final Store store;
+    private final int store;
+
+    private final String name;
+
+    private final String address;
 
     private List<AddressResponseDTO> addresses;
 }
