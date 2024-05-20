@@ -42,7 +42,6 @@ export default function SalePage() {
         },
       })
       .then((res) => {
-        console.log(res.data.data);
         setSale(res.data.data);
       })
       .catch((error: any) => {

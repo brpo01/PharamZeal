@@ -36,7 +36,6 @@ export default function EmployeesPage() {
         },
       })
       .then((res) => {
-        console.log(res);
         setUsers(res.data.data);
       })
       .catch((error: any) => {

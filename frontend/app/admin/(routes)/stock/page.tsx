@@ -37,7 +37,6 @@ export default function StocksPage() {
         },
       })
       .then((res) => {
-        console.log(res.data.data);
         setStocks(res.data.data);
       })
       .catch((error: any) => {

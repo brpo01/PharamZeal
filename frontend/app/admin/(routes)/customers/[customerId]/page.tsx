@@ -42,7 +42,6 @@ export default function CustomerPage() {
         },
       })
       .then((res) => {
-        console.log(res.data.data);
         setCustomer(res.data.data);
       })
       .catch((error: any) => {

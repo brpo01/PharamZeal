@@ -40,7 +40,6 @@ export default function EmployeePage() {
         },
       })
       .then((res) => {
-        console.log(res);
         setEmployee(res.data.data);
       })
       .catch((error: any) => {
