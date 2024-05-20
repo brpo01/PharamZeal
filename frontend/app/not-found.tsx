@@ -1,13 +1,19 @@
 "use client";
 
-import { useParams } from "next/navigation";
-import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
 export default function NotFoundPage() {
-  const params = useParams();
+  const pathname = usePathname();
+  const router = useRouter();
 
-  console.log(params);
+  const reRoute = () => {
+    if (pathname.includes("/employee")) {
+      router.push("/employee");
+    } else {
+      router.push("/admin");
+    }
+  };
 
   return (
     <div className='w-full flex justify-center items-center min-h-screen bg-background'>
@@ -15,9 +21,7 @@ export default function NotFoundPage() {
         <h1 className='text-center text-4xl font-bold mb-8'>
           We can't find the page you're looking for.
         </h1>
-        <Link href='/admin'>
-          <Button>Go to Dashboard</Button>
-        </Link>
+        <Button onClick={reRoute}>Go to Dashboard</Button>
       </div>
     </div>
   );
