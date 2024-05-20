@@ -1,7 +1,14 @@
+"use client";
+
+import { useParams } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export default function NotFoundPage() {
+  const params = useParams();
+
+  console.log(params);
+
   return (
     <div className='w-full flex justify-center items-center min-h-screen bg-background'>
       <div className='text-center'>

@@ -15,7 +15,7 @@ export type SaleColumn = {
   full_name: string;
   name: string;
   store?: any;
-  total_price: number | string;
+  total_price: number;
   user?: any;
   status?: string;
   mobileNumber: string;
