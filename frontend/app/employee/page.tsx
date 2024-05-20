@@ -114,52 +114,32 @@ export default function Employee() {
 
   const data = [
     {
-      name: "Jan",
-      total: 300,
+      name: "Mon",
+      total: 30,
     },
     {
-      name: "Feb",
-      total: 350,
+      name: "Tue",
+      total: 35,
     },
     {
-      name: "Mar",
-      total: 300,
+      name: "Wed",
+      total: 30,
     },
     {
-      name: "Apr",
-      total: 300,
+      name: "Thur",
+      total: 30,
     },
     {
-      name: "May",
-      total: 100,
+      name: "Fri",
+      total: 10,
     },
     {
-      name: "Jun",
-      total: 200,
+      name: "Sat",
+      total: 20,
     },
     {
-      name: "Jul",
-      total: 600,
-    },
-    {
-      name: "Aug",
-      total: 400,
-    },
-    {
-      name: "Sep",
-      total: 300,
-    },
-    {
-      name: "Oct",
-      total: 200,
-    },
-    {
-      name: "Nov",
-      total: 100,
-    },
-    {
-      name: "Dec",
-      total: 500,
+      name: "Sun",
+      total: 50,
     },
   ];
 
