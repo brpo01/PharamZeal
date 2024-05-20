@@ -30,6 +30,7 @@ public class Sales {
     @JoinColumn(name = "customer", nullable = false)
     private Customer customer;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user", nullable = false)
     private User user;
@@ -38,6 +39,7 @@ public class Sales {
 
     private double total_price;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "store", nullable = false)
     private Store store;
