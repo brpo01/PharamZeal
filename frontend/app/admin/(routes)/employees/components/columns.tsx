@@ -10,7 +10,7 @@ export type EmployeeColumn = {
   emailAddress: string;
   id: number;
   phoneNumber: string;
-  address: [];
+  addresses: [];
   role: {
     id: number;
     name: string;
@@ -19,6 +19,7 @@ export type EmployeeColumn = {
     id: number;
     name: string;
     address: string;
+    postcode: string;
   };
 };
 

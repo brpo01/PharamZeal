@@ -4,10 +4,7 @@ import com.pharmazeal.PharmaZeal.dto.requests.LoginUserRequestDTO;
 import com.pharmazeal.PharmaZeal.dto.requests.NewUserRequestDTO;
 import com.pharmazeal.PharmaZeal.dto.responses.DefaultResponseDTO;
 import com.pharmazeal.PharmaZeal.dto.responses.UserResponseDTO;
-import com.pharmazeal.PharmaZeal.models.entities.Address;
-import com.pharmazeal.PharmaZeal.models.entities.Role;
-import com.pharmazeal.PharmaZeal.models.entities.Store;
-import com.pharmazeal.PharmaZeal.models.entities.User;
+import com.pharmazeal.PharmaZeal.models.entities.*;
 import com.pharmazeal.PharmaZeal.exceptions.CustomException;
 import com.pharmazeal.PharmaZeal.dto.factories.User_DTO_Factory;
 import com.pharmazeal.PharmaZeal.models.repositories.AddressRepository;
@@ -106,13 +103,21 @@ public class UserService {
         return this.userMapper.createUserListResponseDTO(list);
     }
 
-    public DefaultResponseDTO getUserDetails(HttpServletRequest request) {
-        String userId = (String) request.getAttribute("userId");
+//    public DefaultResponseDTO getUserDetails(HttpServletRequest request) {
+//        String userId = (String) request.getAttribute("userId");
+//
+//        User user = this.userRepository.findById(Integer.valueOf(userId)).orElse(null);
+//        if(user == null) throw new CustomException("Account does not exist.", 400, HttpStatus.OK);
+//
+//        return this.userMapper.createUserResponseDTO(user, "User details fetched successful.");
+//    }
 
-        User user = this.userRepository.findById(Integer.valueOf(userId)).orElse(null);
-        if(user == null) throw new CustomException("Account does not exist.", 400, HttpStatus.OK);
+    public DefaultResponseDTO getUserDetails(int userId) {
 
-        return this.userMapper.createUserResponseDTO(user, "User details fetched successful.");
+        User user = this.userRepository.findById(userId).orElse(null);
+        if(user == null) throw new CustomException("User does not exist.", 400, HttpStatus.OK);
+
+        return this.userMapper.createUserResponseDTO(user, "user details fetched successful.");
     }
 
     public DefaultResponseDTO deleteUser(int userId) {

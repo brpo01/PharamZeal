@@ -9,6 +9,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.Min;
+
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping( "/users")
@@ -33,9 +35,16 @@ public class UserController {
         return this.userService.loginUser(data);
     }
 
-    @GetMapping("me")
-    public DefaultResponseDTO getDetails(HttpServletRequest request) {
-        return this.userService.getUserDetails(request);
+//    @GetMapping("me")
+//    public DefaultResponseDTO getDetails(HttpServletRequest request) {
+//        return this.userService.getUserDetails(request);
+//    }
+
+    @GetMapping("{id}")
+    public DefaultResponseDTO getDetails(
+            @Min(value = 1, message = "Id must be greater than zero")
+            @PathVariable(name = "id") int id) {
+        return this.userService.getUserDetails(id);
     }
 
     @GetMapping("/all")
