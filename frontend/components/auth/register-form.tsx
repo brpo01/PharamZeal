@@ -72,9 +72,7 @@ export function RegisterForm() {
       })
       .then((res) => {
         toast.success(res.data.message);
-        setTimeout(() => {
-          if (res.data.statusCode === 200) router.push("/login");
-        }, 2500);
+        if (res.data.statusCode === 200) router.push("/login");
       })
       .catch((error: any) => {
         const unknownError = "Something went wrong, please try again.";

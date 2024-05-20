@@ -57,10 +57,8 @@ export function LoginForm() {
         setUser(res.data.data.user);
         toast.success(res.data.message);
 
-        setTimeout(() => {
-          if (res.data.data.user.role.id === 2) router.push("/employee");
-          if (res.data.data.user.role.id === 1) router.push("/admin");
-        }, 500);
+        if (res.data.data.user.role.id === 2) router.push("/employee");
+        if (res.data.data.user.role.id === 1) router.push("/admin");
 
         if (res.data.statusCode === 400) {
           toast.error(res.data.message);

@@ -202,10 +202,7 @@ export default function SalePage() {
             position: "top-center",
           });
         }
-
-        setTimeout(() => {
-          if (res.data.statusCode === 200) router.push("/employee/sales");
-        }, 2500);
+        if (res.data.statusCode === 200) router.push("/employee/sales");
       })
       .catch((error: any) => {
         if (error.response.data.statusCode === 400) {
