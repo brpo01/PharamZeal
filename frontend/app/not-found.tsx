@@ -8,10 +8,10 @@ export default function NotFoundPage() {
   const router = useRouter();
 
   const reRoute = () => {
-    if (pathname.includes("/employee")) {
-      router.push("/employee");
-    } else {
+    if (pathname.includes("/admin")) {
       router.push("/admin");
+    } else {
+      router.push("/employee");
     }
   };
 

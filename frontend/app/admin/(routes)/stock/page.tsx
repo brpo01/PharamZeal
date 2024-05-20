@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 import axios from "axios";
 import useStoreSwitcher from "@/hooks/use-store-switcher";
@@ -18,6 +19,7 @@ import { DataTable } from "@/components/ui/data-table";
 
 export default function StocksPage() {
   const { storeData } = useStoreSwitcher();
+  const router = useRouter();
 
   const [loading, setLoading] = useState(false);
   const [stocks, setStocks] = useState<StockColumn[]>([]);

@@ -15,6 +15,7 @@ import { DrugColumn } from "./(routes)/drugs/components/columns";
 import { SaleColumn } from "./(routes)/sales/components/columns";
 
 import useStoreSwitcher from "@/hooks/use-store-switcher";
+import { PieChartPlot } from "@/components/pie-chart";
 
 export default function Admin() {
   const [loading, setLoading] = useState(false);
@@ -97,52 +98,24 @@ export default function Admin() {
 
   const data = [
     {
-      name: "Jan",
-      total: 300,
+      name: "Tunstall",
+      total: 30,
     },
     {
-      name: "Feb",
-      total: 350,
+      name: "Fenton",
+      total: 50,
     },
     {
-      name: "Mar",
-      total: 300,
+      name: "Hanley",
+      total: 20,
     },
     {
-      name: "Apr",
-      total: 300,
+      name: "Longton",
+      total: 10,
     },
     {
-      name: "May",
-      total: 100,
-    },
-    {
-      name: "Jun",
-      total: 200,
-    },
-    {
-      name: "Jul",
-      total: 600,
-    },
-    {
-      name: "Aug",
-      total: 400,
-    },
-    {
-      name: "Sep",
-      total: 300,
-    },
-    {
-      name: "Oct",
-      total: 200,
-    },
-    {
-      name: "Nov",
-      total: 100,
-    },
-    {
-      name: "Dec",
-      total: 500,
+      name: "Stoke",
+      total: 40,
     },
   ];
 
@@ -233,6 +206,7 @@ export default function Admin() {
             <CardTitle>Overview</CardTitle>
           </CardHeader>
           <CardContent className='pl-2'>
+            <PieChartPlot />
             <Overview data={data} />
           </CardContent>
         </Card>

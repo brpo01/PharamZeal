@@ -14,15 +14,21 @@ import { formatter, formatDate } from "@/lib/utils";
 
 import { SaleColumn, columns } from "./components/columns";
 import { DataTable } from "@/components/ui/data-table";
+import useUserStore from "@/hooks/user-store";
 
 export default function SalesPage() {
+  const { userData } = useUserStore();
   const params = useParams();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [sales, setSales] = useState<SaleColumn[]>([]);
   const salesRef = useRef<HTMLInputElement>(null);
 
-  const formattedSales: SaleColumn[] = sales.map((item) => ({
+  const filteredSales = sales.filter((sale) => {
+    return sale.name === userData?.store?.name;
+  });
+
+  const formattedSales: SaleColumn[] = filteredSales.map((item) => ({
     id: item.id,
     date_of_sale: formatDate(item.date_of_sale),
     quantity: item.quantity,
@@ -30,7 +36,6 @@ export default function SalesPage() {
     firstname: item.firstname,
     full_name: item.full_name,
     name: item.name,
-    drug: item.drug,
     total_price: formatter.format(item.total_price),
     status: "Paid",
   }));
@@ -86,7 +91,7 @@ export default function SalesPage() {
           />
         </div>
 
-        {sales.length ? (
+        {filteredSales.length ? (
           <div className='flex'>
             <Button onClick={handleExportPdf}>Download Sales</Button>
           </div>

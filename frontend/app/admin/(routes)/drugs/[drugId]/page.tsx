@@ -85,45 +85,44 @@ export default function DrugPage() {
                   <div className='text-sm'>Expiry date</div>
                   <p className='font-semibold'>{drug?.expiry_date}</p>
                 </div>
+
+                <div className='flex flex-col'>
+                  <div className='text-sm'>Check ID</div>
+                  <p className='font-semibold'>
+                    {drug?.idCheck ? "Yes" : "No"}
+                  </p>
+                </div>
               </div>
 
               <div className='flex  justify-between gap-4 items-center'>
                 <div className='flex flex-col'>
-                  <div className='font-semibold'>Check ID</div>
-                  <p className='text-sm'>{drug?.idCheck ? "Yes" : "No"}</p>
+                  <div className='text-sm'>Available Stock</div>
+                  <p className='font-semibold'>{drug?.available_stock}</p>
                 </div>
 
                 <div className='flex flex-col'>
-                  <div className='font-semibold'>Available Stock</div>
-                  <p className='text-sm'>{drug?.available_stock}</p>
+                  <div className='text-sm'>Available</div>
+                  <p className='font-semibold'>
+                    {drug?.availability ? "Yes" : "No"}
+                  </p>
                 </div>
-              </div>
 
-              <div className='flex flex-col'>
-                <div className='font-semibold'>Condition</div>
-                <p className='text-sm'>{drug?.customer_condition}</p>
+                <div className='flex flex-col'>
+                  <div className='text-sm'>Condition</div>
+                  <p className='font-semibold'>{drug?.customer_condition}</p>
+                </div>
               </div>
 
               <div className='flex  justify-between gap-4 items-center'>
                 <div className='flex flex-col'>
-                  <div className='font-semibold'>Store</div>
-                  <p className='text-sm'>{drug?.store}</p>
+                  <div className='text-sm'>Store</div>
+                  <p className='font-semibold'>{drug?.store}</p>
                 </div>
 
                 <div className='flex flex-col'>
-                  <div className='font-semibold'>Post code</div>
-                  <p className='text-sm'>{drug?.postcode}</p>
+                  <div className='text-sm'>Post code</div>
+                  <p className='font-semibold'>{drug?.postcode}</p>
                 </div>
-              </div>
-
-              <div className='flex flex-col'>
-                <div className='font-semibold'>Expiry date</div>
-                <p className='text-sm'>{drug?.expiry_date}</p>
-              </div>
-
-              <div className='flex flex-col'>
-                <div className='font-semibold'>Available</div>
-                <p className='text-sm'>{drug?.availability ? "Yes" : "No"}</p>
               </div>
             </div>
           </CardContent>

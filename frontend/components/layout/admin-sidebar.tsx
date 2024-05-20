@@ -92,7 +92,7 @@ export function AdminSidebar({
             className={cn(
               "text-sm font-medium transition-colors hover:text-primary",
               route.active
-                ? "text-black dark:text-white"
+                ? "text-black dark:text-white font-bold transition"
                 : "text-muted-foreground"
             )}
           >

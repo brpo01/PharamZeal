@@ -403,6 +403,15 @@ export default function SalePage() {
                         </p>
                       </div>
                     </div>
+
+                    <div>
+                      <div className='flex flex-col'>
+                        <div className='text-sm'>Registered at</div>
+                        <p className='font-semibold'>
+                          {customer?.store_name} store
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </CardContent>
               </Card>

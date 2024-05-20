@@ -74,7 +74,7 @@ export default function EmployeesPage() {
             title={`Employees`}
             description='Manage employees details for your stores'
           />
-          <Button onClick={() => router.push(`/medicine/new`)}>
+          <Button onClick={() => router.push(`/admin/employees/new`)}>
             <Plus className='mr-2 h-4 w-4' /> Add New
           </Button>
         </div>
