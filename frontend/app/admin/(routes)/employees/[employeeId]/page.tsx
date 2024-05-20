@@ -40,8 +40,7 @@ export default function EmployeePage() {
         },
       })
       .then((res) => {
-        console.log(res.data.data);
-        setEmployee(res.data.data);
+        setEmployee(res.data.data.user);
       })
       .catch((error: any) => {
         const unknownError = "Something went wrong, please try again.";
@@ -65,29 +64,56 @@ export default function EmployeePage() {
 
         <Separator />
 
-        <Card>
-          <CardHeader>
-            <CardTitle>
-              {employee?.firstName} {employee?.lastName}
-            </CardTitle>
-            <CardDescription>Phone: {employee?.phoneNumber}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className='space-y-4'>
-              <div className='flex  justify-between gap-4 items-center'>
-                <div className='flex flex-col'>
-                  <div className='font-semibold'>Store</div>
-                  <p className='text-sm'>{employee?.store.name}</p>
+        {employee ? (
+          <Card>
+            <CardHeader>
+              <CardTitle className='capitalize'>
+                {employee?.firstName} {employee?.lastName}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className='space-y-8'>
+                <div className='flex  justify-between gap-8'>
+                  <div className='flex flex-col'>
+                    <div className='text-sm'>Phone</div>
+                    <p className='font-semibold'>{employee?.phoneNumber}</p>
+                  </div>
+
+                  <div className='flex flex-col'>
+                    <div className='text-sm'>Address</div>
+                    <p className='font-semibold'>
+                      {employee?.addresses[0].addressLine}
+                    </p>
+                  </div>
+
+                  <div className='flex flex-col'>
+                    <div className='text-sm'>Email</div>
+                    <p className='font-semibold'>{employee?.emailAddress}</p>
+                  </div>
                 </div>
 
-                <div className='flex flex-col'>
-                  <div className='font-semibold'>Address</div>
-                  <p className='text-sm'>{employee?.address}</p>
+                <div className='flex  justify-between gap-8'>
+                  <div className='flex flex-col'>
+                    <div className='text-sm'>Store</div>
+                    <p className='font-semibold'>{employee?.store.name}</p>
+                  </div>
+
+                  <div className='flex flex-col'>
+                    <div className='text-sm'>Address</div>
+                    <p className='font-semibold'>{employee?.store.address}</p>
+                  </div>
+
+                  <div className='flex flex-col'>
+                    <div className='text-sm'>Post code</div>
+                    <p className='font-semibold'>{employee?.store.postcode}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        ) : (
+          "Error loading customer details"
+        )}
       </div>
     </div>
   );

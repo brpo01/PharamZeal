@@ -22,23 +22,23 @@ export function AdminSidebar({
     },
     {
       name: "Tunstall",
-      Value: 1,
+      value: 1,
     },
     {
       name: "Fenton",
-      Value: 2,
+      value: 2,
     },
     {
       name: "Hanley",
-      Value: 3,
+      value: 3,
     },
     {
       name: "Longton",
-      Value: 4,
+      value: 4,
     },
     {
       name: "Stoke",
-      Value: 5,
+      value: 5,
     },
   ];
 
@@ -92,7 +92,7 @@ export function AdminSidebar({
             className={cn(
               "text-sm font-medium transition-colors hover:text-primary",
               route.active
-                ? "text-black dark:text-white"
+                ? "text-black dark:text-white font-bold transition"
                 : "text-muted-foreground"
             )}
           >

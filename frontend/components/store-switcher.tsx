@@ -49,13 +49,13 @@ export default function StoreSwitcher({
     value: item.value,
   }));
 
-  const currentStore = formattedItems.find((item) => item.value === 0);
-
-  console.log(storeData);
+  const currentStore = formattedItems.find(
+    (item) => item.value === storeData?.value
+  );
 
   const onStoreSelect = (store: data) => {
-    console.log(store);
     setStoreData(store);
+    setOpen(false);
   };
 
   return (
@@ -77,7 +77,7 @@ export default function StoreSwitcher({
       <PopoverContent className='w-[200px] p-0'>
         <Command>
           <CommandList>
-            <CommandInput placeholder='Search store...' />
+            {/* <CommandInput placeholder='Search store...' /> */}
             <CommandEmpty>No store found.</CommandEmpty>
             <CommandGroup heading='Stores'>
               {formattedItems.map((store) => (

@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
 import axios from "axios";
+import useStoreSwitcher from "@/hooks/use-store-switcher";
 
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
@@ -18,10 +19,18 @@ import { DataTable } from "@/components/ui/data-table";
 export default function SalesPage() {
   const params = useParams();
   const router = useRouter();
+  const { storeData } = useStoreSwitcher();
   const [loading, setLoading] = useState(false);
   const [drugs, setDrugs] = useState<DrugColumn[]>([]);
 
-  const formattedDrugs: DrugColumn[] = drugs.map((item) => ({
+  const filterDataByStore = () => {
+    if (storeData?.name === "All Stores") {
+      return drugs;
+    }
+    return drugs.filter((item) => item.store === storeData?.name);
+  };
+
+  const formattedDrugs: DrugColumn[] = filterDataByStore().map((item) => ({
     id: item.id,
     drugName: item.drugName,
     expiry_date: item.expiry_date,
@@ -64,7 +73,7 @@ export default function SalesPage() {
 
   return (
     <div className='flex-col'>
-      <div className='flex-1 space-y-4 p-8 pt-6 pb-24'>
+      <div className='flex-1 space-y-4 p-8 pt-6 pb-32'>
         <div className='flex items-center justify-between'>
           <Heading title={`Drugs`} description='' />
           <Button onClick={() => router.push(`/admin/drugs/new`)}>

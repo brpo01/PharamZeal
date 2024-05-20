@@ -39,7 +39,7 @@ export default async function SalesPage() {
 
   return (
     <div className='flex-col'>
-      <div className='flex-1 space-y-4 p-8 pt-6'>
+      <div className='flex-1 space-y-4 p-8 pt-6 pb-32'>
         <div className='flex items-center justify-between'>
           <Heading title={`Contacts`} description='' />
           <Button onClick={() => router.push(`/medicine/new`)}>

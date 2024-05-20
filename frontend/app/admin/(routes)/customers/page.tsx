@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { useState, useEffect } from "react";
+import useStoreSwitcher from "@/hooks/use-store-switcher";
 
 import axios from "axios";
 import { calculateAge } from "@/lib/utils";
@@ -17,6 +18,7 @@ import { DataTable } from "@/components/ui/data-table";
 export default function CustomersPage() {
   const params = useParams();
   const router = useRouter();
+  const { storeData } = useStoreSwitcher();
   const [loading, setLoading] = useState(false);
   const [customers, setCustomers] = useState<CustomerColumn[]>([]);
 
@@ -35,7 +37,7 @@ export default function CustomersPage() {
         },
       })
       .then((res) => {
-        console.log(res.data.data);
+        // console.log(res.data.data);
         setCustomers(res.data.data);
       })
       .catch((error: any) => {
@@ -47,7 +49,14 @@ export default function CustomersPage() {
       });
   };
 
-  const formattedCustomers = customers.map((item) => ({
+  const filterDataByStore = () => {
+    if (storeData?.name === "All Stores") {
+      return customers;
+    }
+    return customers.filter((item) => item.store_name === storeData?.name);
+  };
+
+  const formattedCustomers = filterDataByStore().map((item) => ({
     address: item.address,
     allergy: item.allergy,
     date_of_birth: item.date_of_birth,
@@ -66,15 +75,15 @@ export default function CustomersPage() {
 
   return (
     <div className='flex-col'>
-      <div className='flex-1 space-y-4 p-8 pt-6 pb-24'>
+      <div className='flex-1 space-y-4 p-8 pt-6 pb-32'>
         <div className='flex items-center justify-between'>
           <Heading
             title={`Customers`}
             description='Manage customers for your store'
           />
-          <Button onClick={() => router.push(`/admin/customers/new`)}>
+          {/* <Button onClick={() => router.push(`/admin/customers/new`)}>
             <Plus className='mr-2 h-4 w-4' /> Add New
-          </Button>
+          </Button> */}
         </div>
 
         <Separator />

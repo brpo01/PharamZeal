@@ -1,5 +1,6 @@
 package com.pharmazeal.PharmaZeal.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -45,6 +46,7 @@ public class Customer {
 
     private String mobileNumber;
 
+    @JsonManagedReference
     @OneToMany(mappedBy="customer")
     @OrderBy(value="id")
     private List<Sales> sales = new ArrayList<>();

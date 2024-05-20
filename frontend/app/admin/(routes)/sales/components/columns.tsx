@@ -15,7 +15,7 @@ export type SaleColumn = {
   full_name: string;
   name: string;
   store?: any;
-  total_price: number | string;
+  total_price: number;
   user?: any;
 };
 
@@ -29,10 +29,6 @@ export const columns: ColumnDef<SaleColumn>[] = [
     header: "Store",
   },
   {
-    accessorKey: "drugName",
-    header: "Drug",
-  },
-  {
     accessorKey: "quantity",
     header: "Quantity",
   },
@@ -43,6 +39,11 @@ export const columns: ColumnDef<SaleColumn>[] = [
   {
     accessorKey: "date_of_sale",
     header: "Date of sale",
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: () => <div className='text-green-400'>Paid</div>,
   },
   {
     accessorKey: "firstname",

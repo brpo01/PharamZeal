@@ -1,5 +1,7 @@
 package com.pharmazeal.PharmaZeal.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,10 +26,12 @@ public class Sales {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "customer", nullable = false)
     private Customer customer;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user", nullable = false)
     private User user;
@@ -36,10 +40,12 @@ public class Sales {
 
     private double total_price;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "store", nullable = false)
     private Store store;
 
+    @JsonManagedReference
     @OneToMany(mappedBy="sale")
     @OrderBy(value="id")
     private List<Drug> drugs = new ArrayList<>();

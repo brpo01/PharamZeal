@@ -9,6 +9,7 @@ import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 
 import axios from "axios";
+import useStoreSwitcher from "@/hooks/use-store-switcher";
 
 import { EmployeeColumn, columns } from "./components/columns";
 import { DataTable } from "@/components/ui/data-table";
@@ -16,7 +17,7 @@ import { DataTable } from "@/components/ui/data-table";
 export default function EmployeesPage() {
   const params = useParams();
   const router = useRouter();
-
+  const { storeData } = useStoreSwitcher();
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState<EmployeeColumn[]>([]);
 
@@ -38,15 +39,23 @@ export default function EmployeesPage() {
         setUsers(res.data.data);
       })
       .catch((error: any) => {
+        console.log(error);
         const unknownError = "Something went wrong, please try again.";
-        throw new Error(error);
+        // throw new Error(error);
       })
       .finally(() => {
         setLoading(false);
       });
   };
 
-  const employees = users.map((user) => {
+  const filterDataByStore = () => {
+    if (storeData?.name === "All Stores") {
+      return users;
+    }
+    return users?.filter((item) => item.store.name === storeData?.name);
+  };
+
+  const employees = filterDataByStore()?.map((user) => {
     return {
       id: user.id,
       name: `${user.firstName} ${user.lastName}`,
@@ -59,13 +68,13 @@ export default function EmployeesPage() {
 
   return (
     <div className='flex-col'>
-      <div className='flex-1 space-y-4 p-8 pt-6'>
+      <div className='flex-1 space-y-4 p-8 pt-6 pb-32'>
         <div className='flex items-center justify-between'>
           <Heading
             title={`Employees`}
             description='Manage employees details for your stores'
           />
-          <Button onClick={() => router.push(`/medicine/new`)}>
+          <Button onClick={() => router.push(`/admin/employees/new`)}>
             <Plus className='mr-2 h-4 w-4' /> Add New
           </Button>
         </div>

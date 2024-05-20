@@ -79,9 +79,9 @@ export default function CustomersPage() {
             title={`Customers`}
             description='Manage customers for your store'
           />
-          <Button onClick={() => router.push(`/employee/customers/new`)}>
+          {/* <Button onClick={() => router.push(`/employee/customers/new`)}>
             <Plus className='mr-2 h-4 w-4' /> Add New
-          </Button>
+          </Button> */}
         </div>
 
         <Separator />

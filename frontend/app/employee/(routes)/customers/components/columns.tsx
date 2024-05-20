@@ -35,10 +35,6 @@ export const columns: ColumnDef<CustomerColumn>[] = [
     header: "Phone Number",
   },
   {
-    accessorKey: "address",
-    header: "Address",
-  },
-  {
     accessorKey: "age",
     header: "Age",
   },

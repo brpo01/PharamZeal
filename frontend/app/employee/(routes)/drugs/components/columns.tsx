@@ -18,6 +18,7 @@ export type DrugColumn = {
   postcode: string;
   sales: any;
   store: string;
+  quantity?: number;
 };
 
 export const columns: ColumnDef<DrugColumn>[] = [
@@ -28,10 +29,6 @@ export const columns: ColumnDef<DrugColumn>[] = [
   {
     accessorKey: "drug_code",
     header: "Drug code",
-  },
-  {
-    accessorKey: "store",
-    header: "Store",
   },
   {
     accessorKey: "availability",

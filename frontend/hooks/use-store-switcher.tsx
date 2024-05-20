@@ -14,7 +14,10 @@ interface UseStore {
 const useStoreSwitcher = create(
   persist<UseStore>(
     (set) => ({
-      storeData: null,
+      storeData: {
+        name: "All Stores",
+        value: 0,
+      },
       setStoreData: (storeData: StoreData) => set({ storeData }),
     }),
     {

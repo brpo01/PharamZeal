@@ -10,6 +10,7 @@ import useUserStore from "@/hooks/user-store";
 import { useState, useEffect } from "react";
 import { CustomerColumn } from "./(routes)/customers/components/columns";
 import { DrugColumn } from "./(routes)/drugs/components/columns";
+import { SaleColumn } from "./(routes)/sales/components/columns";
 
 import { Overview } from "@/components/overview";
 
@@ -20,10 +21,12 @@ export default function Employee() {
   const [loading, setLoading] = useState(false);
   const [customers, setCustomers] = useState<CustomerColumn[]>([]);
   const [drugs, setDrugs] = useState<DrugColumn[]>([]);
+  const [sales, setSales] = useState<SaleColumn[]>([]);
 
   useEffect(() => {
     getCustomers();
     getDrugs();
+    getSales();
   }, []);
 
   const getCustomers = () => {
@@ -70,6 +73,28 @@ export default function Employee() {
       });
   };
 
+  const getSales = () => {
+    setLoading(true);
+    const accessToken = localStorage.getItem("apiToken");
+
+    axios
+      .get("http://localhost:8080/sale", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((res) => {
+        setSales(res.data.data);
+      })
+      .catch((error: any) => {
+        const unknownError = "Something went wrong, please try again.";
+        throw new Error(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
   const filteredCustomers = customers.filter((customer) => {
     return customer.store_name === userData?.store?.name;
   });
@@ -77,61 +102,50 @@ export default function Employee() {
   const filteredDrugs = drugs.filter((drug) => {
     return drug.store === userData?.store?.name;
   });
+  const filteredSales = sales.filter((sale) => {
+    return sale.name === userData?.store?.name;
+  });
+
+  const totalRevenue = () => {
+    return filteredSales.reduce((accumulator, currentSale) => {
+      return accumulator + currentSale.total_price;
+    }, 0);
+  };
 
   const data = [
     {
-      name: "Jan",
-      total: 300,
+      name: "Mon",
+      total: 30,
     },
     {
-      name: "Feb",
-      total: 350,
+      name: "Tue",
+      total: 35,
     },
     {
-      name: "Mar",
-      total: 300,
+      name: "Wed",
+      total: 30,
     },
     {
-      name: "Apr",
-      total: 300,
+      name: "Thur",
+      total: 30,
     },
     {
-      name: "May",
-      total: 100,
+      name: "Fri",
+      total: 10,
     },
     {
-      name: "Jun",
-      total: 200,
+      name: "Sat",
+      total: 20,
     },
     {
-      name: "Jul",
-      total: 600,
-    },
-    {
-      name: "Aug",
-      total: 400,
-    },
-    {
-      name: "Sep",
-      total: 300,
-    },
-    {
-      name: "Oct",
-      total: 200,
-    },
-    {
-      name: "Nov",
-      total: 100,
-    },
-    {
-      name: "Dec",
-      total: 500,
+      name: "Sun",
+      total: 50,
     },
   ];
 
   return (
     <div className='flex-col'>
-      <div className='flex-1 space-y-4 p-8 pt-6 pb-24'>
+      <div className='flex-1 space-y-4 p-8 pt-6 pb-32'>
         <div className='flex items-center justify-between'>
           <Heading
             title={`Welcome to ${
@@ -152,7 +166,9 @@ export default function Employee() {
               <PoundSterling className='h-4 w-4 text-muted-foreground' />
             </CardHeader>
             <CardContent>
-              <div className='text-2xl font-bold'>{formatter.format(500)}</div>
+              <div className='text-2xl font-bold'>
+                {formatter.format(totalRevenue())}
+              </div>
             </CardContent>
           </Card>
 
@@ -174,7 +190,7 @@ export default function Employee() {
               <CreditCard className='h-4 w-4 text-muted-foreground' />
             </CardHeader>
             <CardContent>
-              <div className='text-2xl font-bold'>+{30}</div>
+              <div className='text-2xl font-bold'>{filteredSales.length}</div>
             </CardContent>
           </Card>
           <Card>

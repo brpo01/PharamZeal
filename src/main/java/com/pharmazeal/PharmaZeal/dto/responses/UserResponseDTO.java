@@ -27,5 +27,9 @@ public class UserResponseDTO {
 
     private final Store store;
 
+//    private final String name;
+//
+//    private final String address;
+
     private List<AddressResponseDTO> addresses;
 }

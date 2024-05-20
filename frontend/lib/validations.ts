@@ -53,7 +53,7 @@ export const verfifyEmailSchema = z.object({
 });
 
 export const checkEmailSchema = z.object({
-  email: authSchema.shape.email,
+  email: authSchema.shape.emailAddress,
 });
 
 export const resetPasswordSchema = z
@@ -66,3 +66,25 @@ export const resetPasswordSchema = z
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
+
+export const customerSchema = z.object({
+  firstname: z.string().min(2, {
+    message: "Name must be at least 2 characters long",
+  }),
+  lastname: z.string().min(2, {
+    message: "Name must be at least 2 characters long",
+  }),
+  fullname: z.string().optional(),
+  gender: z.string(),
+  emailAddress: z.string().email({
+    message: "Please enter a valid email address",
+  }),
+  mobileNumber: z.string(),
+  storeId: z.number().optional(),
+  roleId: z.number(),
+  address: z.string(),
+  postCode: z.string(),
+  medicalHistory: z.string(),
+  allergy: z.string(),
+  dateOfBirth: z.string(),
+});

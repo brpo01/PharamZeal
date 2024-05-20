@@ -1,5 +1,6 @@
 package com.pharmazeal.PharmaZeal.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,6 +43,7 @@ public class Drug {
 
     private boolean availability;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name="sale")
     private Sales sale;
