@@ -6,7 +6,7 @@ import { CellAction } from "./cell-action";
 
 export type DrugColumn = {
   id: string;
-  price: string | number;
+  price: number;
   availability: boolean;
   available_stock: number;
   customer_condition: string;
