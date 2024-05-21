@@ -77,7 +77,7 @@ export default function DrugPage() {
                 <div className='flex flex-col'>
                   <div className='text-sm'>Price</div>
                   <p className='font-semibold'>
-                    {formatter.format(drug?.price)}
+                    {formatter.format(drug?.price || 0)}
                   </p>
                 </div>
 
