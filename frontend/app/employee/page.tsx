@@ -114,32 +114,8 @@ export default function Employee() {
 
   const data = [
     {
-      name: "Mon",
-      total: 30,
-    },
-    {
-      name: "Tue",
-      total: 35,
-    },
-    {
-      name: "Wed",
-      total: 30,
-    },
-    {
-      name: "Thur",
-      total: 30,
-    },
-    {
-      name: "Fri",
-      total: 10,
-    },
-    {
-      name: "Sat",
-      total: 20,
-    },
-    {
-      name: "Sun",
-      total: 50,
+      name: `${userData?.store?.name}`,
+      total: `${totalRevenue()}`,
     },
   ];
 
@@ -210,7 +186,7 @@ export default function Employee() {
             <CardTitle>Overview</CardTitle>
           </CardHeader>
           <CardContent className='pl-2'>
-            <Overview data={data} />
+            <Overview data={data} ticker />
           </CardContent>
         </Card>
       </div>
