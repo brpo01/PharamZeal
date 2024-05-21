@@ -104,8 +104,9 @@ export default function Admin() {
       const total = sales
         .filter((obj) => {
           // Check if the searchString appears in any of the object's values
-          return Object.values(obj).some((value) =>
-            value.toString().toLowerCase().includes(searchString.toLowerCase())
+          return Object.values(obj).some(
+            (value) =>
+              value.toString().toLowerCase() === searchString.toLowerCase()
           );
         })
         .reduce((accumulator, obj) => accumulator + obj.total_price, 0); // Sum the prices of the found objects
