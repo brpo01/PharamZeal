@@ -121,6 +121,29 @@ export default function Admin() {
 
   const data = searchStringsAndSumPrices();
 
+  const searchStringsAndSumSales = () => {
+    return storeArray.map((searchString) => {
+      // Calculate the total price where the searchString appears
+      const total = sales
+        .filter((obj) => {
+          // Check if the searchString appears in any of the object's values
+          return Object.values(obj).some(
+            (value) =>
+              value.toString().toLowerCase() === searchString.toLowerCase()
+          );
+        })
+        .reduce((accumulator, obj) => accumulator + obj.quantity, 0); // Sum the prices of the found objects
+
+      // Return an object with the name and total
+      return {
+        name: searchString,
+        total: total,
+      };
+    });
+  };
+
+  const data2 = searchStringsAndSumSales();
+
   const filterSalesDataByStore = () => {
     if (storeData?.name === "All Stores") {
       return sales;
@@ -205,11 +228,19 @@ export default function Admin() {
         </div>
         <Card className='col-span-4'>
           <CardHeader>
-            <CardTitle>Overview</CardTitle>
+            <CardTitle>Revenue by Store</CardTitle>
           </CardHeader>
           <CardContent className='pl-2'>
-            <PieChartPlot />
-            <Overview data={data} />
+            <Overview data={data} ticker />
+          </CardContent>
+        </Card>
+
+        <Card className='col-span-4'>
+          <CardHeader>
+            <CardTitle>Quantity sold by store</CardTitle>
+          </CardHeader>
+          <CardContent className='pl-2'>
+            <Overview data={data2} ticker={false} />
           </CardContent>
         </Card>
       </div>
