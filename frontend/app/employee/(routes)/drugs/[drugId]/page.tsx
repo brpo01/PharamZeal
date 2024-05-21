@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useState, useEffect } from "react";
 import { formatter } from "@/lib/utils";
+import { toast } from "sonner";
 
 import {
   Card,
@@ -43,6 +44,12 @@ export default function DrugPage() {
       })
       .then((res) => {
         setDrug(res.data.data);
+        if (res.data.data.available_stock < 30) {
+          toast.error("This drug as a low stock", {
+            duration: 8000,
+            position: "top-center",
+          });
+        }
       })
       .catch((error: any) => {
         const unknownError = "Something went wrong, please try again.";

@@ -40,6 +40,15 @@ export const columns: ColumnDef<StockColumn>[] = [
   {
     accessorKey: "available_stock",
     header: "Available Stock",
+    cell: ({ row }) => (
+      <div>
+        {row.original.available_stock < 30 ? (
+          <div className='text-red-500'>{row.original.available_stock}</div>
+        ) : (
+          <div className='text-green-500'>{row.original.available_stock}</div>
+        )}
+      </div>
+    ),
   },
   {
     accessorKey: "price",

@@ -121,8 +121,6 @@ export default function Admin() {
 
   const data = searchStringsAndSumPrices();
 
-  console.log(data);
-
   const filterSalesDataByStore = () => {
     if (storeData?.name === "All Stores") {
       return sales;
